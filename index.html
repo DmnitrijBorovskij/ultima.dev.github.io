@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ultima</title>
+	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css" />
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<meta name="title" content="Онлайн Радио Ультима | Online Radio Ultima" />
+	<meta name="description" content="Музыкальная радиостанция Ultima" />
+	<meta name="keywords" content="Ультима, Ultima, радио, онлайн-радио, интернет-радио, радиостанция, слушать радио" />
+	<meta property="og:type" content="website"/>
+	<meta property="og:title" content="Онлайн Радио Ультима" />
+	<meta property="og:description" content="Музыкальная радиостанция Ultima" />
+	<meta property="og:image" content="images/logo-mini.png" />
+</head>
+<body>
+	<div class="header">
+		<div class="player">
+			<div class="player-btn state-play icon">
+				<audio id="audio" preload="metadata">
+					<source src="http://sc.ultima.fm:8001/stream/1/stream.mp3" type="audio/mpeg">
+				</audio>
+			</div>
+			<div class="player-track">
+				<div class="broadcast">в эфире</div>		
+				<div class="artist-track">The Dead Weather</div>
+				<div class="player-track-title">I Feel Love (Every Million Miles)</div>
+			</div>
+		</div>
+		<div class="player-progress">
+			<div class="player-progress-val"></div>
+			<div class="player-progress-buffer"></div>
+		</div>
+		<a href="/" class="logo">
+			<img src="images/logo-ultima.png" alt="Ultima.fm" title="Ultima.fm">
+		</a>
+		<div class="live">слушать прямой эфир</div>
+		<div id="slider" class="volume-player"></div>
+	</div>
+
+	<div class="content">
+		<div class="blog">
+			<div class="blog-wrapper">
+				<div class="post">
+					<div class="post-icon"></div>
+					<div class="post-published-date"></div>
+					<div class="post-text"></div>
+				</div>
+			</div>
+		</div>	
+		<div class="archive">
+			<div class="archive-form-search">
+				<input autocomplete="off" class="afs-input" placeholder="Введите текст поиска" type="text" value="" >
+				<input class="afs-btn" id="search_btn" type="submit" value="">
+			</div>
+			<div class="archive-wrapper">
+				<div class="archive-record">
+					<audio preload="metadata">
+						<source src="1.mp3" type="audio/mp3">
+					</audio>
+					<div class="archive-record-info">
+						<span class="ari-title" title="">Assets</span>
+						<span class="ari-singer" title="">Be</span>
+					</div>
+					<span class="archive-record-duration"></span>
+				</div>			
+				<div class="archive-record">
+					<audio preload="metadata">
+						<source src="1.mp3" type="audio/mp3">
+					</audio>
+					<div class="archive-record-info">
+						<span class="ari-title" title="">CHVRCHES</span>
+						<span class="ari-singer" title="">Share</span>
+					</div>
+					<span class="archive-record-duration"></span>
+				</div>			
+				<div class="archive-record">
+					<audio preload="metadata">
+						<source src="1.mp3" type="audio/mp3">
+					</audio>
+					<div class="archive-record-info">
+						<span class="ari-title" title="">Sky Ferreira</span>
+						<span class="ari-singer" title="">Lost</span>
+					</div>
+					<span class="archive-record-duration"></span>
+				</div>			
+			</div>
+		</div>
+
+<!-- <div class="footer">
+		<div class="footer-content">
+			<div class="footer-address">
+				<span>302040 г. Орел, ул. Русанова, 21а</span>
+				<span>+7 (4862) 59-99-98</span>
+				<span class="mail">
+					<a href="mailto:zombie@ultima.pro">zombie@ultima.pro
+				</span>
+			</div>
+			<div class="footer-icons">
+				<ul class="list-icons">
+					<li>
+						<a href="https://vk.com/club109707144" target="_blank">
+							<span class="icon icon-vk"></span>
+						</a>
+					</li>
+					<li>
+						<a href="https://www.facebook.com/groups/ultimafm/" target="_blank">
+							<span class="icon icon-facebook"></span>
+						</a>
+					</li>
+					<li>
+						<a href="https://twitter.com/RadioUltima" target="_blank">
+							<span class="icon icon-twitter"></span>
+						</a>
+					</li>
+					<li>
+						<a href="https://www.instagram.com/ultimafm/" target="_blank">
+							<span class="icon icon-instagram"></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div> -->
+<script src="js/jquery.js"></script>
+<script src="js/script.js"></script>
+<script src="js/jquery.mCustomScrollbar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+</body>
+</html>
+

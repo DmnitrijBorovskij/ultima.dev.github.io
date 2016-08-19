@@ -1,0 +1,242 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700&subset=latin,cyrillic);
+@import "compass";
+@import "compass/css3";
+
+* {
+	margin: 0;
+ 	padding: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+a, a:hover {
+	text-decoration: none;
+	height: 100%;
+	width: 100%;
+}
+
+body{
+	background: #fafafa;
+	font: 14px 'Roboto', sans-serif;
+}
+
+.header {
+	position: relative;
+	height: 84px;
+	width: 87.5%;
+	max-width: 1200px;
+	background-color: #fff;
+	padding: 0 40px;
+	margin: 0 auto;
+	@include box-shadow (0px 15px 30px 10px #dbdbdb);
+
+	.player {
+		position: absolute;
+		top: 50%;
+        @include transform (translate(0, -50%));
+    
+        .player-btn {
+			width: 56px;
+			height: 56px;
+			background-position: -5px -5px;
+			display: inline-block;
+			vertical-align: middle;
+			cursor: pointer;
+			margin: 4px 40px 0 0;
+
+			&.state-play {
+  				background-position: -104px -32px;
+  				width: 16px;
+  				height: 20px;
+			}
+		}
+
+		.player-track {
+			width: 280px;
+			display: inline-block;
+			vertical-align: middle;
+			line-height: 24px;
+			color: #212121;
+
+			.broadcast {
+				font: 0.8571rem 'Roboto Medium';
+				text-transform: uppercase;
+				color: #2095F2;
+				opacity: 0;
+			}
+
+			.player-track-title {
+				font-family: 'Roboto Light';
+    			font-weight: 400;
+			}
+		}
+	}
+
+	.player-progress {
+		height: 4px;
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		background-color: #EDEDED;
+		cursor: pointer;
+
+		.player-progress-val {
+			width: 0px;
+			height: 4px;
+			position: absolute;
+			bottom: 0;
+  			background-image: linear-gradient(to right, #2196F3 0%, #ff0000 100%, transparent 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,1) 6px, rgba(255,255,255,1) 12px);
+			z-index: 2;
+		}
+
+		.player-progress-buffer {
+			width: 0px;
+			height: 4px;
+			position: absolute;
+			bottom: 0;
+			background-color: red;	
+		}
+	}
+
+	.logo {
+		position: absolute;	
+		left: 50%;
+    	top: 50%;
+    	margin-left: -91px;
+    	margin-top: -16px;
+		width: 182px;
+		height: 32px;
+		cursor: pointer;
+	}
+
+	.live {
+		width: 147px;
+	    height: 12px;
+	    padding: 5px;
+	    right: 205px;
+		color: #2095F2;
+		text-transform: uppercase;
+		font-size: 12px;
+		font-weight: 500;
+		cursor: pointer;
+		@include border-radius(3px);
+
+		&:hover {
+			background-color: #2095F2;
+			color: #fff;
+		}
+	}
+
+	.volume-player {
+		width: 120px;
+		height: 2px;
+		background-color: #BCBCBC;
+		position: absolute;
+		right: 40px;
+		top: 50%;
+		margin-top: -1px;
+		cursor: pointer;
+	}
+}
+
+.content {
+	width: 1200px;
+	height: 885px;
+	margin-top: 80px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+
+	&:after,
+	&:before {
+		position: absolute;
+		color: #eeeeee;
+		z-index: -1;
+		font-size: 92px;
+		font-weight: 100;
+	}
+
+	&:after {
+		content: "блог";
+		float: left;
+		top: 60px;
+		left: -124px;
+		@include transform(rotate(-90deg));
+	}
+
+	&:before {
+		content: "архив";
+		float: right;
+		top: 85px;
+		right: -152px;
+		@include transform(rotate(90deg));
+	}
+}
+
+
+.ui-slider-handle {
+	width: 10px;
+	height: 10px;
+	background: #616161;
+	position: absolute;
+	top: -4px;
+	outline: none;
+	z-index: 200;
+	@include border-radius(4.5px);
+	@include transition (transform 0.3s)
+}
+
+
+.ui-widget-header {
+	background: #606060 no-repeat left;
+	height:2px;
+	left:1px;
+	top:0;
+	position:absolute;
+}
+
+.archive {
+	.archive-form-search {
+		display: inline-block;
+		height: 40px;
+		width: 93%;
+		position: absolute;
+		margin-left: 22px;
+		margin-top: 40px;
+		z-index: 1;
+		@include box-shadow (0px 3px 6px 1px #dbdbdb);
+
+		.afs-input {
+			height: 100%;
+			width: 100%;
+			text-align: center;
+			border: 0;
+			outline:none;
+			vertical-align: middle;
+			@include transition (margin-top .90s ease);
+			font: 16px 'Roboto', sans-serif;
+			font-weight: 300;
+		}
+
+		.afs-btn {
+			position: absolute;
+			display: inline-block;
+			top: 50%;
+			right: 0;
+			height: 20px;
+			width: 20px;
+			background: url(../images/search-icon.svg);
+			margin-top: -10px;
+			margin-right: 20px;
+			border: none;
+			outline:none;
+			-webkit-appearance: none;
+		}
+	}
+} 
+
+.blog {
+
+}
