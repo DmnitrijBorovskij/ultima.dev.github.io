@@ -1,6 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700&subset=latin,cyrillic);
 @import "compass";
 @import "compass/css3";
+@import "mixins.scss";
 
 * {
 	margin: 0;
@@ -11,10 +12,14 @@ ul {
 	list-style: none;
 }
 
-a, a:hover {
+a {
 	text-decoration: none;
-	height: 100%;
+	cursor: pointer;
+}
+
+img {
 	width: 100%;
+	height: auto;
 }
 
 body{
@@ -22,19 +27,29 @@ body{
 	font: 14px 'Roboto', sans-serif;
 }
 
-.header {
+.icons-ultima {
+	background: url('../images/icons-ultima.png');
+}
+
+.clear {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+header {
 	position: relative;
 	height: 84px;
 	width: 87.5%;
 	max-width: 1200px;
 	background-color: #fff;
-	padding: 0 40px;
 	margin: 0 auto;
 	@include box-shadow (0px 15px 30px 10px #dbdbdb);
 
 	.player {
 		position: absolute;
 		top: 50%;
+        margin-left: 40px;
         @include transform (translate(0, -50%));
     
         .player-btn {
@@ -61,18 +76,50 @@ body{
 			color: #212121;
 
 			.broadcast {
-				font: 0.8571rem 'Roboto Medium';
+				font: em(12,14) 'Roboto Medium';
 				text-transform: uppercase;
 				color: #2095F2;
-				opacity: 0;
 			}
+            
+            .live {
+                display: none;
+                width: 147px;
+                height: 12px;
+                padding: 5px;
+                right: 205px;
+                color: #2095F2;
+                text-transform: uppercase;
+                font-size: 12px;
+                font-weight: 500;
+                cursor: pointer;
+                @include border-radius(3px);
+
+                &:hover {
+                    background-color: #2095F2;
+                    color: #fff;
+                }
+	        }
+            
+            .player-track-artist {
+                font: em(16,14) 'Roboto Regular';
+            }
 
 			.player-track-title {
-				font-family: 'Roboto Light';
+				font: em(16,14) 'Roboto Light';
     			font-weight: 400;
 			}
 		}
 	}
+    
+    keyframes progress_loading_animate{
+        from{background-position:0 0}to{background-position:9px 0};
+    }
+    @-o-keyframes progress_loading_animate{
+        from{background-position:0 0}to{background-position:9px 0};
+    }
+    @keyframes progress_loading_animate{
+        from{background-position:0 0}to{background-position:9px 0};
+    }
 
 	.player-progress {
 		height: 4px;
@@ -81,6 +128,14 @@ body{
 		bottom: 0;
 		background-color: #EDEDED;
 		cursor: pointer;
+        
+        .player-progress-loading-bar {
+            width: 100%;
+            height: 100%;
+            transition: opacity 3000ms linear;
+            background: url('../images/audio_progress.png') repeat-x;
+            animation: progress_loading_animate 300ms linear infinite;
+        }
 
 		.player-progress-val {
 			width: 0px;
@@ -111,24 +166,6 @@ body{
 		cursor: pointer;
 	}
 
-	.live {
-		width: 147px;
-	    height: 12px;
-	    padding: 5px;
-	    right: 205px;
-		color: #2095F2;
-		text-transform: uppercase;
-		font-size: 12px;
-		font-weight: 500;
-		cursor: pointer;
-		@include border-radius(3px);
-
-		&:hover {
-			background-color: #2095F2;
-			color: #fff;
-		}
-	}
-
 	.volume-player {
 		width: 120px;
 		height: 2px;
@@ -143,11 +180,7 @@ body{
 
 .content {
 	width: 1200px;
-	height: 885px;
-	margin-top: 80px;
-	margin-left: auto;
-	margin-right: auto;
-	position: relative;
+	margin: 80px auto 0;
 
 	&:after,
 	&:before {
@@ -159,7 +192,7 @@ body{
 	}
 
 	&:after {
-		content: "блог";
+		content: "blog";
 		float: left;
 		top: 60px;
 		left: -124px;
@@ -167,7 +200,7 @@ body{
 	}
 
 	&:before {
-		content: "архив";
+		content: "archive";
 		float: right;
 		top: 85px;
 		right: -152px;
@@ -197,7 +230,102 @@ body{
 	position:absolute;
 }
 
+.archive,
+.blog {
+	width: 580px;
+	height: 850px;
+	@include box-shadow (0px 1px 3px 2px #f1f1f1);
+}
+
+.blog {
+	float: left;
+
+	.post {
+		font-size: 16px;
+
+		.post-header,
+		.post-content {
+			padding-left: 40px;
+		}
+		.post-icon {
+			display: block;
+		}
+
+		.post-published-date {
+			color: #b9b9b9;
+    		font-weight: 300;
+    		margin-bottom: 15px;
+    		display: inline-block;
+		}
+
+		.post-text {
+		    width: 346px;
+		    margin-bottom: 18px;
+		    line-height: 22px;
+		    text-align: justify;
+		    word-wrap: break-word;
+		}
+
+		.post-text,
+		.post-image {
+			width: 500px;
+		}
+
+		.post-audio-playing {
+			.audio-play {
+				background-position: 8px -15px;
+			}	
+		}
+
+		.post-wall-audio {
+			margin-top: 15px;
+
+			.post-audio {
+
+				&:not(:first-child) {
+					margin-top: 10px;
+				}
+		
+				.post-audio-play {
+					float: left;
+
+					.audio-play {
+						width: 24px;
+						height: 24px;
+						border-radius: 50%;
+						background: #577CA1 url(../images/audio_playpause.png) no-repeat 8px 7px;
+						outline: none;
+						border: none;
+						display: block;
+						cursor: pointer;
+					}
+				}
+
+				.post-audio-info {
+					padding: 2px 0 0 35px;
+
+					.pai-artist,
+					.pai-title {
+						color: #2a5885;
+					}
+
+					.pai-artist {
+						font-weight: 500;
+					}
+
+					.divider {
+						padding: 0 5px;
+					}
+				}
+			}
+		}
+	}
+}
+
+
 .archive {
+	float: right;
+
 	.archive-form-search {
 		display: inline-block;
 		height: 40px;
@@ -236,7 +364,3 @@ body{
 		}
 	}
 } 
-
-.blog {
-
-}

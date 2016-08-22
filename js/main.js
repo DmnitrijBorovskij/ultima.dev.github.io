@@ -97,41 +97,38 @@ $(function(){
 	var startIndexPost = 5;
 	var countPosts = 5;
 
-	// инициализируем плагин для скроллбара
-	setTimeout(function () {
-		$(".blog-container").mCustomScrollbar({
+		$(".blog").mCustomScrollbar({
     	axis:"y",
     	theme:"my-theme",
     		callbacks:{
 		        onTotalScroll:function(){
-		        	if (window.matchMedia("(min-width: 768px)").matches) {
-			        	$.ajax({
-					   		type: 'POST',
-					     	url: 'wp-content/themes/ultima/showposts.php',
-					     	dataType: "json",
-					     	data: { 
-					     		"countPosts" : countPosts,
-					     		"startIndexPost" : startIndexPost
-					     	},
-					     	success: function(data){
-								view = data;
-	       						view.convertUnixtime = function () {
-									return function (timestamp, render) {
-					   					return convertUnixtime(timestamp, render);	
-					   				}
-	   							}
-	       						//console.log(view);
-								getTemplate('wp-content/themes/ultima/templates/template.html');
+		   //      	if (window.matchMedia("(min-width: 768px)").matches) {
+			  //       	$.ajax({
+					//    		type: 'POST',
+					//      	url: 'wp-content/themes/ultima/showposts.php',
+					//      	dataType: "json",
+					//      	data: { 
+					//      		"countPosts" : countPosts,
+					//      		"startIndexPost" : startIndexPost
+					//      	},
+					//      	success: function(data){
+					// 			view = data;
+	    //    						view.convertUnixtime = function () {
+					// 				return function (timestamp, render) {
+					//    					return convertUnixtime(timestamp, render);	
+					//    				}
+	   	// 						}
+	    //    						//console.log(view);
+					// 			getTemplate('wp-content/themes/ultima/templates/template.html');
 					    
-								//console.log(startIndexPost);
-								startIndexPost += 5;
-							}
-						})
-					}
+					// 			//console.log(startIndexPost);
+					// 			startIndexPost += 5;
+					// 		}
+					// 	})
+					// }
 		        }
 	    	}
 		});
-	}, 100);
 
 
 	$(".archive-container").mCustomScrollbar({

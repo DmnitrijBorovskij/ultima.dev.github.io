@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 	<title>Ultima</title>
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
@@ -16,50 +16,89 @@
 	<meta property="og:image" content="images/logo-mini.png" />
 </head>
 <body>
-	<div class="header">
+	<header>  <!--<div class="header">-->
 		<div class="player">
-			<div class="player-btn state-play icon">
+			<div class="player-btn state-play icons-ultima">
 				<audio id="audio" preload="metadata">
 					<source src="http://sc.ultima.fm:8001/stream/1/stream.mp3" type="audio/mpeg">
 				</audio>
 			</div>
 			<div class="player-track">
 				<div class="broadcast">в эфире</div>		
-				<div class="artist-track">The Dead Weather</div>
+		        <div class="live">слушать прямой эфир</div>
+				<div class="player-track-artist">The Dead Weather</div>
 				<div class="player-track-title">I Feel Love (Every Million Miles)</div>
 			</div>
 		</div>
 		<div class="player-progress">
+		    <div class="player-progress-loading-bar"></div>
 			<div class="player-progress-val"></div>
 			<div class="player-progress-buffer"></div>
 		</div>
 		<a href="/" class="logo">
 			<img src="images/logo-ultima.png" alt="Ultima.fm" title="Ultima.fm">
 		</a>
-		<div class="live">слушать прямой эфир</div>
 		<div id="slider" class="volume-player"></div>
-	</div>
-
-	<div class="content">
-		<div class="blog">
-			<div class="blog-wrapper">
-				<div class="post">
-					<div class="post-icon"></div>
-					<div class="post-published-date"></div>
-					<div class="post-text"></div>
+	</header>
+    <main class="content clear">
+        <section class="blog">
+			<div class="post">
+				<div class="post-header">	
+					<a class="post-icon" href="https://vk.com/club109707144?w=wall-109707144_87/all" target="_blank">
+						<div class="icon-vk icons-ultima"></div>
+					</a>
+					<div class="post-published-date">12.08.16</div>
+				</div>
+				<div class="post-content">
+					<div class="post-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid necessitatibus, odio accusamus! Minus ea, consequuntur sequi sed, est aut voluptate omnis odit vel necessitatibus adipisci illo a aliquam asperiores pariatur?</div>
+					<div class="post-image">
+						<img src="images/ultima.png">
+					</div>
+					<div class="post-wall-audio">
+						<div class="post-audio clear">
+							<div class="post-audio-play">
+								<button class="audio-play"></button>
+							</div>
+							<div class="post-audio-info">
+								<audio preload="metadata">
+									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">	
+									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
+									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
+								</audio>
+								<span classs="pai-artist">wait what</span>
+								<span class="divider">-</span>
+								<span class="pai-title">notorious xx (2009)</span>
+							</div>
+						</div>
+						<div class="post-audio clear">
+							<div class="post-audio-play">
+								<button class="audio-play"></button>
+							</div>
+							<div class="post-audio-info">
+								<audio preload="metadata">
+									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">	
+									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
+									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
+								</audio>
+								<span classs="pai-artist">wait what</span>
+								<span class="divider">-</span>
+								<span class="pai-title">notorious xx (2009)</span>
+							</div>
+						</div>	
+					</div>	
 				</div>
 			</div>
-		</div>	
-		<div class="archive">
-			<div class="archive-form-search">
+		</section>	
+		<section class="archive">
+			<!-- <div class="archive-form-search">
 				<input autocomplete="off" class="afs-input" placeholder="Введите текст поиска" type="text" value="" >
 				<input class="afs-btn" id="search_btn" type="submit" value="">
-			</div>
+			</div> -->
 			<div class="archive-wrapper">
 				<div class="archive-record">
-					<audio preload="metadata">
+					<!-- <audio preload="metadata">
 						<source src="1.mp3" type="audio/mp3">
-					</audio>
+					</audio> -->
 					<div class="archive-record-info">
 						<span class="ari-title" title="">Assets</span>
 						<span class="ari-singer" title="">Be</span>
@@ -67,9 +106,6 @@
 					<span class="archive-record-duration"></span>
 				</div>			
 				<div class="archive-record">
-					<audio preload="metadata">
-						<source src="1.mp3" type="audio/mp3">
-					</audio>
 					<div class="archive-record-info">
 						<span class="ari-title" title="">CHVRCHES</span>
 						<span class="ari-singer" title="">Share</span>
@@ -77,9 +113,6 @@
 					<span class="archive-record-duration"></span>
 				</div>			
 				<div class="archive-record">
-					<audio preload="metadata">
-						<source src="1.mp3" type="audio/mp3">
-					</audio>
 					<div class="archive-record-info">
 						<span class="ari-title" title="">Sky Ferreira</span>
 						<span class="ari-singer" title="">Lost</span>
@@ -87,43 +120,8 @@
 					<span class="archive-record-duration"></span>
 				</div>			
 			</div>
-		</div>
-
-<!-- <div class="footer">
-		<div class="footer-content">
-			<div class="footer-address">
-				<span>302040 г. Орел, ул. Русанова, 21а</span>
-				<span>+7 (4862) 59-99-98</span>
-				<span class="mail">
-					<a href="mailto:zombie@ultima.pro">zombie@ultima.pro
-				</span>
-			</div>
-			<div class="footer-icons">
-				<ul class="list-icons">
-					<li>
-						<a href="https://vk.com/club109707144" target="_blank">
-							<span class="icon icon-vk"></span>
-						</a>
-					</li>
-					<li>
-						<a href="https://www.facebook.com/groups/ultimafm/" target="_blank">
-							<span class="icon icon-facebook"></span>
-						</a>
-					</li>
-					<li>
-						<a href="https://twitter.com/RadioUltima" target="_blank">
-							<span class="icon icon-twitter"></span>
-						</a>
-					</li>
-					<li>
-						<a href="https://www.instagram.com/ultimafm/" target="_blank">
-							<span class="icon icon-instagram"></span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div> -->
+		</section>
+    </main>
 <script src="js/jquery.js"></script>
 <script src="js/main.js"></script>
 <script src="js/jquery.mCustomScrollbar.js"></script>

@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700&subset=latin,cyrillic);
 * {
   margin: 0;
@@ -9,10 +8,14 @@ ul {
   list-style: none;
 }
 
-a, a:hover {
+a {
   text-decoration: none;
-  height: 100%;
+  cursor: pointer;
+}
+
+img {
   width: 100%;
+  height: auto;
 }
 
 body {
@@ -20,27 +23,37 @@ body {
   font: 14px 'Roboto', sans-serif;
 }
 
-.header {
+.icons-ultima {
+  background: url("../images/icons-ultima.png");
+}
+
+.clear {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+header {
   position: relative;
   height: 84px;
   width: 87.5%;
   max-width: 1200px;
   background-color: #fff;
-  padding: 0 40px;
   margin: 0 auto;
   -moz-box-shadow: 0px 15px 30px 10px #dbdbdb;
   -webkit-box-shadow: 0px 15px 30px 10px #dbdbdb;
   box-shadow: 0px 15px 30px 10px #dbdbdb;
 }
-.header .player {
+header .player {
   position: absolute;
   top: 50%;
+  margin-left: 40px;
   -moz-transform: translate(0, -50%);
   -ms-transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
   transform: translate(0, -50%);
 }
-.header .player .player-btn {
+header .player .player-btn {
   width: 56px;
   height: 56px;
   background-position: -5px -5px;
@@ -49,62 +62,25 @@ body {
   cursor: pointer;
   margin: 4px 40px 0 0;
 }
-.header .player .player-btn.state-play {
+header .player .player-btn.state-play {
   background-position: -104px -32px;
   width: 16px;
   height: 20px;
 }
-.header .player .player-track {
+header .player .player-track {
   width: 280px;
   display: inline-block;
   vertical-align: middle;
   line-height: 24px;
   color: #212121;
 }
-.header .player .player-track .broadcast {
-  font: 0.8571rem 'Roboto Medium';
+header .player .player-track .broadcast {
+  font: 0.85714em "Roboto Medium";
   text-transform: uppercase;
   color: #2095F2;
-  opacity: 0;
 }
-.header .player .player-track .player-track-title {
-  font-family: 'Roboto Light';
-  font-weight: 400;
-}
-.header .player-progress {
-  height: 4px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  background-color: #EDEDED;
-  cursor: pointer;
-}
-.header .player-progress .player-progress-val {
-  width: 0px;
-  height: 4px;
-  position: absolute;
-  bottom: 0;
-  background-image: linear-gradient(to right, #2196f3 0%, #ff0000 100%, rgba(0, 0, 0, 0) 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, white 6px, white 12px);
-  z-index: 2;
-}
-.header .player-progress .player-progress-buffer {
-  width: 0px;
-  height: 4px;
-  position: absolute;
-  bottom: 0;
-  background-color: red;
-}
-.header .logo {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left: -91px;
-  margin-top: -16px;
-  width: 182px;
-  height: 32px;
-  cursor: pointer;
-}
-.header .live {
+header .player .player-track .live {
+  display: none;
   width: 147px;
   height: 12px;
   padding: 5px;
@@ -118,11 +94,80 @@ body {
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-.header .live:hover {
+header .player .player-track .live:hover {
   background-color: #2095F2;
   color: #fff;
 }
-.header .volume-player {
+header .player .player-track .player-track-artist {
+  font: 1.14286em "Roboto Regular";
+}
+header .player .player-track .player-track-title {
+  font: 1.14286em "Roboto Light";
+  font-weight: 400;
+}
+header keyframes progress_loading_animate from {
+  background-position: 0 0;
+}
+header keyframes progress_loading_animate to {
+  background-position: 9px 0;
+}
+@-o-keyframes progress_loading_animate {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 9px 0;
+  }
+}
+@keyframes progress_loading_animate {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 9px 0;
+  }
+}
+header .player-progress {
+  height: 4px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: #EDEDED;
+  cursor: pointer;
+}
+header .player-progress .player-progress-loading-bar {
+  width: 100%;
+  height: 100%;
+  transition: opacity 3000ms linear;
+  background: url("../images/audio_progress.png") repeat-x;
+  animation: progress_loading_animate 300ms linear infinite;
+}
+header .player-progress .player-progress-val {
+  width: 0px;
+  height: 4px;
+  position: absolute;
+  bottom: 0;
+  background-image: linear-gradient(to right, #2196f3 0%, #ff0000 100%, rgba(0, 0, 0, 0) 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, white 6px, white 12px);
+  z-index: 2;
+}
+header .player-progress .player-progress-buffer {
+  width: 0px;
+  height: 4px;
+  position: absolute;
+  bottom: 0;
+  background-color: red;
+}
+header .logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -91px;
+  margin-top: -16px;
+  width: 182px;
+  height: 32px;
+  cursor: pointer;
+}
+header .volume-player {
   width: 120px;
   height: 2px;
   background-color: #BCBCBC;
@@ -135,11 +180,7 @@ body {
 
 .content {
   width: 1200px;
-  height: 885px;
-  margin-top: 80px;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
+  margin: 80px auto 0;
 }
 .content:after, .content:before {
   position: absolute;
@@ -149,7 +190,7 @@ body {
   font-weight: 100;
 }
 .content:after {
-  content: "╨▒╨╗╨╛╨│";
+  content: "blog";
   float: left;
   top: 60px;
   left: -124px;
@@ -159,7 +200,7 @@ body {
   transform: rotate(-90deg);
 }
 .content:before {
-  content: "╨░╤А╤Е╨╕╨▓";
+  content: "archive";
   float: right;
   top: 85px;
   right: -152px;
@@ -194,6 +235,84 @@ body {
   position: absolute;
 }
 
+.archive,
+.blog {
+  width: 580px;
+  height: 850px;
+  -moz-box-shadow: 0px 1px 3px 2px #f1f1f1;
+  -webkit-box-shadow: 0px 1px 3px 2px #f1f1f1;
+  box-shadow: 0px 1px 3px 2px #f1f1f1;
+}
+
+.blog {
+  float: left;
+}
+.blog .post {
+  font-size: 16px;
+}
+.blog .post .post-header,
+.blog .post .post-content {
+  padding-left: 40px;
+}
+.blog .post .post-icon {
+  display: block;
+}
+.blog .post .post-published-date {
+  color: #b9b9b9;
+  font-weight: 300;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+.blog .post .post-text {
+  width: 346px;
+  margin-bottom: 18px;
+  line-height: 22px;
+  text-align: justify;
+  word-wrap: break-word;
+}
+.blog .post .post-text,
+.blog .post .post-image {
+  width: 500px;
+}
+.blog .post .post-audio-playing .audio-play {
+  background-position: 8px -15px;
+}
+.blog .post .post-wall-audio {
+  margin-top: 15px;
+}
+.blog .post .post-wall-audio .post-audio:not(:first-child) {
+  margin-top: 10px;
+}
+.blog .post .post-wall-audio .post-audio .post-audio-play {
+  float: left;
+}
+.blog .post .post-wall-audio .post-audio .post-audio-play .audio-play {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #577CA1 url(../images/audio_playpause.png) no-repeat 8px 7px;
+  outline: none;
+  border: none;
+  display: block;
+  cursor: pointer;
+}
+.blog .post .post-wall-audio .post-audio .post-audio-info {
+  padding: 2px 0 0 35px;
+}
+.blog .post .post-wall-audio .post-audio .post-audio-info .pai-artist,
+.blog .post .post-wall-audio .post-audio .post-audio-info .pai-title {
+  color: #2a5885;
+}
+.blog .post .post-wall-audio .post-audio .post-audio-info .pai-artist {
+  font-weight: 500;
+}
+.blog .post .post-wall-audio .post-audio .post-audio-info .divider {
+  padding: 0 5px;
+}
+
+.archive {
+  float: right;
+}
 .archive .archive-form-search {
   display: inline-block;
   height: 40px;
