@@ -353,3 +353,33 @@ header .volume-player {
   outline: none;
   -webkit-appearance: none;
 }
+.archive .nav-calendar {
+  padding: 0 40px;
+}
+.archive .nav-calendar .nc-item {
+  border-bottom: 1px solid #eee;
+}
+.archive .nav-calendar .nc-item .nc-sub-item {
+  display: inline-block;
+  font: 1.14286em "Roboto Light";
+  cursor: pointer;
+}
+.archive .nav-calendar .nc-item .nc-sub-item.nc-sub-item-selected {
+  color: #2196F3;
+}
+.archive .nav-calendar .nav-calendar-year-section .ncys-item {
+  margin-right: 15px;
+}
+.archive .nav-calendar .nav-calendar-month-section .ncms-item {
+  margin-right: 40px;
+}
+.archive .nav-calendar .nav-calendar-day-section .ncds-item {
+  margin-right: 15px;
+}
+.archive .nav-calendar .nav-calendar-time-section .ncts-item {
+  margin-right: 22px;
+}
+.archive .archive-wrapper .archive-audio {
+  height: 74px;
+  border: 1px solid #eee;
+}

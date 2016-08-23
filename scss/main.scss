@@ -1,7 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700&subset=latin,cyrillic);
 @import "compass";
 @import "compass/css3";
-@import "mixins.scss";
+
+@function em($pixels, $context) {
+  @return #{$pixels/$context}em
+}
 
 * {
 	margin: 0;
@@ -363,4 +366,52 @@ header {
 			-webkit-appearance: none;
 		}
 	}
+    
+    .nav-calendar {
+        
+        padding: 0 40px;
+        
+        .nc-item {
+            border-bottom: 1px solid #eee;
+            .nc-sub-item {    
+                display: inline-block;
+                font: em(16,14) "Roboto Light";
+                cursor: pointer;
+                
+                &.nc-sub-item-selected {
+                    color: #2196F3;
+                }
+            } 
+        }
+        .nav-calendar-year-section {
+            .ncys-item {
+                margin-right: 15px;
+            }
+        }
+        
+        .nav-calendar-month-section {
+            .ncms-item { 
+                margin-right: 40px;
+            }
+        }
+        
+        .nav-calendar-day-section {
+            .ncds-item {
+                margin-right: 15px;   
+            }
+        }
+        
+        .nav-calendar-time-section {
+            .ncts-item {
+                margin-right: 22px;
+            }
+        }
+    }
+    
+    .archive-wrapper {
+        .archive-audio {
+            height: 74px;
+            border: 1px solid #eee;
+        } 
+    }
 } 

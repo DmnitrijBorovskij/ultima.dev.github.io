@@ -393,6 +393,10 @@ $(function(){
 			$(this).siblings('audio').trigger('pause');	
 		}
 	})
+    
+    $('.nc-sub-item').on('click', function() {
+        $(this).addClass('nc-sub-item-selected');
+    })
 
 
    // прижимаем плеер при скролле
@@ -498,5 +502,9 @@ $(function(){
 	
 	
 })
+
+function getAudioArchive() {
+    //TODO
+}
 
 	
