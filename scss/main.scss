@@ -6,6 +6,13 @@
   @return #{$pixels/$context}em
 }
 
+@mixin animation-play-stop($state) {
+    -webkit-animation-play-state: $state;
+    -moz-animation-play-state: $state;
+    -o-animation-play-state: $state;
+    animation-play-state: $state;
+}
+
 * {
 	margin: 0;
  	padding: 0;
@@ -56,18 +63,21 @@ header {
         @include transform (translate(0, -50%));
     
         .player-btn {
-			width: 56px;
-			height: 56px;
-			background-position: -5px -5px;
+			width: 16px;
+  		    height: 20px;
+			background-position: -104px -32px;
 			display: inline-block;
 			vertical-align: middle;
 			cursor: pointer;
 			margin: 4px 40px 0 0;
+            opacity: .7;
+            
+            &:hover {
+                opacity: 1;
+            } 
 
-			&.state-play {
-  				background-position: -104px -32px;
-  				width: 16px;
-  				height: 20px;
+			&.player-btn-pause {
+  		        background-position: -120px -32px;
 			}
 		}
 
@@ -132,12 +142,20 @@ header {
 		background-color: #EDEDED;
 		cursor: pointer;
         
+        &.player-progress-active {
+            .player-progress-loading-bar {
+                opacity: 1;
+                transition: opacity 1s linear;
+                background: url('../images/audio_progress.png') repeat-x;
+                animation: progress_loading_animate 300ms linear infinite;    
+            }    
+        }
+        
         .player-progress-loading-bar {
             width: 100%;
             height: 100%;
-            transition: opacity 3000ms linear;
-            background: url('../images/audio_progress.png') repeat-x;
-            animation: progress_loading_animate 300ms linear infinite;
+            opacity: 0;
+            @include animation-play-stop(paused);
         }
 
 		.player-progress-val {

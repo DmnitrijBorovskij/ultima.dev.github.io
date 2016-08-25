@@ -1,13 +1,18 @@
 'use strict'
 $(function(){
+    
+    var button_player = $('.player-btn');
 
 	var player = {
 		el: $('.player')[0],
 		el_play:  $('#audio')[0],
-		el_author:  $('.artist-track')[0],
-		el_song:  $('.title-track')[0],
+		el_author:  $('.player-track-artist')[0],
+		el_song:  $('.player-track-title')[0],
 		state: 'pause',
-		updateMeta: function () {
+        setVolume: function() {
+            $(player.el_play).prop("volume", "0.5");   
+        },
+		updateMeta: function() {
 		//192.168.21.9:8001
 		$.get("http://sc.ultima.fm:8001/currentsong?sid=1",
 			function (data) {
@@ -19,63 +24,22 @@ $(function(){
 			});
 		}
 	}
+    
+    button_player.on('click', playStopPlayer);
+	player.updateMeta();
+    player.setVolume();
+    protectEmail();
+    
+	setInterval(function(){
+		player.updateMeta();
+	}, 5000);
 
 	$('.live').click(function() {
 		$('.player').toggleClass('broadcasting');
 	});
 
-	var connectionSpeed = {
-		player: $('#audio').find('source')[0],
-		high_bitrate: 'http://sc.ultima.fm:8001/stream/1/stream.mp3',
-	    avg_bitrate: 'http://sc.ultima.fm:8001/stream/2/stream.mp3',
-	    low_bitrate: 'http://sc.ultima.fm:8001/stream/3/stream.mp3',
-	    checkspeed: false,
-	    speed: 0,
-	    defineBitrate : function(speed) {
-	        if (speed > 2048) {
-	            connectionSpeed.player.src = connectionSpeed.high_bitrate;
-	        }
-	        if (speed < 2048 && speed > 512) {
-	            connectionSpeed.player.src = 'http://sc.ultima.fm:8001/stream/2/stream.mp3';
-	        }
-	        if (speed < 512) {
-	            connectionSpeed.player.src = 'http://sc.ultima.fm:8001/stream/3/stream.mp3';
-	        }
-    	},
-	    measureSpeed : function() {
-	        var image_addr = "http://turismfoto.ru/albums/userpics/10001/Priroda_Belarusi1.jpg";
-	        //var image_addr = "http://ultima.fm/wp-content/themes/ultima/images/Priroda.jpg";
-	        var download_size = 797526; //bytes
-	        var startTime, endTime;
-	        var download = new Image();
-	        startTime = (new Date()).getTime();
-	        var cache_buster = "?n=" + startTime;
-	        download.src = image_addr + cache_buster;
-	        download.onload = function () {
-	            endTime = (new Date()).getTime();
-	            var duration = (endTime - startTime) / 1000;
-	            var bits_loaded = download_size * 8;
-	            var speed_bps = (bits_loaded / duration).toFixed(2);
-	            var speed_kbps = (speed_bps / 1024).toFixed(2);
-	            console.log("connection speed is: " + speed_kbps + " kbps");
-	            connectionSpeed.checkspeed = true;
-	            connectionSpeed.speed = speed_kbps;
-	            return connectionSpeed.checkspeed;
-	        };
-	    }
-	};
-	connectionSpeed.checkspeed = connectionSpeed.measureSpeed();
-
 
 	var view;
-	function convertUnixtime(timestamp, render) {
-  		var d = new Date(render(timestamp) * 1000),
-			yyyy = d.getFullYear(),
-			mm = ('0' + (d.getMonth() + 1)).slice(-2),	
-			dd = ('0' + d.getDate()).slice(-2),				
-			time = dd + '.' + mm + '.' + yyyy;					
-		return render(time);
-    }
 
     var getTemplate = function(src_template) {
   		$.get(src_template, renderingTemplate);
@@ -209,46 +173,8 @@ $(function(){
   		search();
 	});
 
-	var playStopPlayer = function() {
-		if (player.state == 'play') {
-			$("#audio").trigger('pause');
-			player.state = 'pause';
-			$(this).addClass('state-play');
-			$(this).removeClass('state-pause');
-		} else {
-			if (connectionSpeed.checkspeed) {
-				connectionSpeed.defineBitrate(connectionSpeed.speed);
-    		} else {
-    			connectionSpeed.player.src = connectionSpeed.avg_bitrate;
-    		}
-			$("#audio").trigger('load');
-			$("#audio").trigger('play');
-			player.state = 'play';
-			$(this).addClass('state-pause');
-			$(this).removeClass('state-play');
-			$('.playing').find('audio').trigger('pause');
-			// $('.current').find('audio').prop('currentTime', 0);
-			$('.playing').find('.play-pause-button').removeClass('pause');
-
-			// console.log($('.current').find('.progress'));
-			$('.playing').find('.progress').addClass('hide_progress');
-			if (cur_dur) {
-				var cur_text_dur = $('.playing').find('.duration-record');
-				var cur_dur = timeFormat(cur_song[0].duration.toFixed()*1000);
-				$(cur_text_dur).html(cur_dur);
-			}
-		}	
-	};
-
 	var cur_song, prev_song;
-	$('.btn-player').on('click', playStopPlayer);
 	
-	player.updateMeta();
-
-    $('#audio').prop("volume", "0.5")
-	setInterval(function(){
-		player.updateMeta();
-	}, 5000);
 
 	$(".blog").on("click", ".play-btn", function() {
   		$(this).toggleClass('stop');
@@ -335,19 +261,6 @@ $(function(){
 	}
 	initRecordArchive();
 
-	function updateProgressBar (obj) {
-		var currentRecord = obj,
-		    sec = parseInt($(currentRecord).prop("currentTime") % 60),
-		    min = parseInt($(currentRecord).prop("currentTime") / 60) % 60,
-        	percentage;
-
-		if (sec < 10) {
-			sec = '0' + sec;
-		}
-		$(currentRecord).siblings(".duration-record").html(min + ':' + sec);
-   		percentage = Math.floor((100 / $(currentRecord).prop("duration")) * $(currentRecord).prop("currentTime"));
-   		$('.player-progress-val').width(percentage + "%");
-	}
 
 	$('.archive').on('click', '.archive-record', function() {
 		var cur_audio = $(this).find('audio');
@@ -367,7 +280,7 @@ $(function(){
 			}
 		});
 		timer = setInterval(function (){
-			updateProgressBar(cur_audio);
+			updateCurrentDuration(cur_audio);
 		}, 1000);
 	})
 
@@ -416,26 +329,6 @@ $(function(){
       	}	
     });
 
-	/*показываем(скрываем) вкладки Блог-Архив*/
-    var archive = $(".archive"),
-    	blog    = $(".blog"),
-    	tab     = $(".tab"),
-    	tab_one = $(".tab:nth-of-type(1)"),
-    	tab_two = $(".tab:nth-of-type(2)");
-
-    tab.on("click", function () {
-		blog.add(archive).toggleClass("show");
-		tab_one.add(tab_two).toggleClass("show-tab hide-tab");
-    })
-
-    function protectEmail () {
-    	var login  = 'zombie';
-		var server = 'ultima.pro';
-		var email  = login+'@'+server;
-		var url = 'mailto:'+email;
-		$('.mail').html('<a href="' + url + '">' + email + '</a>');	
-    }
-   	protectEmail();
 
    	$('.fs-input').focus(function () {
 		$('.form-search').addClass('active');
@@ -500,11 +393,68 @@ $(function(){
 	)
 
 	
+    function getAudioArchive() {
+        //TODO
+    }
+
+    function playStopPlayer() {
+        if (player.state == 'play') {
+            $("#audio").trigger('pause');
+            player.state = 'pause';
+            $(this).removeClass('player-btn-pause');
+            $('.player-progress').removeClass('player-progress-active');
+        } else {
+            $("#audio").trigger('load');
+            $("#audio").trigger('play');
+            player.state = 'play';
+            $(this).addClass('player-btn-pause');
+            $('.player-progress').addClass('player-progress-active');
+            $('.playing').find('audio').trigger('pause');
+            // $('.current').find('audio').prop('currentTime', 0);
+            $('.playing').find('.play-pause-button').removeClass('pause');
+
+            // console.log($('.current').find('.progress'));
+            $('.playing').find('.progress').addClass('hide_progress');
+            if (cur_dur) {
+                var cur_text_dur = $('.playing').find('.duration-record');
+                var cur_dur = timeFormat(cur_song[0].duration.toFixed()*1000);
+                $(cur_text_dur).html(cur_dur);
+            }
+        }	
+    }
+    
+    function updateCurrentDuration (audio) {
+		var sec = parseInt($(audio).prop("currentTime") % 60),
+		    min = parseInt($(audio).prop("currentTime") / 60) % 60,
+        	percentage;
+
+		if (sec < 10) {
+			sec = '0' + sec;
+		}
+        
+		$(audio).siblings(".duration-record").html(min + ':' + sec);
+   		percentage = Math.floor((100 / $(audio).prop("duration")) * $(audio).prop("currentTime"));
+   		$('.player-progress-val').width(percentage + "%");
+	}
+    
+    function convertUnixtime(timestamp, render) {
+  		var d = new Date(render(timestamp) * 1000),
+			yyyy = d.getFullYear(),
+			mm = ('0' + (d.getMonth() + 1)).slice(-2),	
+			dd = ('0' + d.getDate()).slice(-2),				
+			time = dd + '.' + mm + '.' + yyyy;					
+		return render(time);
+    }
+    
+    function protectEmail () {
+    	var login  = 'zombie';
+		var server = 'ultima.pro';
+		var email  = login+'@'+server;
+		var url = 'mailto:'+email;
+		$('.mail').html('<a href="' + url + '">' + email + '</a>');	
+    }
 	
 })
 
-function getAudioArchive() {
-    //TODO
-}
 
 	

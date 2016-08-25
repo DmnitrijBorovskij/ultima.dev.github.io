@@ -54,18 +54,20 @@ header .player {
   transform: translate(0, -50%);
 }
 header .player .player-btn {
-  width: 56px;
-  height: 56px;
-  background-position: -5px -5px;
+  width: 16px;
+  height: 20px;
+  background-position: -104px -32px;
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
   margin: 4px 40px 0 0;
+  opacity: .7;
 }
-header .player .player-btn.state-play {
-  background-position: -104px -32px;
-  width: 16px;
-  height: 20px;
+header .player .player-btn:hover {
+  opacity: 1;
+}
+header .player .player-btn.player-btn-pause {
+  background-position: -120px -32px;
 }
 header .player .player-track {
   width: 280px;
@@ -135,12 +137,20 @@ header .player-progress {
   background-color: #EDEDED;
   cursor: pointer;
 }
+header .player-progress.player-progress-active .player-progress-loading-bar {
+  opacity: 1;
+  transition: opacity 1s linear;
+  background: url("../images/audio_progress.png") repeat-x;
+  animation: progress_loading_animate 300ms linear infinite;
+}
 header .player-progress .player-progress-loading-bar {
   width: 100%;
   height: 100%;
-  transition: opacity 3000ms linear;
-  background: url("../images/audio_progress.png") repeat-x;
-  animation: progress_loading_animate 300ms linear infinite;
+  opacity: 0;
+  -webkit-animation-play-state: paused;
+  -moz-animation-play-state: paused;
+  -o-animation-play-state: paused;
+  animation-play-state: paused;
 }
 header .player-progress .player-progress-val {
   width: 0px;
