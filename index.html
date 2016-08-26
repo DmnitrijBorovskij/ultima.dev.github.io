@@ -18,7 +18,7 @@
 <body>
 	<header>
 		<div class="player">
-			<div class="player-btn icons-ultima">
+			<div class="player-btn ultima-icon">
 				<audio id="audio" preload="metadata">
 					<source src="http://sc.ultima.fm:8001/stream/1/stream.mp3" type="audio/mpeg">
 				</audio>
@@ -42,58 +42,60 @@
 	</header>
     <main class="content clear">
         <section class="blog">
-			<div class="post">
-				<div class="post-header">	
-					<a class="post-icon" href="https://vk.com/club109707144?w=wall-109707144_87/all" target="_blank">
-						<div class="icon-vk icons-ultima"></div>
-					</a>
-					<div class="post-published-date">12.08.16</div>
-				</div>
-				<div class="post-content">
-					<div class="post-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid necessitatibus, odio accusamus! Minus ea, consequuntur sequi sed, est aut voluptate omnis odit vel necessitatibus adipisci illo a aliquam asperiores pariatur?</div>
-					<div class="post-image">
-						<img src="images/ultima.png">
-					</div>
-					<div class="post-wall-audio">
-						<div class="post-audio clear">
-							<div class="post-audio-play">
-								<button class="audio-play"></button>
-							</div>
-							<div class="post-audio-info">
-								<audio preload="metadata">
-									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">	
-									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
-									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
-								</audio>
-								<span classs="pai-artist">wait what</span>
-								<span class="divider">-</span>
-								<span class="pai-title">notorious xx (2009)</span>
-							</div>
-						</div>
-						<div class="post-audio clear">
-							<div class="post-audio-play">
-								<button class="audio-play"></button>
-							</div>
-							<div class="post-audio-info">
-								<audio preload="metadata">
-									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">	
-									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
-									<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
-								</audio>
-								<span classs="pai-artist">wait what</span>
-								<span class="divider">-</span>
-								<span class="pai-title">notorious xx (2009)</span>
-							</div>
-						</div>	
-					</div>	
-				</div>
-			</div>
+            <div class="blog-wrapper">
+                <div class="post">
+                    <div class="post-header">	
+                        <a class="post-icon" href="https://vk.com/club109707144?w=wall-109707144_87/all" target="_blank">
+                            <div class="ultima-icon ultima-icon-vk"></div>
+                        </a>
+                        <div class="post-published-date">12.08.16</div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid necessitatibus, odio accusamus! Minus ea, consequuntur sequi sed, est aut voluptate omnis odit vel necessitatibus adipisci illo a aliquam asperiores pariatur?</div>
+                        <div class="post-image">
+                            <img src="images/ultima.png">
+                        </div>
+                        <div class="post-wall-audio">
+                            <div class="post-audio clear">
+                                <div class="post-audio-play">
+                                    <button class="audio-play"></button>
+                                </div>
+                                <div class="post-audio-info">
+                                    <audio preload="metadata">
+                                        <source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">	
+                                        <source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
+                                        <source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
+                                    </audio>
+                                    <span classs="pai-artist">wait what</span>
+                                    <span class="divider">-</span>
+                                    <span class="pai-title">notorious xx (2009)</span>
+                                </div>
+                            </div>
+                            <div class="post-audio clear">
+                                <div class="post-audio-play">
+                                    <button class="audio-play"></button>
+                                </div>
+                                <div class="post-audio-info">
+                                    <audio preload="metadata">
+                                        <source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">	
+                                        <source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
+                                        <source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
+                                    </audio>
+                                    <span classs="pai-artist">wait what</span>
+                                    <span class="divider">-</span>
+                                    <span class="pai-title">notorious xx (2009)</span>
+                                </div>
+                            </div>	
+                        </div>	
+                    </div>
+                </div>
+            </div>
 		</section>	
 		<section class="archive">
-			<!-- <div class="archive-form-search">
-				<input autocomplete="off" class="afs-input" placeholder="Введите текст поиска" type="text" value="" >
-				<input class="afs-btn" id="search_btn" type="submit" value="">
-			</div> -->
+			 <div class="archive-form-search">
+				<input autocomplete="off" class="afs-input" placeholder="Поиск в архиве" type="text" required>
+                 <button class="afs-btn ultima-icon ultima-icon-search"></button>
+			</div> 
 			<div class="nav-calendar">
 				<div class="nav-calendar-year-section nc-item">
 					<div class="ncys-item nc-sub-item">2015</div>
@@ -175,10 +177,7 @@
 			</div>
 			<div class="archive-wrapper">
 				<div class="archive-audio">
-					 <audio preload="metadata">
-						<source src="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3" type="audio/mp3">
-					</audio> 
-					<div class="archive-audio-info">
+					<div class="archive-audio-info" data-audio="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
 						<span class="aai-title" >The Dead Weather</span>
 						<span class="divider">-</span>
 						<span class="aai-singer">I Feel Love (Every Million Miles)</span>
@@ -188,6 +187,27 @@
 			</div>
 		</section>
     </main>
+    <footer>
+        <div class="footer-address">
+            <a href="mailto:zombie@ultima.pro">zombie@ultima.pro</a>
+        </div>
+        <div class="footer-icons">
+            <div class="footer-icons-list">
+                <a class="footer-icons-list-item" href="https://vk.com/club109707144" target="_blank">
+                    <div class="ultima-icon ultima-icon-vk"></div>
+                </a>
+                <a class="footer-icons-list-item" href="https://www.facebook.com/groups/ultimafm/" target="_blank">
+                    <div class="ultima-icon ultima-icon-facebook"></div>
+                </a>
+                <a class="footer-icons-list-item" href="https://twitter.com/RadioUltima" target="_blank">
+                    <div class="ultima-icon ultima-icon-twitter"></div>
+                </a>
+                <a class="footer-icons-list-item" href="https://www.instagram.com/ultimafm/" target="_blank">
+                    <div class="ultima-icon ultima-icon-instagram"></div>
+                </a>
+            </div>
+        </div>
+    </footer>
 <script src="js/jquery.js"></script>
 <script src="js/main.js"></script>
 <script src="js/jquery.mCustomScrollbar.js"></script>

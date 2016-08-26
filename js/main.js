@@ -61,7 +61,7 @@ $(function(){
 	var startIndexPost = 5;
 	var countPosts = 5;
 
-		$(".blog").mCustomScrollbar({
+		$(".blog-wrapper").mCustomScrollbar({
     	axis:"y",
     	theme:"my-theme",
     		callbacks:{
@@ -308,6 +308,7 @@ $(function(){
 	})
     
     $('.nc-sub-item').on('click', function() {
+        $('.nc-sub-item').removeClass('nc-sub-item-selected');
         $(this).addClass('nc-sub-item-selected');
     })
 
@@ -352,23 +353,21 @@ $(function(){
 
 	$('.blog').hover(
 		function () {
-			showScroll('#mCSB_2_scrollbar_vertical');
-		},
-		function () {
-			hideScroll('#mCSB_2_scrollbar_vertical');
-		}
-	)
-	$('.archive').hover(
-		function () {
 			showScroll('#mCSB_1_scrollbar_vertical');
 		},
 		function () {
 			hideScroll('#mCSB_1_scrollbar_vertical');
 		}
 	)
-	if (window.matchMedia("(max-width: 768px)").matches) {
-		$(".footer-address").before($('.footer-icons'));
-	}
+	$('.archive').hover(
+		function () {
+			showScroll('#mCSB_2_scrollbar_vertical');
+		},
+		function () {
+			hideScroll('#mCSB_2_scrollbar_vertical');
+		}
+	)
+
 
 	$("#slider" ).slider({
         	animate: true, 
