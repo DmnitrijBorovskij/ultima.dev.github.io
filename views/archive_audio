@@ -1,0 +1,9 @@
+{{#.}}
+<div class="archive-audio audio archive-audio-playing">
+                    <div class="archive-audio-info" data-audio-url="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
+                        <span class="aai-title" >The Dead Weather</span>
+                        <span class="divider">-</span>
+                        <span class="aai-singer">I Feel Love (Every Million Miles)</span>
+                    </div>
+                    <div class="archive-audio-duration">03:25</div>
+                </div>

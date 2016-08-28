@@ -25,49 +25,62 @@ body {
 }
 
 .ultima-icon {
-  background: url("../images/icon-ultima.png");
+  background: url("../images/ultima-icon.png");
 }
 
-.ultima-icon-logo-ultima {
+.ultima-icon-logo {
+  background-position: -1px -0px;
   background-position: 0px 0px;
   width: 182px;
   height: 32px;
 }
 
-.ultima-icon-control {
+.ultima-icon-filter {
   background-position: 0px -32px;
   width: 30px;
   height: 24px;
 }
 
 .ultima-icon-search {
-  background-position: -51px -32px;
+  background-position: -32px -33px;
   width: 21px;
   height: 21px;
 }
 
 .ultima-icon-instagram {
-  background-position: -30px -32px;
-  width: 21px;
+  background-position: -75px -33px;
+  width: 20px;
   height: 20px;
+}
+.ultima-icon-instagram:hover {
+  background-position: -54px -33px;
 }
 
 .ultima-icon-twitter {
-  background-position: -72px -32px;
-  width: 21px;
+  background-position: -117px -33px;
+  width: 20px;
   height: 18px;
+}
+.ultima-icon-twitter:hover {
+  background-position: -96px -33px;
 }
 
 .ultima-icon-vk {
-  background-position: -93px -32px;
+  background-position: -159px -33px;
   width: 20px;
   height: 12px;
 }
+.ultima-icon-vk:hover {
+  background-position: -138px -33px;
+}
 
 .ultima-icon-facebook {
-  background-position: -145px -32px;
-  width: 12px;
+  background-position: -108px -52px;
+  width: 11px;
   height: 20px;
+}
+.ultima-icon-facebook:hover {
+  background-position: -96px -52px;
 }
 
 .ultima-icon-triangle {
@@ -93,6 +106,13 @@ header {
   -webkit-box-shadow: 0px 15px 30px 10px #dbdbdb;
   box-shadow: 0px 15px 30px 10px #dbdbdb;
 }
+header.player-archive:hover .player-progress-active {
+  -moz-transition: height 0.3s ease-out;
+  -o-transition: height 0.3s ease-out;
+  -webkit-transition: height 0.3s ease-out;
+  transition: height 0.3s ease-out;
+  height: 16px;
+}
 header .player {
   position: absolute;
   top: 50%;
@@ -105,7 +125,7 @@ header .player {
 header .player .player-btn {
   width: 16px;
   height: 20px;
-  background-position: -113px -32px;
+  background-position: -138px -46px;
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
@@ -116,7 +136,7 @@ header .player .player-btn:hover {
   opacity: 1;
 }
 header .player .player-btn.player-btn-pause {
-  background-position: -129px -32px;
+  background-position: -155px -46px;
 }
 header .player .player-track {
   width: 280px;
@@ -130,25 +150,6 @@ header .player .player-track .broadcast {
   text-transform: uppercase;
   color: #2095F2;
 }
-header .player .player-track .live {
-  display: none;
-  width: 147px;
-  height: 12px;
-  padding: 5px;
-  right: 205px;
-  color: #2095F2;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-header .player .player-track .live:hover {
-  background-color: #2095F2;
-  color: #fff;
-}
 header .player .player-track .player-track-artist {
   font: 1.14286em "Roboto Regular";
 }
@@ -160,14 +161,14 @@ header keyframes progress_loading_animate from {
   background-position: 0 0;
 }
 header keyframes progress_loading_animate to {
-  background-position: 9px 0;
+  background-position: 1200px 0;
 }
 @-o-keyframes progress_loading_animate {
   from {
     background-position: 0 0;
   }
   to {
-    background-position: 9px 0;
+    background-position: 1200px 0;
   }
 }
 @keyframes progress_loading_animate {
@@ -175,22 +176,20 @@ header keyframes progress_loading_animate to {
     background-position: 0 0;
   }
   to {
-    background-position: 9px 0;
+    background-position: 1200px 0;
   }
 }
 header .player-progress {
   height: 4px;
   width: 100%;
   position: absolute;
-  bottom: 0;
-  background-color: #EDEDED;
-  cursor: pointer;
+  top: 84px;
 }
 header .player-progress.player-progress-active .player-progress-loading-bar {
   opacity: 1;
   transition: opacity 1s linear;
   background: url("../images/audio_progress.png") repeat-x;
-  animation: progress_loading_animate 300ms linear infinite;
+  animation: progress_loading_animate 30s linear infinite;
 }
 header .player-progress .player-progress-loading-bar {
   width: 100%;
@@ -202,12 +201,12 @@ header .player-progress .player-progress-loading-bar {
   animation-play-state: paused;
 }
 header .player-progress .player-progress-val {
-  width: 0px;
+  width: 100%;
   height: 4px;
   position: absolute;
   bottom: 0;
+  opacity: 0;
   background-image: linear-gradient(to right, #2196f3 0%, #ff0000 100%, rgba(0, 0, 0, 0) 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, white 6px, white 12px);
-  z-index: 2;
 }
 header .player-progress .player-progress-buffer {
   width: 0px;
@@ -216,14 +215,61 @@ header .player-progress .player-progress-buffer {
   bottom: 0;
   background-color: red;
 }
+header.player-live .player-progress-active .player-progress-val {
+  opacity: 1;
+  transition: opacity .9s linear;
+}
+header.player-live .player-progress-active .player-progress-loading-bar {
+  position: relative;
+}
+header.player-archive .player-progress {
+  cursor: pointer;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease;
+  background-color: #eeeeee;
+}
+header .live {
+  position: absolute;
+  top: 50%;
+  -moz-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-transition: all 0.6s ease;
+  -o-transition: all 0.6s ease;
+  -webkit-transition: all 0.6s ease;
+  transition: all 0.6s ease;
+  width: 147px;
+  height: 12px;
+  padding: 5px;
+  right: 200px;
+  color: #2095F2;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+}
+header .live.live-show {
+  opacity: 1;
+}
+header .live:hover {
+  background-color: #2095F2;
+  color: #fff;
+}
 header .logo {
   position: absolute;
   left: 50%;
   top: 50%;
-  margin-left: -91px;
-  margin-top: -16px;
-  width: 182px;
-  height: 32px;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   cursor: pointer;
 }
 header .volume-player {
@@ -235,6 +281,21 @@ header .volume-player {
   top: 50%;
   margin-top: -1px;
   cursor: pointer;
+}
+header .button-live {
+  display: none;
+  width: 60px;
+  height: 60px;
+  background-color: #2196F3;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  cursor: pointer;
+}
+header .button-live .button-live-img {
+  width: 14px;
+  height: 18px;
+  background: url("../images/icons/play-live.png");
 }
 
 .content {
@@ -349,6 +410,10 @@ header .volume-player {
 .blog .post .post-wall-audio {
   margin-top: 15px;
 }
+.blog .post .post-wall-audio .post-audio:hover {
+  cursor: pointer;
+  background-color: #f2f4f7;
+}
 .blog .post .post-wall-audio .post-audio:not(:first-child) {
   margin-top: 10px;
 }
@@ -413,24 +478,45 @@ header .volume-player {
   outline: none;
   -webkit-appearance: none;
 }
+.archive .archive-form-search .afs-filter {
+  cursor: pointer;
+}
 .archive .nav-calendar {
+  color: #616161;
   padding: 0 40px;
+  font: 1.14286em "Roboto Light";
 }
 .archive .nav-calendar .nc-item {
+  padding-top: 12px;
   border-bottom: 1px solid #eee;
 }
 .archive .nav-calendar .nc-item .nc-sub-item {
   display: inline-block;
-  font: 1.14286em "Roboto Light";
   cursor: pointer;
+}
+.archive .nav-calendar .nc-item .nc-sub-item:hover {
+  color: #000;
+  -moz-transition: color 0.2s ease;
+  -o-transition: color 0.2s ease;
+  -webkit-transition: color 0.2s ease;
+  transition: color 0.2s ease;
 }
 .archive .nav-calendar .nc-item .nc-sub-item.nc-sub-item-selected {
   color: #2196F3;
 }
+.archive .nav-calendar .nav-calendar-year-section {
+  padding-bottom: 10px;
+}
 .archive .nav-calendar .nav-calendar-year-section .ncys-item {
   margin-right: 15px;
 }
+.archive .nav-calendar .nav-calendar-month-section {
+  padding-top: 11px;
+}
 .archive .nav-calendar .nav-calendar-month-section .ncms-item {
+  margin-bottom: 12px;
+}
+.archive .nav-calendar .nav-calendar-month-section .ncms-item:not(:nth-child(6n+6)) {
   margin-right: 40px;
 }
 .archive .nav-calendar .nav-calendar-day-section .ncds-item {
@@ -443,6 +529,7 @@ header .volume-player {
   padding-left: 20px;
 }
 .archive .archive-wrapper .archive-audio {
+  position: relative;
   width: 520px;
   height: 74px;
   padding: 28px 20px;
@@ -452,6 +539,36 @@ header .volume-player {
 }
 .archive .archive-wrapper .archive-audio:hover {
   border-color: #E0E0E0;
+}
+.archive .archive-wrapper .archive-audio .archive-audio-info {
+  display: inline-block;
+  width: 400px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.archive .archive-wrapper .archive-audio .archive-audio-info .aai-title {
+  font: 1.14286em "Roboto Regular";
+}
+.archive .archive-wrapper .archive-audio .archive-audio-info .aai-singer {
+  font: 1.14286em "Roboto Light";
+}
+.archive .archive-wrapper .archive-audio .archive-audio-duration {
+  float: right;
+}
+.archive .archive-wrapper .archive-audio-playing:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -moz-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  display: block;
+  width: 8px;
+  height: 11px;
+  background: url("../images/ultima-icon.png") -172px -46px;
 }
 
 footer {

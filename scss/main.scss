@@ -13,6 +13,33 @@
     animation-play-state: $state;
 }
 
+$desktop-width: 1024px;
+$tablet-width: 768px;
+$phone-width: 480px;
+
+@mixin respond($media) {
+	@if $media == desktop {
+    	@media (min-width: #{$desktop}) {
+    		@content;
+    	}
+  	}
+  	@else if $media == tablet-landscape {
+    	@media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    		@content;
+  		}
+  	}
+  	@else if $media == tablet-portrait {
+    	@media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) and (orientation : portrait) {
+    		@content;
+  		}
+  	}
+  	@else if $media == phone {
+    	@media (max-width: #{$phone-width}) {
+    		@content;
+  		}
+  	}
+}
+
 * {
 	margin: 0;
  	padding: 0;
@@ -32,56 +59,73 @@ img {
 	height: auto;
 }
 
-body{
+body {
 	background: #fafafa;
 	font: 14px 'Roboto', sans-serif;
     box-sizing: border-box;
 }
 
 .ultima-icon {
-	background: url('../images/icon-ultima.png');
+	background: url('../images/ultima-icon.png');
 }
 
-.ultima-icon-logo-ultima { 
+.ultima-icon-logo { 
+	background-position: -1px -0px; 
     background-position: 0px 0px; 
     width: 182px; 
     height: 32px; 
 }
 
-.ultima-icon-control { 
+.ultima-icon-filter { 
     background-position: 0px -32px; 
     width: 30px;
     height: 24px; 
 }
 
 .ultima-icon-search { 
-    background-position: -51px -32px; 
+     background-position: -32px -33px;
     width: 21px; 
     height: 21px; 
 }
 
 .ultima-icon-instagram { 
-    background-position: -30px -32px; 
-    width: 21px; 
-    height: 20px; 
+    background-position: -75px -33px;
+    width: 20px; 
+    height: 20px;
+
+    &:hover {
+    	background-position: -54px -33px;
+    } 
 }
 
 .ultima-icon-twitter { 
-    background-position: -72px -32px; 
-    width: 21px; 
-    height: 18px; 
+    background-position: -117px -33px;
+    width: 20px; 
+    height: 18px;
+
+    &:hover {
+     	background-position: -96px -33px;
+    }
 }
 
 .ultima-icon-vk { 
-    background-position: -93px -32px; 
+    background-position: -159px -33px;
     width: 20px; 
     height: 12px; 
+
+    &:hover {
+    	background-position: -138px -33px;
+    }
 }
 
 .ultima-icon-facebook { 
-    background-position: -145px -32px; 
-    width: 12px; 
-    height: 20px; 
+    background-position: -108px -52px;
+    width: 11px; 
+    height: 20px;
+
+    &:hover {
+    	background-position: -96px -52px;
+    } 
 }
 
 .ultima-icon-triangle { 
@@ -105,6 +149,13 @@ header {
 	margin: 0 auto;
 	@include box-shadow (0px 15px 30px 10px #dbdbdb);
 
+	&.player-archive:hover {
+		.player-progress-active {
+			@include transition(height .3s ease-out);
+			height: 16px;
+		}
+	}
+
 	.player {
 		position: absolute;
 		top: 50%;
@@ -114,7 +165,7 @@ header {
         .player-btn {
             width: 16px; 
             height: 20px;
-            background-position: -113px -32px; 
+            background-position: -138px -46px;
 			display: inline-block;
 			vertical-align: middle;
 			cursor: pointer;
@@ -126,7 +177,7 @@ header {
             } 
 
 			&.player-btn-pause {
-  		        background-position: -129px -32px;
+  		        background-position: -155px -46px;
 			}
 		}
 
@@ -143,25 +194,6 @@ header {
 				color: #2095F2;
 			}
             
-            .live {
-                display: none;
-                width: 147px;
-                height: 12px;
-                padding: 5px;
-                right: 205px;
-                color: #2095F2;
-                text-transform: uppercase;
-                font-size: 12px;
-                font-weight: 500;
-                cursor: pointer;
-                @include border-radius(3px);
-
-                &:hover {
-                    background-color: #2095F2;
-                    color: #fff;
-                }
-	        }
-            
             .player-track-artist {
                 font: em(16,14) 'Roboto Regular';
             }
@@ -174,29 +206,27 @@ header {
 	}
     
     keyframes progress_loading_animate{
-        from{background-position:0 0}to{background-position:9px 0};
+        from{background-position:0 0}to{background-position: 1200px 0};
     }
     @-o-keyframes progress_loading_animate{
-        from{background-position:0 0}to{background-position:9px 0};
+        from{background-position:0 0}to{background-position: 1200px 0};
     }
     @keyframes progress_loading_animate{
-        from{background-position:0 0}to{background-position:9px 0};
+        from{background-position:0 0}to{background-position: 1200px 0};
     }
 
 	.player-progress {
 		height: 4px;
 		width: 100%;
 		position: absolute;
-		bottom: 0;
-		background-color: #EDEDED;
-		cursor: pointer;
+		top: 84px;
         
         &.player-progress-active {
             .player-progress-loading-bar {
                 opacity: 1;
                 transition: opacity 1s linear;
                 background: url('../images/audio_progress.png') repeat-x;
-                animation: progress_loading_animate 300ms linear infinite;    
+                animation: progress_loading_animate 30s linear infinite;    
             }    
         }
         
@@ -208,12 +238,12 @@ header {
         }
 
 		.player-progress-val {
-			width: 0px;
+			width: 100%;
 			height: 4px;
 			position: absolute;
 			bottom: 0;
+			opacity: 0;
   			background-image: linear-gradient(to right, #2196F3 0%, #ff0000 100%, transparent 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,1) 6px, rgba(255,255,255,1) 12px);
-			z-index: 2;
 		}
 
 		.player-progress-buffer {
@@ -225,14 +255,61 @@ header {
 		}
 	}
 
+	&.player-live {
+
+		.player-progress-active {
+			.player-progress-val {
+				opacity: 1;
+				transition: opacity .9s linear;
+			}
+
+			.player-progress-loading-bar {
+				position: relative;
+			}
+		}
+	}
+
+	&.player-archive {
+		.player-progress {
+			cursor: pointer;
+			@include transition(all 1s ease);
+			background-color: #eeeeee;	
+		}
+	}
+
+	.live {
+        // display: none;
+        position: absolute;
+        top: 50%;
+        @include transform(translate(0, -50%));
+        @include border-radius(3px);
+        @include transition(all .6s ease);
+        width: 147px;
+        height: 12px;
+        padding: 5px;
+        right: 200px;
+        color: #2095F2;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        cursor: pointer;
+        opacity: 0;
+
+        &.live-show {
+        	opacity: 1;
+        }
+
+        &:hover {
+            background-color: #2095F2;
+            color: #fff;
+        }
+	}
+
 	.logo {
 		position: absolute;	
 		left: 50%;
     	top: 50%;
-    	margin-left: -91px;
-    	margin-top: -16px;
-		width: 182px;
-		height: 32px;
+    	@include transform(translate(-50%, -50%));
 		cursor: pointer;
 	}
 
@@ -245,6 +322,21 @@ header {
 		top: 50%;
 		margin-top: -1px;
 		cursor: pointer;
+	}
+
+	.button-live {
+		display: none;
+		width: 60px;
+		height: 60px;
+		background-color: #2196F3;
+		@include border-radius(50%);
+		cursor:pointer;
+
+		.button-live-img {
+			width: 14px;
+			height: 18px;
+			background: url('../images/icons/play-live.png')
+		}
 	}
 }
 
@@ -366,6 +458,11 @@ header {
 
 			.post-audio {
 
+				&:hover {
+					cursor: pointer;
+					background-color: #f2f4f7;
+				}
+
 				&:not(:first-child) {
 					margin-top: 10px;
 				}
@@ -438,18 +535,29 @@ header {
 			outline:none;
 			-webkit-appearance: none;
 		}
+
+		.afs-filter {
+			cursor: pointer;
+		}
 	}
     
     .nav-calendar {
-        
+        color: #616161;
         padding: 0 40px;
+        font: em(16,14) "Roboto Light";
         
         .nc-item {
+            padding-top: 12px;    
             border-bottom: 1px solid #eee;
-            .nc-sub-item {    
+
+            .nc-sub-item {
                 display: inline-block;
-                font: em(16,14) "Roboto Light";
                 cursor: pointer;
+
+                &:hover {
+                	color: #000;
+                	@include transition(color 0.2s ease);
+                }
                 
                 &.nc-sub-item-selected {
                     color: #2196F3;
@@ -457,14 +565,22 @@ header {
             } 
         }
         .nav-calendar-year-section {
+        	padding-bottom: 10px;
+        	
             .ncys-item {
                 margin-right: 15px;
             }
         }
         
         .nav-calendar-month-section {
+			padding-top: 11px;
+
             .ncms-item { 
-                margin-right: 40px;
+            	margin-bottom: 12px;
+
+            	&:not(:nth-child(6n+6)) {
+                	margin-right: 40px;	
+            	}
             }
         }
         
@@ -485,16 +601,51 @@ header {
         padding-left: 20px;
         
         .archive-audio {
+        	position: relative;
             width: 520px;
             height: 74px;
             padding: 28px 20px;
             border: 1px solid transparent;
             box-sizing: border-box;
             cursor: pointer;
-            
+          
             &:hover {
                 border-color: #E0E0E0;
             }
+
+            .archive-audio-info {
+            	display: inline-block;
+            	width: 400px;
+            	overflow: hidden;
+            	white-space: nowrap;
+            	text-overflow: ellipsis;
+
+            	.aai-title {
+					font: em(16,14) 'Roboto Regular';
+            	}
+
+            	.aai-artist {
+					font: em(16,14) 'Roboto Light';
+            	}
+            }
+
+            .archive-audio-duration {
+            	float: right;
+            }
+        }
+
+        .archive-audio-playing {
+			&:before {
+				content: '';
+				position: absolute;
+				top: 50%;
+				left: 0;
+				@include transform(translate(0, -50%));
+				display: block;
+				width: 8px; 
+				height: 11px;
+				background: url('../images/ultima-icon.png') -172px -46px; 
+			}
         } 
     }
 }

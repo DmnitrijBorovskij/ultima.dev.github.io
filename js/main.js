@@ -126,6 +126,19 @@ $(function(){
      	}
 	})
 
+	$('.audio').on('click', function() {
+		if (!$('.player-archive').length) {
+			$('header').toggleClass('player-archive player-live');
+		}
+		$('.live').addClass('live-show');
+	});
+
+
+	$('.archive-audio').on('click', function() {
+		$('.archive-audio').removeClass('archive-audio-playing');
+		$(this).addClass('archive-audio-playing');
+	})
+
 	function search_new_post () {
 		setInterval(function () {
 			$.ajax({	
@@ -285,10 +298,10 @@ $(function(){
 	})
 
 	/*функция перемотки аудиозаписи*/
-	var progressBarRewind = $('.player-progress');
+	var progressBarRewind = $('.player-archive .player-progress');
 	progressBarRewind.on('click', function(e) {
-		var x = e.offsetX==undefined?e.layerX:e.offsetX,
-  			y = e.offsetY==undefined?e.layerY:e.offsetY,
+		var x = e.offsetX == undefined? e.layerX : e.offsetX,
+  			y = e.offsetY == undefined? e.layerY : e.offsetY,
   			percent = (x / $(this).width() * 100).toFixed(),
   			progressValRewind = $(this).children('.player-progress-val'),
   			audio = $(this).siblings('audio'),

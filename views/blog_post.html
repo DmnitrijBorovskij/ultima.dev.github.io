@@ -1,0 +1,40 @@
+{{#.}}
+	<div class="post">
+		<div class="post-header">
+			<a class="post-icon" href="{{ post_url }}" target="_blank">
+				<div class="ultima-icon ultima-icon-{{network}}"></div>
+			</a>        
+			</a>        
+			<div class="post-published-date">{{# convertUnixtime }} {{ created_at }} {{/ convertUnixtime }}</div>
+		</div>
+		<div class="post-content">
+			{{#body}}
+				<div class="post-text">{{{ body }}}</div>
+			{{/body}}
+			{{^body}}{{/body}}
+			
+			{{#image_url}}
+				<div class="post-image">
+					<img src="{{ image_url }}"/>
+				</div>
+			{{/image_url}}
+			{{^image_url}}{{/image_url}}
+
+			{{#audio_url}}
+				<div class="post-wall-audio">
+					<div class="post-audio audio clear">
+						<div class="post-audio-play">
+                            <button class="audio-play"></button>
+                        </div>
+                        <div class="post-audio-info" data-audio-url="{{audio_url}}" data-audio-duration="{{audio_duration}}">
+                            <span classs="pai-artist">{{ audio_artist }}</span>
+                            <span class="divider">-</span>
+                            <span class="pai-title">{{ audio_title }}</span>
+                        </div>
+					</div>
+				</div>
+			{{/audio_url}}
+			{{^audio_url}}{{/audio_url}}
+		</div>
+	</div>
+{{/.}}
