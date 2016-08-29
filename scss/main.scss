@@ -17,22 +17,26 @@ $desktop-width: 1024px;
 $tablet-width: 768px;
 $phone-width: 480px;
 
-@mixin respond($media) {
+@mixin respondto($media) {
+	// 1024+
 	@if $media == desktop {
     	@media (min-width: #{$desktop}) {
     		@content;
     	}
   	}
+  	// (768-1023)
   	@else if $media == tablet-landscape {
     	@media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
     		@content;
   		}
   	}
+  	// (481-767)
   	@else if $media == tablet-portrait {
-    	@media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) and (orientation : portrait) {
+    	@media (min-width: #{$phone-width + 1px}) and (max-width: #{$tablet-width - 1px}) {
     		@content;
   		}
   	}
+  	// (0-480)
   	@else if $media == phone {
     	@media (max-width: #{$phone-width}) {
     		@content;
