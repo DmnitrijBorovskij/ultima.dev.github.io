@@ -17,26 +17,22 @@ $desktop-width: 1024px;
 $tablet-width: 768px;
 $phone-width: 480px;
 
-@mixin respondto($media) {
-	// 1024+
+@mixin respond($media) {
 	@if $media == desktop {
     	@media (min-width: #{$desktop}) {
     		@content;
     	}
   	}
-  	// (768-1023)
   	@else if $media == tablet-landscape {
     	@media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
     		@content;
   		}
   	}
-  	// (481-767)
   	@else if $media == tablet-portrait {
-    	@media (min-width: #{$phone-width + 1px}) and (max-width: #{$tablet-width - 1px}) {
+    	@media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) and (orientation : portrait) {
     		@content;
   		}
   	}
-  	// (0-480)
   	@else if $media == phone {
     	@media (max-width: #{$phone-width}) {
     		@content;
@@ -255,7 +251,7 @@ header {
 			height: 4px;
 			position: absolute;
 			bottom: 0;
-			background-color: red;	
+			background-color: #e0e0e0;	
 		}
 	}
 
@@ -271,13 +267,49 @@ header {
 				position: relative;
 			}
 		}
+
+		.player-progress-text {
+			display: none;
+		}
 	}
 
 	&.player-archive {
 		.player-progress {
 			cursor: pointer;
 			@include transition(all 1s ease);
-			background-color: #eeeeee;	
+			background-color: #eeeeee;
+
+			.player-progress-val {
+				width: 0;
+			}	
+		}
+
+		.player-progress-text {
+			font: em(10,14) 'Arial Regular';
+
+			.pp-text-left {
+				float: left;
+				margin-left: 15px;
+				display: none;
+			}
+
+			.pp-text-right {
+				float: right;
+				margin-right: 15px;
+				display: none;
+			}
+		}
+
+		&:hover {
+			.player-progress-text {
+				height: 16px;
+				line-height: 16px;
+
+				.pp-text-left,
+				.pp-text-right {
+					display: block;
+				}
+			}
 		}
 	}
 
@@ -486,15 +518,15 @@ header {
 					}
 				}
 
-				.post-audio-info {
+				.audio-info {
 					padding: 2px 0 0 35px;
 
-					.pai-artist,
-					.pai-title {
+					.audio-info-artist,
+					.audio-info-title {
 						color: #2a5885;
 					}
 
-					.pai-artist {
+					.audio-info-artist {
 						font-weight: 500;
 					}
 
@@ -617,23 +649,23 @@ header {
                 border-color: #E0E0E0;
             }
 
-            .archive-audio-info {
+            .audio-info {
             	display: inline-block;
             	width: 400px;
             	overflow: hidden;
             	white-space: nowrap;
             	text-overflow: ellipsis;
 
-            	.aai-title {
+            	.audio-info-title {
 					font: em(16,14) 'Roboto Regular';
             	}
 
-            	.aai-artist {
+            	.audio-info-artist {
 					font: em(16,14) 'Roboto Light';
             	}
             }
 
-            .archive-audio-duration {
+            .audio-duration {
             	float: right;
             }
         }

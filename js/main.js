@@ -1,16 +1,22 @@
 'use strict'
 $(function(){
-    
-    var button_player = $('.player-btn');
 
-	var player = {
+	if (!UF) var UF = {};
+
+    UF.audio = $('#audio');
+    UF.audio_current_time = $('.player-progress .pp-text-left');
+    UF.event_type = 'click';
+    UF.player_button = $('.player-btn');
+    UF.player_progress = $('.header .player-progress');
+
+	UF.player = {
 		el: $('.player')[0],
 		el_play:  $('#audio')[0],
 		el_author:  $('.player-track-artist')[0],
 		el_song:  $('.player-track-title')[0],
 		state: 'pause',
         setVolume: function() {
-            $(player.el_play).prop("volume", "0.5");   
+            $(UF.player.el_play).prop("volume", "0.5");   
         },
 		updateMeta: function() {
 		//192.168.21.9:8001
@@ -18,45 +24,28 @@ $(function(){
 			function (data) {
 				data = data || '';
 				var meta =  data.split('-');
-				$(player.el_author).html(meta[0]);
-				$(player.el_song).html(meta[1]);
+				$(UF.player.el_author).html(meta[0]);
+				$(UF.player.el_song).html(meta[1]);
 				console.log(data);
 			});
 		}
 	}
     
-    button_player.on('click', playStopPlayer);
-	player.updateMeta();
-    player.setVolume();
+    UF.player_button.on(UF.event_type, playStopPlayer);
+	UF.player.updateMeta();
+    UF.player.setVolume();
     protectEmail();
     
 	setInterval(function(){
-		player.updateMeta();
+		UF.player.updateMeta();
 	}, 5000);
 
-	$('.live').click(function() {
+	$('.live').on(UF.event_type, function() {
 		$('.player').toggleClass('broadcasting');
 	});
 
 
 	var view;
-
-    var getTemplate = function(src_template) {
-  		$.get(src_template, renderingTemplate);
-	}
-
-	var renderingTemplate = function(template) {
-  		var renderedPage = Mustache.render(template, view);
-  
-  		if ($("div").is("#mCSB_2_container")) {
-			$('#mCSB_2_container').append($("#btn-show-more").before(renderedPage));	
-  		} 
-  		else {
-  			$('#output').append($("#btn-show-more").before(renderedPage));
-  		}
-
-  		return renderedPage;
-	}
 
 	var startIndexPost = 5;
 	var countPosts = 5;
@@ -95,14 +84,9 @@ $(function(){
 		});
 
 
-	$(".archive-container").mCustomScrollbar({
+	$(".archive-wrapper").mCustomScrollbar({
     	axis:"y",
     	theme:"my-theme",
-    	callbacks:{
-	        onTotalScroll:function(){
-	        	console.log('конец скролла ');
-	        }
-	    }
 	});
 
 	var date_last_post;
@@ -126,7 +110,7 @@ $(function(){
      	}
 	})
 
-	$('.audio').on('click', function() {
+	$('.audio').on(UF.event_type, function() {
 		if (!$('.player-archive').length) {
 			$('header').toggleClass('player-archive player-live');
 		}
@@ -134,7 +118,7 @@ $(function(){
 	});
 
 
-	$('.archive-audio').on('click', function() {
+	$('.archive-audio').on(UF.event_type, function() {
 		$('.archive-audio').removeClass('archive-audio-playing');
 		$(this).addClass('archive-audio-playing');
 	})
@@ -165,11 +149,9 @@ $(function(){
 			})
 		}, 10000);
 	}
-	//search_new_post();
-	//search();
-	var search_val;
+
 	function search() {
-		search_val = $(".form-search").find(".fs-input").val();
+		var search_val = $(".form-search").find(".fs-input").val();
 		$.post('/wp-admin/admin-ajax.php', 	{ 'action' : 'my_action', 'search_val' : search_val }, function(data){
 			data = data.slice(0, -1);
 			$("#mCSB_1_container").children().not('.current').remove();
@@ -189,74 +171,60 @@ $(function(){
 	var cur_song, prev_song;
 	
 
-	$(".blog").on("click", ".play-btn", function() {
+	$(".blog").on(UF.event_type, ".play-btn", function() {
   		$(this).toggleClass('stop');
 	});
 
 	var timer;
-	function togglePlayPause(obj) {
-		var currentBtn = obj,
-		    currentRecord = $(obj).find('audio');
+	function togglePlayPause(audio) {
+		// var currentBtn = obj,
+		//     currentRecord = $(obj).find('audio');
 			
-		currentRecord.siblings('.progress').css('display', 'block');
-		currentRecord.on('ended', function() {
-			$(currentBtn).children('.play-pause-button').removeClass("pause");
-		})
+		//currentRecord.siblings('.progress').css('display', 'block');
+		// currentRecord.on('ended', function() {
+		// 	$(currentBtn).children('.play-pause-button').removeClass("pause");
+		// })
 
-	   	$('.record-control').not(currentBtn).each(function() {
-	   		$(this).children('.play-pause-button').removeClass("pause");
-	   		$(this).siblings('.record').children(".progress").css('display', 'none');
-	   	});
+	   	// $('.record-control').not(currentBtn).each(function() {
+	   	// 	$(this).children('.play-pause-button').removeClass("pause");
+	   	// 	$(this).siblings('.record').children(".progress").css('display', 'none');
+	   	// });
 
-	   	if (currentRecord.prop("paused")) {
-	   		$(currentBtn).children('.play-pause-button').addClass("pause");
-	   		currentRecord.trigger('play');
-	   		$('.duration-record').not(currentRecord.siblings('.duration-record')).each(function() {
-	   			var d = ($(this).siblings('audio').prop("duration"));		
-	   			$(this).html(timeFormat(d.toFixed()*1000));	
-	   		})
+	   	if (audio.prop("paused")) {
+	   		$('.player-btn').addClass('player-btn-pause');
+	   		audio.trigger('load');
+	   		audio.trigger('play');
+	   		// $('.duration-record').not(currentRecord.siblings('.duration-record')).each(function() {
+	   		// 	var d = ($(this).siblings('audio').prop("duration"));		
+	   		// 	$(this).html(timeFormat(d.toFixed()*1000));	
+	   		// })
 	   		
 	   		//останавливаем все песни кроме текущей
-	   		$("audio").not(currentRecord).each(function() {
-	   			$(this).trigger('pause');
-	   			$(this).prop('currentTime', 0);
-	   		})
+	  //  		$("audio").not(currentRecord).each(function() {
+	  //  			$(this).trigger('pause');
+	  //  			$(this).prop('currentTime', 0);
+	  //  		})
 
-	   		if (!cur_song) {
-				cur_song = currentRecord;
-				console.log('cur_song', cur_song);
-			} else {
-				prev_song = $(cur_song).closest('.record-archive');
-				cur_song = currentRecord;
-				prev_song.removeClass('current');
-			}
+	  //  		if (!cur_song) {
+			// 	cur_song = currentRecord;
+			// 	console.log('cur_song', cur_song);
+			// } else {
+			// 	prev_song = $(cur_song).closest('.record-archive');
+			// 	cur_song = currentRecord;
+			// 	prev_song.removeClass('current');
+			// }
 
-	   		// убираем продложительность всех песен кроме текущей
-			$(".progress-val").not(currentRecord.children('progress').children('progress-val')).each(function() {
-	   			$(this).width(0 + '%');
-	   		})
+	  //  		// убираем продложительность всех песен кроме текущей
+			// $(".progress-val").not(currentRecord.children('progress').children('progress-val')).each(function() {
+	  //  			$(this).width(0 + '%');
+	  //  		})
 			clearInterval(timer);
 	   	}
 	   	else {	
-	   		$(currentBtn).children('.play-pause-button').removeClass("pause");
-	   		currentRecord.trigger('pause');
+	   		$('.player-btn').removeClass("player-btn-pause");
+	   		audio.trigger('pause');
 	    }
   	}
-
-  	/*перевод unixTime*/
- 	var timeFormat = (function (){
-    	function num(val){
-        	val = Math.floor(val);
-        	return val < 10 ? '0' + val : val;
-    	}
-   		return function (ms){
-        	var sec = ms / 1000, 
-        		hours = sec / 3600  % 24, 
-        		minutes = sec / 60 % 60, 
-        		seconds = sec % 60;
-        	return num(hours) + ":" + num(minutes) + ":" + num(seconds);
-    	};
-	})();
 
 	function initRecordArchive() {
     	var allRecordsArchive = $('.record-archive').find('audio');
@@ -275,31 +243,35 @@ $(function(){
 	initRecordArchive();
 
 
-	$('.archive').on('click', '.archive-record', function() {
-		var cur_audio = $(this).find('audio');
+	$('.archive').on(UF.event_type, '.archive-audio', function() {
+		var audio_source = UF.audio.find('source');
 
-		togglePlayPause(this);
-		$('.play-btn').removeClass('stop');
-		$('.btn-player').removeClass('state-pause');
-		$('.btn-player').addClass('state-play');
-		$('.btn-player').find("#audio").trigger('pause');
-		$(this).addClass('playing').siblings().removeClass('playing');
-		console.log(cur_audio.prop('buffered').end(0));
-		cur_audio.on('progress', function() {
-			var bufferedEnd = cur_audio.prop('buffered').end(0);
-			var duration =  cur_audio.prop('duration');
+		audio_source.attr('src', $(this).find('.audio-info').attr('data-audio-url'));
+
+		togglePlayPause(UF.audio);
+		// $('.play-btn').removeClass('stop');
+		// $('.btn-player').removeClass('state-pause');
+		// $('.btn-player').addClass('state-play');
+		// $('.btn-player').find("#audio").trigger('pause');
+		//$(this).addClass('playing').siblings().removeClass('playing');
+		//console.log(UF.audio.prop('buffered').end(0));
+		UF.audio.on('progress', function() {
+			var bufferedEnd = UF.audio.prop('buffered').end(0);
+			var duration =  UF.audio.prop('duration');
+			// console.log(duration);
 			if (duration > 0) {
+			console.log(bufferedEnd);
+				console.log('duration > 0');
 			  $('.player-progress-buffer').width = ((bufferedEnd / duration)*100) + "%";
 			}
 		});
 		timer = setInterval(function (){
-			updateCurrentDuration(cur_audio);
+			updateCurrentDuration(UF.audio);
 		}, 1000);
 	})
 
 	/*функция перемотки аудиозаписи*/
-	var progressBarRewind = $('.player-archive .player-progress');
-	progressBarRewind.on('click', function(e) {
+	UF.player_progress.on(UF.event_type, function(e) {
 		var x = e.offsetX == undefined? e.layerX : e.offsetX,
   			y = e.offsetY == undefined? e.layerY : e.offsetY,
   			percent = (x / $(this).width() * 100).toFixed(),
@@ -311,7 +283,7 @@ $(function(){
   		audio.prop("currentTime", lengthAudio * percent / 100);
 	})
 
-	$('.blog').on('click', '.play-btn', function () {
+	$('.blog').on(UF.event_type, '.play-btn', function () {
 		if ($(this).hasClass('stop')) {
 			$(this).siblings('audio').trigger('play');
 			console.log($(this));
@@ -356,14 +328,6 @@ $(function(){
 		$('.mCSB_container').css('margin-right', '30px');
 	})
 
-	function hideScroll (name_scroll) {
-		$(name_scroll).css('opacity', '0');
-	}
-
-	function showScroll (name_scroll) {
-		$(name_scroll).css('opacity', '1');
-	}
-
 	$('.blog').hover(
 		function () {
 			showScroll('#mCSB_1_scrollbar_vertical');
@@ -383,15 +347,15 @@ $(function(){
 
 
 	$("#slider" ).slider({
-        	animate: true, 
-            	range: "min",
-            	value: 0.5,
-            	min: 0, 
-            	max: 1,
-    		step: 0.01,
-    		slide: function( event, ui ) {
-                	$('#audio').prop("volume", ui.value);
-            	}
+    	animate: true, 
+        	     range: "min",
+        	     value: 0.5,
+        	     min: 0, 
+        	     max: 1,
+		         step: 0.01,
+		         slide: function( event, ui ) {
+            	   $('#audio').prop("volume", ui.value);
+        	     }
 	});
 
 	$("#slider" ).hover(
@@ -404,21 +368,20 @@ $(function(){
   		}
 	)
 
-	
     function getAudioArchive() {
         //TODO
     }
 
     function playStopPlayer() {
-        if (player.state == 'play') {
+        if (UF.player.state == 'play') {
             $("#audio").trigger('pause');
-            player.state = 'pause';
+            UF.player.state = 'pause';
             $(this).removeClass('player-btn-pause');
             $('.player-progress').removeClass('player-progress-active');
         } else {
             $("#audio").trigger('load');
             $("#audio").trigger('play');
-            player.state = 'play';
+            UF.player.state = 'play';
             $(this).addClass('player-btn-pause');
             $('.player-progress').addClass('player-progress-active');
             $('.playing').find('audio').trigger('pause');
@@ -434,17 +397,31 @@ $(function(){
             }
         }	
     }
+
+    /*перевод unixTime*/
+ 	function timeFormat() {
+    	function num(val){
+        	val = Math.floor(val);
+        	return val < 10 ? '0' + val : val;
+    	}
+   		return function (ms){
+        	var sec = ms / 1000, 
+        		hours = sec / 3600  % 24, 
+        		minutes = sec / 60 % 60, 
+        		seconds = sec % 60;
+        	return num(hours) + ":" + num(minutes) + ":" + num(seconds);
+    	}
+	}
     
-    function updateCurrentDuration (audio) {
+    function updateCurrentDuration(audio) {
 		var sec = parseInt($(audio).prop("currentTime") % 60),
 		    min = parseInt($(audio).prop("currentTime") / 60) % 60,
-        	percentage;
-
+        	percentage = 0;
 		if (sec < 10) {
 			sec = '0' + sec;
 		}
         
-		$(audio).siblings(".duration-record").html(min + ':' + sec);
+		UF.audio_current_time.html(min + ':' + sec);
    		percentage = Math.floor((100 / $(audio).prop("duration")) * $(audio).prop("currentTime"));
    		$('.player-progress-val').width(percentage + "%");
 	}
@@ -457,6 +434,24 @@ $(function(){
 			time = dd + '.' + mm + '.' + yyyy;					
 		return render(time);
     }
+
+    function getTemplate(src_template) {
+  		$.get(src_template, renderingTemplate);
+	}
+
+	function renderingTemplate(template) {
+  		var html = Mustache.render(template, view);
+  
+  		return html;
+	}
+
+	function hideScroll (name_scroll) {
+		$(name_scroll).css('opacity', '0');
+	}
+
+	function showScroll (name_scroll) {
+		$(name_scroll).css('opacity', '1');
+	}
     
     function protectEmail () {
     	var login  = 'zombie';

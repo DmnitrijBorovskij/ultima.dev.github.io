@@ -213,7 +213,7 @@ header .player-progress .player-progress-buffer {
   height: 4px;
   position: absolute;
   bottom: 0;
-  background-color: red;
+  background-color: #e0e0e0;
 }
 header.player-live .player-progress-active .player-progress-val {
   opacity: 1;
@@ -222,6 +222,9 @@ header.player-live .player-progress-active .player-progress-val {
 header.player-live .player-progress-active .player-progress-loading-bar {
   position: relative;
 }
+header.player-live .player-progress-text {
+  display: none;
+}
 header.player-archive .player-progress {
   cursor: pointer;
   -moz-transition: all 1s ease;
@@ -229,6 +232,30 @@ header.player-archive .player-progress {
   -webkit-transition: all 1s ease;
   transition: all 1s ease;
   background-color: #eeeeee;
+}
+header.player-archive .player-progress .player-progress-val {
+  width: 0;
+}
+header.player-archive .player-progress-text {
+  font: 0.71429em "Arial Regular";
+}
+header.player-archive .player-progress-text .pp-text-left {
+  float: left;
+  margin-left: 15px;
+  display: none;
+}
+header.player-archive .player-progress-text .pp-text-right {
+  float: right;
+  margin-right: 15px;
+  display: none;
+}
+header.player-archive:hover .player-progress-text {
+  height: 16px;
+  line-height: 16px;
+}
+header.player-archive:hover .player-progress-text .pp-text-left,
+header.player-archive:hover .player-progress-text .pp-text-right {
+  display: block;
 }
 header .live {
   position: absolute;
@@ -430,17 +457,17 @@ header .button-live .button-live-img {
   display: block;
   cursor: pointer;
 }
-.blog .post .post-wall-audio .post-audio .post-audio-info {
+.blog .post .post-wall-audio .post-audio .audio-info {
   padding: 2px 0 0 35px;
 }
-.blog .post .post-wall-audio .post-audio .post-audio-info .pai-artist,
-.blog .post .post-wall-audio .post-audio .post-audio-info .pai-title {
+.blog .post .post-wall-audio .post-audio .audio-info .audio-info-artist,
+.blog .post .post-wall-audio .post-audio .audio-info .audio-info-title {
   color: #2a5885;
 }
-.blog .post .post-wall-audio .post-audio .post-audio-info .pai-artist {
+.blog .post .post-wall-audio .post-audio .audio-info .audio-info-artist {
   font-weight: 500;
 }
-.blog .post .post-wall-audio .post-audio .post-audio-info .divider {
+.blog .post .post-wall-audio .post-audio .audio-info .divider {
   padding: 0 5px;
 }
 
@@ -540,20 +567,20 @@ header .button-live .button-live-img {
 .archive .archive-wrapper .archive-audio:hover {
   border-color: #E0E0E0;
 }
-.archive .archive-wrapper .archive-audio .archive-audio-info {
+.archive .archive-wrapper .archive-audio .audio-info {
   display: inline-block;
   width: 400px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.archive .archive-wrapper .archive-audio .archive-audio-info .aai-title {
+.archive .archive-wrapper .archive-audio .audio-info .audio-info-title {
   font: 1.14286em "Roboto Regular";
 }
-.archive .archive-wrapper .archive-audio .archive-audio-info .aai-singer {
+.archive .archive-wrapper .archive-audio .audio-info .audio-info-artist {
   font: 1.14286em "Roboto Light";
 }
-.archive .archive-wrapper .archive-audio .archive-audio-duration {
+.archive .archive-wrapper .archive-audio .audio-duration {
   float: right;
 }
 .archive .archive-wrapper .archive-audio-playing:before {
