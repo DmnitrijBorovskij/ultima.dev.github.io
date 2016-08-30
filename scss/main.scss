@@ -224,6 +224,7 @@ header {
 		width: 100%;
 		position: absolute;
 		top: 84px;
+		@include user-select(none);
         
         &.player-progress-active {
             .player-progress-loading-bar {
@@ -245,7 +246,7 @@ header {
 			width: 100%;
 			height: 4px;
 			position: absolute;
-			bottom: 0;
+			tops: 0;
 			opacity: 0;
   			background-image: linear-gradient(to right, #2196F3 0%, #ff0000 100%, transparent 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,1) 6px, rgba(255,255,255,1) 12px);
 		}
@@ -289,6 +290,7 @@ header {
 		}
 
 		.player-progress-text {
+			position: relative;
 			font: em(10,14) 'Arial Regular';
 
 			.pp-text-left {
@@ -313,6 +315,18 @@ header {
 				.pp-text-right {
 					display: block;
 				}
+			}
+		}
+
+		.player-progress-active {
+			.player-progress-val {
+				height: 100%;
+				opacity: 1;
+			}
+
+			.player-progress-loading-bar {
+				display: none;
+				@include animation-play-stop(paused);
 			}
 		}
 	}

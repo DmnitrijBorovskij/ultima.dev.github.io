@@ -247,13 +247,8 @@ $(function(){
 		var audio_source = UF.audio.find('source');
 
 		audio_source.attr('src', $(this).find('.audio-info').attr('data-audio-url'));
-
+		$('.player-progress').addClass('player-progress-active');
 		togglePlayPause(UF.audio);
-		// $('.play-btn').removeClass('stop');
-		// $('.btn-player').removeClass('state-pause');
-		// $('.btn-player').addClass('state-play');
-		// $('.btn-player').find("#audio").trigger('pause');
-		//$(this).addClass('playing').siblings().removeClass('playing');
 		//console.log(UF.audio.prop('buffered').end(0));
 		UF.audio.on('progress', function() {
 			var bufferedEnd = UF.audio.prop('buffered').end(0);
@@ -265,22 +260,23 @@ $(function(){
 			  $('.player-progress-buffer').width = ((bufferedEnd / duration)*100) + "%";
 			}
 		});
-		timer = setInterval(function (){
-			updateCurrentDuration(UF.audio);
-		}, 1000);
+		showDuration();
+		// timer = setInterval(function (){
+		// 	updateCurrentDuration(UF.audio);
+		// }, 1000);
 	})
 
 	/*функция перемотки аудиозаписи*/
-	UF.player_progress.on(UF.event_type, function(e) {
+	$('.header .player-progress').on(UF.event_type, function(e) {
+		console.log("sdfudfhyudb");
 		var x = e.offsetX == undefined? e.layerX : e.offsetX,
   			y = e.offsetY == undefined? e.layerY : e.offsetY,
   			percent = (x / $(this).width() * 100).toFixed(),
-  			progressValRewind = $(this).children('.player-progress-val'),
-  			audio = $(this).siblings('audio'),
-  			lengthAudio = $(this).siblings('audio').prop('duration');
+  			progressValRewind = $('.player-progress'),
+  			lengthAudio = $(UF.audio).prop('duration');
 
   		progressValRewind.width(percent + '%');
-  		audio.prop("currentTime", lengthAudio * percent / 100);
+  		(UF.audio).prop("currentTime", lengthAudio * percent / 100);
 	})
 
 	$('.blog').on(UF.event_type, '.play-btn', function () {
@@ -384,17 +380,8 @@ $(function(){
             UF.player.state = 'play';
             $(this).addClass('player-btn-pause');
             $('.player-progress').addClass('player-progress-active');
-            $('.playing').find('audio').trigger('pause');
-            // $('.current').find('audio').prop('currentTime', 0);
-            $('.playing').find('.play-pause-button').removeClass('pause');
 
-            // console.log($('.current').find('.progress'));
-            $('.playing').find('.progress').addClass('hide_progress');
-            if (cur_dur) {
-                var cur_text_dur = $('.playing').find('.duration-record');
-                var cur_dur = timeFormat(cur_song[0].duration.toFixed()*1000);
-                $(cur_text_dur).html(cur_dur);
-            }
+    
         }	
     }
 
@@ -413,17 +400,22 @@ $(function(){
     	}
 	}
     
-    function updateCurrentDuration(audio) {
-		var sec = parseInt($(audio).prop("currentTime") % 60),
-		    min = parseInt($(audio).prop("currentTime") / 60) % 60,
-        	percentage = 0;
-		if (sec < 10) {
-			sec = '0' + sec;
-		}
-        
-		UF.audio_current_time.html(min + ':' + sec);
-   		percentage = Math.floor((100 / $(audio).prop("duration")) * $(audio).prop("currentTime"));
-   		$('.player-progress-val').width(percentage + "%");
+
+    function showDuration() {
+    	$(UF.audio).on('timeupdate', function() {
+    		//console.log('the time was updated to: ' + this.currentTime);
+    		var sec = parseInt($(UF.audio).prop("currentTime") % 60),
+		        min = parseInt($(UF.audio).prop("currentTime") / 60) % 60,
+        	    percentage = 0;
+			if (sec < 10) {
+				sec = '0' + sec;
+			}
+			UF.audio_current_time.html(min + ':' + sec);
+			if ($(UF.audio).prop("currentTime") > 0) {	
+   				percentage = Math.floor((100 / $(UF.audio).prop("duration")) * $(UF.audio).prop("currentTime"));
+			}
+   			$('.player-progress-val').width(percentage + "%");
+		});
 	}
     
     function convertUnixtime(timestamp, render) {
