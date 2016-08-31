@@ -8,7 +8,6 @@ $(function(){
     UF.event_type = 'click';
     UF.player_button = $('.player-btn');
     UF.player_progress = $('.header .player-progress');
-
 	UF.player = {
 		el: $('.player')[0],
 		el_play:  $('#audio')[0],
@@ -45,70 +44,32 @@ $(function(){
 	});
 
 
-	var view;
+	$(".blog-wrapper").mCustomScrollbar({
+		axis:"y",
+		theme:"my-theme",
+		callbacks: {
+			onInit:function(){
+				loadPostBlog();
+			},
+        	onTotalScroll:function(){}
+		}
+	});
 
-	var startIndexPost = 5;
-	var countPosts = 5;
-
-		$(".blog-wrapper").mCustomScrollbar({
-    	axis:"y",
-    	theme:"my-theme",
-    		callbacks:{
-		        onTotalScroll:function(){
-		   //      	if (window.matchMedia("(min-width: 768px)").matches) {
-			  //       	$.ajax({
-					//    		type: 'POST',
-					//      	url: 'wp-content/themes/ultima/showposts.php',
-					//      	dataType: "json",
-					//      	data: { 
-					//      		"countPosts" : countPosts,
-					//      		"startIndexPost" : startIndexPost
-					//      	},
-					//      	success: function(data){
-					// 			view = data;
-	    //    						view.convertUnixtime = function () {
-					// 				return function (timestamp, render) {
-					//    					return convertUnixtime(timestamp, render);	
-					//    				}
-	   	// 						}
-	    //    						//console.log(view);
-					// 			getTemplate('wp-content/themes/ultima/templates/template.html');
-					    
-					// 			//console.log(startIndexPost);
-					// 			startIndexPost += 5;
-					// 		}
-					// 	})
-					// }
-		        }
-	    	}
-		});
-
-
+	loadAudioArchive();
 	$(".archive-wrapper").mCustomScrollbar({
     	axis:"y",
     	theme:"my-theme",
+    	callbacks: {
+    		onInit:function(){
+    			console.log("init");
+				loadAudioArchive();
+			},
+			onTotalScroll:function(){}	
+    	}
 	});
 
 	var date_last_post;
-	$.ajax({	
-    	type: 'GET',
-     	url: 'wp-content/themes/ultima/select.php',
-     	dataType: "json",
-     	success: function (resp) {
 
-     		view = resp;
-       		view.convertUnixtime = function () {
-				return function (timestamp, render) {
-   					return convertUnixtime(timestamp, render);	
-   				}
-   			}
-       		console.log(view);
-       		date_last_post = view[0].created_at;
-       		// console.log(date_last_post);
-			// setTimeout(sleep_btn_show_more, 100);
-			getTemplate('wp-content/themes/ultima/templates/template.html');	
-     	}
-	})
 
 	$('.audio').on(UF.event_type, function() {
 		if (!$('.player-archive').length) {
@@ -225,22 +186,6 @@ $(function(){
 	   		audio.trigger('pause');
 	    }
   	}
-
-	function initRecordArchive() {
-    	var allRecordsArchive = $('.record-archive').find('audio');
-    	$(allRecordsArchive).each(function () {
-      		if ($(this).prop("readyState") < 1) {
-    			$(this).on("loadedmetadata", function () {
-    				$(this).siblings('.duration-record').html(timeFormat($(this).prop("duration").toFixed()*1000));
-    			});
-			}
-			else {
-			    // metadata уже загружены
-			    $(this).siblings('.duration-record').html(timeFormat($(this).prop("duration").toFixed()*1000));
-			}
-      	})
-	}
-	initRecordArchive();
 
 
 	$('.archive').on(UF.event_type, '.archive-audio', function() {
@@ -364,8 +309,55 @@ $(function(){
   		}
 	)
 
-    function getAudioArchive() {
-        //TODO
+	function loadAudioArchive() {
+    	var archive = $('.archive .archive-wrapper');
+    	var view = {};
+    	$.ajax({	
+    		type: 'GET',
+     		url: 'http://api.ultima.fm/played_songs.json',
+     		dataType: "json",
+     		success: function (data) {
+     			view = data || {};
+       			view.convertUnixtime = function () {
+					return function (timestamp, render) {
+   						return convertUnixtime(timestamp, render);	
+   					}
+   				}
+   				view.timeFormat = function () {
+					return function (ms, render) {
+   						return timeFormat(ms, render);	
+   					}
+   				}
+
+   				$.get('../views/archive_audio.html', function(template){
+   					console.log(template);
+   					console.log(view);
+					archive.html(Mustache.render(template, view));
+  				});
+     		}
+		})	
+	}
+
+    function loadPostBlog() {
+    	var blog = $('.blog .mCSB_container');
+    	var view = {};
+    	$.ajax({	
+    		type: 'GET',
+     		url: 'http://api.ultima.fm/posts.json',
+     		dataType: "json",
+     		success: function (data) {
+     			view = data || {};
+       			view.convertUnixtime = function () {
+					return function (timestamp, render) {
+   						return convertUnixtime(timestamp, render);	
+   					}
+   				}
+
+   				$.get('../views/blog_post.html', function(template){
+					blog.html(Mustache.render(template, view));
+  				});
+     		}
+		})
     }
 
     function playStopPlayer() {
@@ -391,12 +383,12 @@ $(function(){
         	val = Math.floor(val);
         	return val < 10 ? '0' + val : val;
     	}
-   		return function (ms){
+   		return function (ms, render){
         	var sec = ms / 1000, 
         		hours = sec / 3600  % 24, 
         		minutes = sec / 60 % 60, 
         		seconds = sec % 60;
-        	return num(hours) + ":" + num(minutes) + ":" + num(seconds);
+        	return render(num(hours) + ":" + num(minutes) + ":" + num(seconds));
     	}
 	}
     
@@ -427,15 +419,19 @@ $(function(){
 		return render(time);
     }
 
-    function getTemplate(src_template) {
-  		$.get(src_template, renderingTemplate);
+    function getTemplate(src_template, view) {
+    	var html = '';
+  		$.get(src_template, function(template){
+  			html = Mustache.render(template, view);
+  			//console.log(html);
+  			return html;
+  		});
 	}
 
-	function renderingTemplate(template) {
-  		var html = Mustache.render(template, view);
-  
-  		return html;
-	}
+	// function renderingTemplate(template) {
+ //  		var html = Mustache.render(template, UF.view);
+ //  		return html;
+	// }
 
 	function hideScroll (name_scroll) {
 		$(name_scroll).css('opacity', '0');
