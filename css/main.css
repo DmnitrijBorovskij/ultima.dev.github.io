@@ -569,6 +569,7 @@ header .button-live .button-live-img {
   margin-right: 22px;
 }
 .archive .archive-wrapper {
+  height: 770px;
   padding-left: 20px;
 }
 .archive .archive-wrapper .archive-audio {

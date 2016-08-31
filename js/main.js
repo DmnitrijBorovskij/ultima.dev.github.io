@@ -55,7 +55,7 @@ $(function(){
 		}
 	});
 
-	loadAudioArchive();
+	// loadAudioArchive();
 	$(".archive-wrapper").mCustomScrollbar({
     	axis:"y",
     	theme:"my-theme",
@@ -239,24 +239,6 @@ $(function(){
     })
 
 
-   // прижимаем плеер при скролле
-    var elem_top = $('.player').offset().top;
-    var header = $(".header");
-    $(window).scroll(function(){
- 	    var elem = $('.player');
-    	var top = $(this).scrollTop();
-      	if (top < 169) {
-       		header.removeClass("lower");
-    		elem.addClass("no-press");
-        	elem.removeClass("press");
-      	}else{
-      		elem.addClass("press");
-      		elem.removeClass("no-press");
-      		header.addClass("lower");
-      	}	
-    });
-
-
    	$('.fs-input').focus(function () {
 		$('.form-search').addClass('active');
 		$('.fs-btn').addClass('search_active');
@@ -330,8 +312,6 @@ $(function(){
    				}
 
    				$.get('../views/archive_audio.html', function(template){
-   					console.log(template);
-   					console.log(view);
 					archive.html(Mustache.render(template, view));
   				});
      		}
@@ -376,22 +356,7 @@ $(function(){
     
         }	
     }
-
-    /*перевод unixTime*/
- 	function timeFormat() {
-    	function num(val){
-        	val = Math.floor(val);
-        	return val < 10 ? '0' + val : val;
-    	}
-   		return function (ms, render){
-        	var sec = ms / 1000, 
-        		hours = sec / 3600  % 24, 
-        		minutes = sec / 60 % 60, 
-        		seconds = sec % 60;
-        	return render(num(hours) + ":" + num(minutes) + ":" + num(seconds));
-    	}
-	}
-    
+   
 
     function showDuration() {
     	$(UF.audio).on('timeupdate', function() {
@@ -408,6 +373,24 @@ $(function(){
 			}
    			$('.player-progress-val').width(percentage + "%");
 		});
+	}
+    	
+		// function num(val){
+  //       	val = Math.floor(val);
+  //       	return val < 10 ? '0' + val : val;
+  //   	}
+
+	function timeFormat (ms, render) {
+		function num(val){
+        	val = Math.floor(val);
+        	return val < 10 ? '0' + val : val;
+    	}
+    	var sec = ms / 1000, 
+    		hours = sec / 3600 % 24, 
+    		minutes = sec / 60 % 60, 
+    		seconds = sec % 60;
+
+    	return num(hours) + ":" + num(minutes) + ":" + num(seconds);
 	}
     
     function convertUnixtime(timestamp, render) {
