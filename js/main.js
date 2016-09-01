@@ -239,10 +239,9 @@ $(function(){
     })
 
 
-   	$('.fs-input').focus(function () {
-		$('.form-search').addClass('active');
-		$('.fs-btn').addClass('search_active');
-		$('.mCSB_container').css('margin-right', '0px');
+   	$('.afs-filter').click(function () {
+   		console.log("sdss");
+  		$('.nav-calendar').toggleClass('nav-calendar-active');
 	})
 
 	$('.fs-input').focusout(function () {

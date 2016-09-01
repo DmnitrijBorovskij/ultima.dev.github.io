@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700&subset=latin,cyrillic);
+﻿@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700&subset=latin,cyrillic);
 @import "compass";
 @import "compass/css3";
 
@@ -11,6 +11,14 @@
     -moz-animation-play-state: $state;
     -o-animation-play-state: $state;
     animation-play-state: $state;
+}
+
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $position;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
 }
 
 $desktop-width: 1024px;
@@ -87,7 +95,7 @@ body {
 }
 
 .ultima-icon-search { 
-     background-position: -32px -33px;
+    background-position: -32px -33px;
     width: 21px; 
     height: 21px; 
 }
@@ -409,14 +417,14 @@ header {
 	}
 
 	&:after {
-		content: "blog";
+		content: "блог";
 		top: 60px;
 		left: -124px;
 		@include transform(rotate(-90deg));
 	}
 
 	&:before {
-		content: "archive";
+		content: 'архив';
 		top: 85px;
 		right: -152px;
 		@include transform(rotate(90deg));
@@ -562,27 +570,34 @@ header {
 	float: right;
 
 	.archive-form-search {
-		display: inline-block;
-		height: 40px;
-		width: 93%;
-		margin-left: 22px;
-		margin-top: 40px;
-		z-index: 1;
-		@include box-shadow (0px 3px 6px 1px #dbdbdb);
+		position: relative;
+		height: 80px;
 
 		.afs-input {
 			height: 100%;
 			width: 100%;
-			text-align: center;
+			z-index: 1;
+			padding: 0 100px 0 77px;
 			border: 0;
 			outline:none;
 			vertical-align: middle;
-			@include transition (margin-top .90s ease);
-			font: 16px 'Roboto', sans-serif;
-			font-weight: 300;
+			@include transition (box-shadow .4s ease);
+			font: 16px 'Roboto Light', sans-serif;
+			box-sizing: border-box;
+
+			&:focus {
+				@include box-shadow (0px 10px 26px 0px #e0e0e0);
+
+				.afs-btn {
+					opacity: 1;
+				}
+			}
 		}
 
 		.afs-btn {
+			@include position(absolute, $top: 50%, $left: 40px);
+			@include transform(translateY(-50%));
+			opacity: .4;
             cursor: pointer;
 			border: none;
 			outline:none;
@@ -590,14 +605,21 @@ header {
 		}
 
 		.afs-filter {
+			@include position(absolute, $top: 50%, $right: 40px);
+			@include transform(translateY(-50%));
 			cursor: pointer;
 		}
 	}
     
     .nav-calendar {
+    	position: absolute;
+    	background-color: #fff;
+    	z-index: 1;
         color: #616161;
         padding: 0 40px;
         font: em(16,14) "Roboto Light";
+        opacity: 0;
+        @include transition (all .6s ease);
         
         .nc-item {
             padding-top: 12px;    
@@ -648,6 +670,10 @@ header {
                 margin-right: 22px;
             }
         }
+    }
+
+    .nav-calendar-active {
+    	opacity: 1;
     }
     
     .archive-wrapper {
