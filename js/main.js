@@ -2,7 +2,7 @@
 $(function(){
 
 	if (!UF) var UF = {};
-
+	UF.api_ultima = 'http://api.ultima.fm';
     UF.audio = $('#audio');
     UF.audio_current_time = $('.player-progress .pp-text-left');
     UF.event_type = 'click';
@@ -18,7 +18,6 @@ $(function(){
             $(UF.player.el_play).prop("volume", "0.5");   
         },
 		updateMeta: function() {
-		//192.168.21.9:8001
 		$.get("http://sc.ultima.fm:8001/currentsong?sid=1",
 			function (data) {
 				data = data || '';
@@ -34,42 +33,44 @@ $(function(){
 	UF.player.updateMeta();
     UF.player.setVolume();
     protectEmail();
+	getStatisticUsers();
     
 	setInterval(function(){
 		UF.player.updateMeta();
 	}, 5000);
+
+	setInterval(function() {
+		getStatisticUsers();
+	}, 1000);
 
 	$('.live').on(UF.event_type, function() {
 		$('.player').toggleClass('broadcasting');
 	});
 
 
-	$(".blog-wrapper").mCustomScrollbar({
+	$(".archive-wrapper").mCustomScrollbar({
 		axis:"y",
 		theme:"my-theme",
 		callbacks: {
 			onInit:function(){
-				loadPostBlog();
+				loadAudioArchive();
 			},
         	onTotalScroll:function(){}
 		}
 	});
 
 	// loadAudioArchive();
-	$(".archive-wrapper").mCustomScrollbar({
+	$(".blog-wrapper").mCustomScrollbar({
     	axis:"y",
     	theme:"my-theme",
     	callbacks: {
     		onInit:function(){
     			console.log("init");
-				loadAudioArchive();
+				loadPostBlog();
 			},
 			onTotalScroll:function(){}	
     	}
 	});
-
-	var date_last_post;
-
 
 	$('.audio').on(UF.event_type, function() {
 		if (!$('.player-archive').length) {
@@ -78,115 +79,20 @@ $(function(){
 		$('.live').addClass('live-show');
 	});
 
-
 	$('.archive-audio').on(UF.event_type, function() {
 		$('.archive-audio').removeClass('archive-audio-playing');
 		$(this).addClass('archive-audio-playing');
 	})
 
-	function search_new_post () {
-		setInterval(function () {
-			$.ajax({	
-	    		type: 'POST',
-	     		url: 'wp-content/themes/ultima/search_new_post.php',
-	     		dataType: "json",
-	     		data: {"date_last_post" : date_last_post},
-	     		success: function (resp) {
-
-		     		view = resp;
-		       		if (view.length != 0) {
-		       			console.log(view);
-		       			//$('.post:first').before("<div class='post'><li class='item'>Тест3</li></div>");
-		       			date_last_post = view[0].created_at;
-		       			view.convertUnixtime = function () {
-							return function (timestamp, render) {
-		   						return convertUnixtime(timestamp, render);	
-		   					}
-		   				}
-		       			//console.log(date_last_post);
-						getTemplate('wp-content/themes/ultima/templates/template.html');	
-					}
-	     		}
-			})
-		}, 10000);
-	}
-
-	function search() {
-		var search_val = $(".form-search").find(".fs-input").val();
-		$.post('/wp-admin/admin-ajax.php', 	{ 'action' : 'my_action', 'search_val' : search_val }, function(data){
-			data = data.slice(0, -1);
-			$("#mCSB_1_container").children().not('.current').remove();
-			$('.current').css('display', 'none');
-			$("#mCSB_1_container").append(data);
-			initRecordArchive();
-			$('.record-archive:eq(1)').css('margin-top', '55px');
-		});	
-	}	
-
-	$('.form-search').keyup(function(){
-		search_val = $(".form-search").find(".fs-input").val();
+	$('.archive-form-search').keyup(function(){
+		var search_val = $(".archive-form-search").find(".afs-input").val();
 		console.log(search_val);
-  		search();
+  		searchRecordsArchive(search_val);
 	});
-
-	var cur_song, prev_song;
-	
 
 	$(".blog").on(UF.event_type, ".play-btn", function() {
   		$(this).toggleClass('stop');
 	});
-
-	var timer;
-	function togglePlayPause(audio) {
-		// var currentBtn = obj,
-		//     currentRecord = $(obj).find('audio');
-			
-		//currentRecord.siblings('.progress').css('display', 'block');
-		// currentRecord.on('ended', function() {
-		// 	$(currentBtn).children('.play-pause-button').removeClass("pause");
-		// })
-
-	   	// $('.record-control').not(currentBtn).each(function() {
-	   	// 	$(this).children('.play-pause-button').removeClass("pause");
-	   	// 	$(this).siblings('.record').children(".progress").css('display', 'none');
-	   	// });
-
-	   	if (audio.prop("paused")) {
-	   		$('.player-btn').addClass('player-btn-pause');
-	   		audio.trigger('load');
-	   		audio.trigger('play');
-	   		// $('.duration-record').not(currentRecord.siblings('.duration-record')).each(function() {
-	   		// 	var d = ($(this).siblings('audio').prop("duration"));		
-	   		// 	$(this).html(timeFormat(d.toFixed()*1000));	
-	   		// })
-	   		
-	   		//останавливаем все песни кроме текущей
-	  //  		$("audio").not(currentRecord).each(function() {
-	  //  			$(this).trigger('pause');
-	  //  			$(this).prop('currentTime', 0);
-	  //  		})
-
-	  //  		if (!cur_song) {
-			// 	cur_song = currentRecord;
-			// 	console.log('cur_song', cur_song);
-			// } else {
-			// 	prev_song = $(cur_song).closest('.record-archive');
-			// 	cur_song = currentRecord;
-			// 	prev_song.removeClass('current');
-			// }
-
-	  //  		// убираем продложительность всех песен кроме текущей
-			// $(".progress-val").not(currentRecord.children('progress').children('progress-val')).each(function() {
-	  //  			$(this).width(0 + '%');
-	  //  		})
-			clearInterval(timer);
-	   	}
-	   	else {	
-	   		$('.player-btn').removeClass("player-btn-pause");
-	   		audio.trigger('pause');
-	    }
-  	}
-
 
 	$('.archive').on(UF.event_type, '.archive-audio', function() {
 		var audio_source = UF.audio.find('source');
@@ -213,7 +119,6 @@ $(function(){
 
 	/*функция перемотки аудиозаписи*/
 	$('.header .player-progress').on(UF.event_type, function(e) {
-		console.log("sdfudfhyudb");
 		var x = e.offsetX == undefined? e.layerX : e.offsetX,
   			y = e.offsetY == undefined? e.layerY : e.offsetY,
   			percent = (x / $(this).width() * 100).toFixed(),
@@ -240,7 +145,7 @@ $(function(){
 
 
    	$('.afs-filter').click(function () {
-   		console.log("sdss");
+   		$('.nav-calendar').slideToggle('slow');
   		$('.nav-calendar').toggleClass('nav-calendar-active');
 	})
 
@@ -267,7 +172,6 @@ $(function(){
 		}
 	)
 
-
 	$("#slider" ).slider({
     	animate: true, 
         	     range: "min",
@@ -280,22 +184,12 @@ $(function(){
         	     }
 	});
 
-	$("#slider" ).hover(
-		function() {
-			$('.ui-slider-handle').addClass('over-slider-handle');
-			$('.ui-slider-range').addClass('over-slider-range');
-  		}, function() {
-			$('.ui-slider-handle').removeClass('over-slider-handle');
-			$('.ui-slider-range').removeClass('over-slider-range');
-  		}
-	)
-
 	function loadAudioArchive() {
     	var archive = $('.archive .archive-wrapper');
     	var view = {};
     	$.ajax({	
     		type: 'GET',
-     		url: 'http://api.ultima.fm/played_songs.json',
+     		url: UF.api_ultima + '/played_songs.json',
      		dataType: "json",
      		success: function (data) {
      			view = data || {};
@@ -309,7 +203,6 @@ $(function(){
    						return timeFormat(ms, render);	
    					}
    				}
-
    				$.get('../views/archive_audio.html', function(template){
 					archive.html(Mustache.render(template, view));
   				});
@@ -322,7 +215,7 @@ $(function(){
     	var view = {};
     	$.ajax({	
     		type: 'GET',
-     		url: 'http://api.ultima.fm/posts.json',
+     		url: UF.api_ultima + '/posts.json',
      		dataType: "json",
      		success: function (data) {
      			view = data || {};
@@ -331,13 +224,79 @@ $(function(){
    						return convertUnixtime(timestamp, render);	
    					}
    				}
-
    				$.get('../views/blog_post.html', function(template){
 					blog.html(Mustache.render(template, view));
   				});
      		}
 		})
     }
+
+    function checkUpdateBlog () {
+		// setInterval(function () {
+		// 	$.ajax({	
+	 //    		type: 'POST',
+	 //     		url: 'wp-content/themes/ultima/search_new_post.php',
+	 //     		dataType: "json",
+	 //     		data: {"date_last_post" : date_last_post},
+	 //     		success: function (resp) {
+
+		//      		view = resp;
+		//        		if (view.length != 0) {
+		//        			console.log(view);
+		//        			//$('.post:first').before("<div class='post'><li class='item'>Тест3</li></div>");
+		//        			date_last_post = view[0].created_at;
+		//        			view.convertUnixtime = function () {
+		// 					return function (timestamp, render) {
+		//    						return convertUnixtime(timestamp, render);	
+		//    					}
+		//    				}
+		//        			//console.log(date_last_post);
+		// 				getTemplate('wp-content/themes/ultima/templates/template.html');	
+		// 			}
+	 //     		}
+		// 	})
+		// }, 10000);
+	}
+
+	function searchRecordsArchive(search_val) {
+		//TODO
+	}
+
+	function togglePlayPause(audio) {
+		//currentRecord.siblings('.progress').css('display', 'block');
+		// currentRecord.on('ended', function() {
+		// 	$(currentBtn).children('.play-pause-button').removeClass("pause");
+		// })
+
+	   	if (audio.prop("paused")) {
+	   		$('.player-btn').addClass('player-btn-pause');
+	   		audio.trigger('load');
+	   		audio.trigger('play');
+	   		// $('.duration-record').not(currentRecord.siblings('.duration-record')).each(function() {
+	   		// 	var d = ($(this).siblings('audio').prop("duration"));		
+	   		// 	$(this).html(timeFormat(d.toFixed()*1000));	
+	   		// })
+	   		
+	   		//останавливаем все песни кроме текущей
+	  //  		$("audio").not(currentRecord).each(function() {
+	  //  			$(this).trigger('pause');
+	  //  			$(this).prop('currentTime', 0);
+	  //  		})
+
+	  //  		if (!cur_song) {
+			// 	cur_song = currentRecord;
+			// 	console.log('cur_song', cur_song);
+			// } else {
+			// 	prev_song = $(cur_song).closest('.record-archive');
+			// 	cur_song = currentRecord;
+			// 	prev_song.removeClass('current');
+			// }
+	   	}
+	   	else {	
+	   		$('.player-btn').removeClass("player-btn-pause");
+	   		audio.trigger('pause');
+	    }
+  	}
 
     function playStopPlayer() {
         if (UF.player.state == 'play') {
@@ -356,7 +315,6 @@ $(function(){
         }	
     }
    
-
     function showDuration() {
     	$(UF.audio).on('timeupdate', function() {
     		//console.log('the time was updated to: ' + this.currentTime);
@@ -415,6 +373,16 @@ $(function(){
  //  		return html;
 	// }
 
+	function getStatisticUsers() {
+		$.getJSON(UF.api_ultima + '/stats', function(data) {
+			console.log(data);
+			$('.fs-online .fsi-val').html(data.current_listeners);
+			$('.fs-peak .fsi-val').html(data.peak_listeners);
+			$('.fs-today .fsi-val').html(data.unique_listeners);
+			$('.fs-yesterday .fsi-val').html(data.prev_day_unique_listeners);
+		})
+	}
+
 	function hideScroll (name_scroll) {
 		$(name_scroll).css('opacity', '0');
 	}
@@ -430,7 +398,6 @@ $(function(){
 		var url = 'mailto:'+email;
 		$('.mail').html('<a href="' + url + '">' + email + '</a>');	
     }
-	
 })
 
 

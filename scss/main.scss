@@ -159,7 +159,7 @@ header {
 	max-width: 1200px;
 	background-color: #fff;
 	margin: 0 auto;
-	@include box-shadow (0px 15px 30px 10px #dbdbdb);
+	@include box-shadow (0px 19px 50px 0 #e0e0e0);
 
 	&.player-archive:hover {
 		.player-progress-active {
@@ -431,18 +431,31 @@ header {
 	}
 }
 
+#slider {
+	.ui-slider-handle {
+		width: 10px;
+		height: 10px;
+		background: #616161;
+		position: absolute;
+		top: -4px;
+		outline: none;
+		z-index: 200;
+		@include border-radius(4.5px);
+		@include transition (transform 0.3s);
 
-.ui-slider-handle {
-	width: 10px;
-	height: 10px;
-	background: #616161;
-	position: absolute;
-	top: -4px;
-	outline: none;
-	z-index: 200;
-	@include border-radius(4.5px);
-	@include transition (transform 0.3s)
+	}
+
+	&:hover {
+		.ui-slider-range,
+		.ui-slider-handle {
+			background-color: #212121;
+		}
+		.ui-slider-handle {
+			transform: scale(1.5, 1.5);
+		}
+	}
 }
+
 
 
 .ui-widget-header {
@@ -613,16 +626,31 @@ header {
     
     .nav-calendar {
     	position: absolute;
+    	width: 100%;
+    	box-sizing: border-box;
     	background-color: #fff;
     	z-index: 1;
         color: #616161;
         padding: 0 40px;
         font: em(16,14) "Roboto Light";
         opacity: 0;
-        @include transition (all .6s ease);
+        display: none;
+        border: 1px solid red;
+
+        .nc-row {
+        	text-align: justify;
+        	&:after {
+    			width: 100%;
+                height: 0;
+                visibility: hidden;
+                overflow: hidden;
+                content: '';
+                display: inline-block;
+        	}
+        }
         
         .nc-item {
-            padding-top: 12px;    
+        	padding: 14px 0;
             border-bottom: 1px solid #eee;
 
             .nc-sub-item {
@@ -640,39 +668,19 @@ header {
             } 
         }
         .nav-calendar-year-section {
-        	padding-bottom: 10px;
-        	
-            .ncys-item {
-                margin-right: 15px;
-            }
+        	// padding: 12px 0 0 10px; 
         }
         
         .nav-calendar-month-section {
-			padding-top: 11px;
 
             .ncms-item { 
-            	margin-bottom: 12px;
-
-            	&:not(:nth-child(6n+6)) {
-                	margin-right: 40px;	
-            	}
-            }
-        }
-        
-        .nav-calendar-day-section {
-            .ncds-item {
-                margin-right: 15px;   
-            }
-        }
-        
-        .nav-calendar-time-section {
-            .ncts-item {
-                margin-right: 22px;
+            	// margin-bottom: 12px;
             }
         }
     }
 
     .nav-calendar-active {
+    	@include transition (opacity 1s ease);
     	opacity: 1;
     }
     
@@ -752,5 +760,37 @@ footer {
             display: inline-block;
         } 
     }
-    
+
+    .footer-stats {
+		margin-top: 35px;
+	    float: left;
+	    width: 100%;
+		font: 10px 'Arial';
+		letter-spacing: 1.5px;
+		-webkit-font-smoothing: none;
+		-moz-osx-font-smoothing: auto;
+
+		.footer-stats-wrapper {
+			float: right;
+
+			.fs-item {
+				display: inline-block;
+				text-transform: uppercase;
+
+				&:not(:last-child) {
+					margin-right: 10px;	
+				}
+
+				.fsi-name {
+					display: inline-block;
+					color: #9d9d9d;
+				}
+
+				.fsi-val {
+					display: inline-block;
+					color:  #747474;
+				}
+			}
+		}
+	}
 }
