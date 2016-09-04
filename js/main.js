@@ -4,6 +4,7 @@ $(function(){
 	if (!UF) var UF = {};
 	UF.api_ultima = 'http://api.ultima.fm';
     UF.audio = $('#audio');
+    UF.audio_duration = UF.audio.attr('data-duration', 0);
     UF.audio_current_time = $('.player-progress .pp-text-left');
     UF.event_type = 'click';
     UF.player_button = $('.player-btn');
@@ -47,7 +48,6 @@ $(function(){
 		$('.player').toggleClass('broadcasting');
 	});
 
-
 	$(".blog-wrapper").mCustomScrollbar({
     	axis:"y",
     	theme:"my-theme",
@@ -68,12 +68,16 @@ $(function(){
 		callbacks: {
 			onInit:function(){
 				loadAudioArchive();
+				console.log("init22");
 			},
         	onTotalScroll:function(){
         		console.log('end');
         	}
 		}
 	});
+
+	loadPostBlog();
+	loadAudioArchive();
 
 	$('.audio').on(UF.event_type, function() {
 		if (!$('.player-archive').length) {
@@ -192,15 +196,12 @@ $(function(){
    						return timeFormat(ms, render);	
    					}
    				}
-   				$.get('../views/archive_audio.html', function(template){
-					archive.html(Mustache.render(template, view));
-  				});
+   	
+
+  				getTemplate('../views/archive_audio.html', archive, view);
      		}
 		})	
 	}
-
-	loadPostBlog();
-	loadAudioArchive();
 
     function loadPostBlog() {
     	var blog = $('.blog .mCSB_container'),
@@ -216,9 +217,7 @@ $(function(){
    						return convertUnixtime(timestamp, render);	
    					}
    				}
-   				$.get('../views/blog_post.html', function(template){
-					blog.html(Mustache.render(template, view));
-  				});
+   				getTemplate('../views/blog_post.html', blog, view);
      		}
 		})
     }
@@ -331,23 +330,24 @@ $(function(){
    			$('.player-progress-val').width(percentage + "%");
 		});
 	}
-    	
-		// function num(val){
-  //       	val = Math.floor(val);
-  //       	return val < 10 ? '0' + val : val;
-  //   	}
 
-	function timeFormat (ms, render) {
-		function num(val){
+	function timeFormat (sec, render) {
+		function num(val) {
         	val = Math.floor(val);
         	return val < 10 ? '0' + val : val;
     	}
-    	var sec = ms / 1000, 
-    		hours = sec / 3600 % 24, 
-    		minutes = sec / 60 % 60, 
-    		seconds = sec % 60;
+    	var	seconds = render(sec) % 60,
+    	    minutes = render(sec) / 60, 
+    		hours = render(sec) / (60 * 60),
+    		time;
 
-    	return num(hours) + ":" + num(minutes) + ":" + num(seconds);
+    	if (Math.floor(hours) > 0) {
+    		time = num(hours) + ":" + num(minutes) + ":" + num(seconds);
+    	} else {
+    		time = num(minutes) + ":" + num(seconds);	
+    	}
+
+    	return render(time);
 	}
     
     function convertUnixtime(timestamp, render) {
@@ -359,19 +359,12 @@ $(function(){
 		return render(time);
     }
 
-    function getTemplate(src_template, view) {
-    	var html = '';
-  		$.get(src_template, function(template){
-  			html = Mustache.render(template, view);
-  			//console.log(html);
-  			return html;
+    function getTemplate(from, where, data) {
+  		$.get(from, function(template){
+  			var result = Mustache.render(template, data);
+  			where.html(result);
   		});
 	}
-
-	// function renderingTemplate(template) {
- //  		var html = Mustache.render(template, UF.view);
- //  		return html;
-	// }
 
 	function getStatisticUsers() {
 		$.getJSON(UF.api_ultima + '/stats', function(data) {
