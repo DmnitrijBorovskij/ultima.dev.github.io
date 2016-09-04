@@ -88,62 +88,56 @@ body {
     height: 32px; 
 }
 
-.ultima-icon-filter { 
-    background-position: 0px -32px; 
+.ultima-icon-filter {
+	background-position: -32px -33px;
     width: 30px;
     height: 24px; 
 }
 
-.ultima-icon-search { 
-    background-position: -32px -33px;
+.ultima-icon-search {
+	background-position: -63px -33px;
     width: 21px; 
     height: 21px; 
 }
 
 .ultima-icon-instagram { 
-    background-position: -75px -33px;
+    background-position: -106px -33px;
     width: 20px; 
     height: 20px;
 
     &:hover {
-    	background-position: -54px -33px;
+    	background-position: -85px -33px;
     } 
 }
 
 .ultima-icon-twitter { 
-    background-position: -117px -33px;
+    background-position: -148px -33px;
     width: 20px; 
     height: 18px;
 
     &:hover {
-     	background-position: -96px -33px;
+     	background-position: -127px -33px;
     }
 }
 
 .ultima-icon-vkontakte { 
-    background-position: -159px -33px;
+    background-position: -148px -52px;
     width: 20px; 
     height: 12px; 
 
     &:hover {
-    	background-position: -138px -33px;
+    	background-position: -127px -52px;
     }
 }
 
 .ultima-icon-facebook { 
-    background-position: -108px -52px;
+    background-position: -169px -54px;
     width: 11px; 
     height: 20px;
 
     &:hover {
-    	background-position: -96px -52px;
+    	background-position: -169px -33px;
     } 
-}
-
-.ultima-icon-triangle { 
-    background-position: -157px -32px; 
-    width: 8px; 
-    height: 11px; 
 }
 
 .clear {
@@ -177,11 +171,11 @@ header {
         .player-btn {
             width: 16px; 
             height: 20px;
-            background-position: -138px -46px;
+            background-position: -85px -54px;
 			display: inline-block;
 			vertical-align: middle;
 			cursor: pointer;
-			margin: 4px 40px 0 0;
+			margin-right: 40px;
             opacity: .7;
             
             &:hover {
@@ -189,7 +183,7 @@ header {
             } 
 
 			&.player-btn-pause {
-  		        background-position: -155px -46px;
+  		        background-position: -102px -54px;
 			}
 		}
 
@@ -257,6 +251,7 @@ header {
 			tops: 0;
 			opacity: 0;
   			background-image: linear-gradient(to right, #2196F3 0%, #ff0000 100%, transparent 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,1) 6px, rgba(255,255,255,1) 12px);
+  			z-index: 2;
 		}
 
 		.player-progress-buffer {
@@ -264,7 +259,8 @@ header {
 			height: 4px;
 			position: absolute;
 			bottom: 0;
-			background-color: #e0e0e0;	
+			background-color: #e0e0e0;
+			z-index: 1;
 		}
 	}
 
@@ -300,6 +296,7 @@ header {
 		.player-progress-text {
 			position: relative;
 			font: em(10,14) 'Arial Regular';
+			z-index: 3;
 
 			.pp-text-left {
 				float: left;
@@ -332,6 +329,10 @@ header {
 				opacity: 1;
 			}
 
+			.player-progress-buffer {
+				height: 100%;
+			}
+
 			.player-progress-loading-bar {
 				display: none;
 				@include animation-play-stop(paused);
@@ -340,7 +341,7 @@ header {
 	}
 
 	.live {
-        // display: none;
+		display: none;
         position: absolute;
         top: 50%;
         @include transform(translate(0, -50%));
@@ -354,11 +355,12 @@ header {
         font-size: 12px;
         font-weight: 500;
         text-transform: uppercase;
-        cursor: pointer;
         opacity: 0;
 
         &.live-show {
+        	display: block;
         	opacity: 1;
+        	cursor: pointer;
         }
 
         &:hover {
@@ -387,6 +389,7 @@ header {
 	}
 
 	.button-live {
+		position: relative;
 		display: none;
 		width: 60px;
 		height: 60px;
@@ -395,9 +398,11 @@ header {
 		cursor:pointer;
 
 		.button-live-img {
+			background-position: -63px -55px; 
 			width: 14px;
 			height: 18px;
-			background: url('../images/icons/play-live.png')
+			@include transform(translate(-50%, -50%));
+			@include position(absolute, $top: 50%, $left: 50%);
 		}
 	}
 }
@@ -476,6 +481,7 @@ header {
 .blog {
 	float: left;
     padding-top: 42px;
+    box-sizing: border-box;
     
     .blog-wrapper {
         height: 770px;
@@ -600,10 +606,6 @@ header {
 
 			&:focus {
 				@include box-shadow (0px 10px 26px 0px #e0e0e0);
-
-				.afs-btn {
-					opacity: 1;
-				}
 			}
 		}
 
@@ -621,6 +623,18 @@ header {
 			@include position(absolute, $top: 50%, $right: 40px);
 			@include transform(translateY(-50%));
 			cursor: pointer;
+		}
+
+		.afs-filter-open {
+			background-position: -1px -33px;
+		}
+	}
+
+	.archive-form-search-active {
+
+		.afs-btn {
+			@include transition (opacity .4s ease);
+			opacity: 1;
 		}
 	}
     
@@ -677,6 +691,17 @@ header {
             	// margin-bottom: 12px;
             }
         }
+
+        .nc-reset-btn {
+        	position: absolute;
+    		top: 13px;
+    		right: 40px;
+    		cursor: pointer;
+
+    		&:hover {
+    			color: #f44336;
+    		}
+        }
     }
 
     .nav-calendar-active {
@@ -732,7 +757,7 @@ header {
 				display: block;
 				width: 8px; 
 				height: 11px;
-				background: url('../images/ultima-icon.png') -172px -46px; 
+				background: url('../images/ultima-icon.png') -1px -58px;
 			}
         } 
     }
@@ -751,14 +776,13 @@ footer {
         float: right;
         
         .footer-icons-list-item {
+            display: inline-block;
+            vertical-align: middle;
+
             &:not(:last-child) {
                 margin-right: 28px;
             }
         }
-        
-        .footer-icons-list-item {
-            display: inline-block;
-        } 
     }
 
     .footer-stats {

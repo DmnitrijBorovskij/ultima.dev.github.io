@@ -37,57 +37,51 @@ body {
 }
 
 .ultima-icon-filter {
-  background-position: 0px -32px;
+  background-position: -32px -33px;
   width: 30px;
   height: 24px;
 }
 
 .ultima-icon-search {
-  background-position: -32px -33px;
+  background-position: -63px -33px;
   width: 21px;
   height: 21px;
 }
 
 .ultima-icon-instagram {
-  background-position: -75px -33px;
+  background-position: -106px -33px;
   width: 20px;
   height: 20px;
 }
 .ultima-icon-instagram:hover {
-  background-position: -54px -33px;
+  background-position: -85px -33px;
 }
 
 .ultima-icon-twitter {
-  background-position: -117px -33px;
+  background-position: -148px -33px;
   width: 20px;
   height: 18px;
 }
 .ultima-icon-twitter:hover {
-  background-position: -96px -33px;
+  background-position: -127px -33px;
 }
 
 .ultima-icon-vkontakte {
-  background-position: -159px -33px;
+  background-position: -148px -52px;
   width: 20px;
   height: 12px;
 }
 .ultima-icon-vkontakte:hover {
-  background-position: -138px -33px;
+  background-position: -127px -52px;
 }
 
 .ultima-icon-facebook {
-  background-position: -108px -52px;
+  background-position: -169px -54px;
   width: 11px;
   height: 20px;
 }
 .ultima-icon-facebook:hover {
-  background-position: -96px -52px;
-}
-
-.ultima-icon-triangle {
-  background-position: -157px -32px;
-  width: 8px;
-  height: 11px;
+  background-position: -169px -33px;
 }
 
 .clear {
@@ -126,18 +120,18 @@ header .player {
 header .player .player-btn {
   width: 16px;
   height: 20px;
-  background-position: -138px -46px;
+  background-position: -85px -54px;
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
-  margin: 4px 40px 0 0;
+  margin-right: 40px;
   opacity: .7;
 }
 header .player .player-btn:hover {
   opacity: 1;
 }
 header .player .player-btn.player-btn-pause {
-  background-position: -155px -46px;
+  background-position: -102px -54px;
 }
 header .player .player-track {
   width: 280px;
@@ -212,6 +206,7 @@ header .player-progress .player-progress-val {
   tops: 0;
   opacity: 0;
   background-image: linear-gradient(to right, #2196f3 0%, #ff0000 100%, rgba(0, 0, 0, 0) 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, white 6px, white 12px);
+  z-index: 2;
 }
 header .player-progress .player-progress-buffer {
   width: 0px;
@@ -219,6 +214,7 @@ header .player-progress .player-progress-buffer {
   position: absolute;
   bottom: 0;
   background-color: #e0e0e0;
+  z-index: 1;
 }
 header.player-live .player-progress-active .player-progress-val {
   opacity: 1;
@@ -244,6 +240,7 @@ header.player-archive .player-progress .player-progress-val {
 header.player-archive .player-progress-text {
   position: relative;
   font: 0.71429em "Arial Regular";
+  z-index: 3;
 }
 header.player-archive .player-progress-text .pp-text-left {
   float: left;
@@ -267,6 +264,9 @@ header.player-archive .player-progress-active .player-progress-val {
   height: 100%;
   opacity: 1;
 }
+header.player-archive .player-progress-active .player-progress-buffer {
+  height: 100%;
+}
 header.player-archive .player-progress-active .player-progress-loading-bar {
   display: none;
   -webkit-animation-play-state: paused;
@@ -275,6 +275,7 @@ header.player-archive .player-progress-active .player-progress-loading-bar {
   animation-play-state: paused;
 }
 header .live {
+  display: none;
   position: absolute;
   top: 50%;
   -moz-transform: translate(0, -50%);
@@ -296,11 +297,12 @@ header .live {
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
-  cursor: pointer;
   opacity: 0;
 }
 header .live.live-show {
+  display: block;
   opacity: 1;
+  cursor: pointer;
 }
 header .live:hover {
   background-color: #2095F2;
@@ -327,6 +329,7 @@ header .volume-player {
   cursor: pointer;
 }
 header .button-live {
+  position: relative;
   display: none;
   width: 60px;
   height: 60px;
@@ -337,9 +340,16 @@ header .button-live {
   cursor: pointer;
 }
 header .button-live .button-live-img {
+  background-position: -63px -55px;
   width: 14px;
   height: 18px;
-  background: url("../images/icons/play-live.png");
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 
 .content {
@@ -417,6 +427,7 @@ header .button-live .button-live-img {
 .blog {
   float: left;
   padding-top: 42px;
+  box-sizing: border-box;
 }
 .blog .blog-wrapper {
   height: 770px;
@@ -522,9 +533,6 @@ header .button-live .button-live-img {
   -webkit-box-shadow: 0px 10px 26px 0px #e0e0e0;
   box-shadow: 0px 10px 26px 0px #e0e0e0;
 }
-.archive .archive-form-search .afs-input:focus .afs-btn {
-  opacity: 1;
-}
 .archive .archive-form-search .afs-btn {
   position: absolute;
   top: 50%;
@@ -548,6 +556,16 @@ header .button-live .button-live-img {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   cursor: pointer;
+}
+.archive .archive-form-search .afs-filter-open {
+  background-position: -1px -33px;
+}
+.archive .archive-form-search-active .afs-btn {
+  -moz-transition: opacity 0.4s ease;
+  -o-transition: opacity 0.4s ease;
+  -webkit-transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease;
+  opacity: 1;
 }
 .archive .nav-calendar {
   position: absolute;
@@ -590,6 +608,15 @@ header .button-live .button-live-img {
 }
 .archive .nav-calendar .nc-item .nc-sub-item.nc-sub-item-selected {
   color: #2196F3;
+}
+.archive .nav-calendar .nc-reset-btn {
+  position: absolute;
+  top: 13px;
+  right: 40px;
+  cursor: pointer;
+}
+.archive .nav-calendar .nc-reset-btn:hover {
+  color: #f44336;
 }
 .archive .nav-calendar-active {
   -moz-transition: opacity 1s ease;
@@ -642,7 +669,7 @@ header .button-live .button-live-img {
   display: block;
   width: 8px;
   height: 11px;
-  background: url("../images/ultima-icon.png") -172px -46px;
+  background: url("../images/ultima-icon.png") -1px -58px;
 }
 
 footer {
@@ -656,11 +683,12 @@ footer .footer-address {
 footer .footer-icons {
   float: right;
 }
-footer .footer-icons .footer-icons-list-item:not(:last-child) {
-  margin-right: 28px;
-}
 footer .footer-icons .footer-icons-list-item {
   display: inline-block;
+  vertical-align: middle;
+}
+footer .footer-icons .footer-icons-list-item:not(:last-child) {
+  margin-right: 28px;
 }
 footer .footer-stats {
   margin-top: 35px;

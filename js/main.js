@@ -7,7 +7,7 @@ $(function(){
     UF.audio_current_time = $('.player-progress .pp-text-left');
     UF.event_type = 'click';
     UF.player_button = $('.player-btn');
-    UF.player_progress = $('.header .player-progress');
+    UF.player_progress = $('header .player-progress');
 	UF.player = {
 		el: $('.player')[0],
 		el_play:  $('#audio')[0],
@@ -41,25 +41,13 @@ $(function(){
 
 	setInterval(function() {
 		getStatisticUsers();
-	}, 1000);
+	}, 60000);
 
 	$('.live').on(UF.event_type, function() {
 		$('.player').toggleClass('broadcasting');
 	});
 
 
-	$(".archive-wrapper").mCustomScrollbar({
-		axis:"y",
-		theme:"my-theme",
-		callbacks: {
-			onInit:function(){
-				loadAudioArchive();
-			},
-        	onTotalScroll:function(){}
-		}
-	});
-
-	// loadAudioArchive();
 	$(".blog-wrapper").mCustomScrollbar({
     	axis:"y",
     	theme:"my-theme",
@@ -68,8 +56,23 @@ $(function(){
     			console.log("init");
 				loadPostBlog();
 			},
-			onTotalScroll:function(){}	
+			onTotalScroll:function(){
+				console.log('end');
+			}	
     	}
+	});
+
+	$(".archive-wrapper").mCustomScrollbar({
+		axis:"y",
+		theme:"my-theme",
+		callbacks: {
+			onInit:function(){
+				loadAudioArchive();
+			},
+        	onTotalScroll:function(){
+        		console.log('end');
+        	}
+		}
 	});
 
 	$('.audio').on(UF.event_type, function() {
@@ -96,37 +99,13 @@ $(function(){
 
 	$('.archive').on(UF.event_type, '.archive-audio', function() {
 		var audio_source = UF.audio.find('source');
-
 		audio_source.attr('src', $(this).find('.audio-info').attr('data-audio-url'));
 		$('.player-progress').addClass('player-progress-active');
-		togglePlayPause(UF.audio);
-		//console.log(UF.audio.prop('buffered').end(0));
-		UF.audio.on('progress', function() {
-			var bufferedEnd = UF.audio.prop('buffered').end(0);
-			var duration =  UF.audio.prop('duration');
-			// console.log(duration);
-			if (duration > 0) {
-			console.log(bufferedEnd);
-				console.log('duration > 0');
-			  $('.player-progress-buffer').width = ((bufferedEnd / duration)*100) + "%";
-			}
-		});
-		showDuration();
-		// timer = setInterval(function (){
-		// 	updateCurrentDuration(UF.audio);
-		// }, 1000);
-	})
+		togglePlayPause();
+	});
 
-	/*функция перемотки аудиозаписи*/
-	$('.header .player-progress').on(UF.event_type, function(e) {
-		var x = e.offsetX == undefined? e.layerX : e.offsetX,
-  			y = e.offsetY == undefined? e.layerY : e.offsetY,
-  			percent = (x / $(this).width() * 100).toFixed(),
-  			progressValRewind = $('.player-progress'),
-  			lengthAudio = $(UF.audio).prop('duration');
-
-  		progressValRewind.width(percent + '%');
-  		(UF.audio).prop("currentTime", lengthAudio * percent / 100);
+	UF.player_progress.on(UF.event_type, function(e) {
+		recordRewind(e);
 	})
 
 	$('.blog').on(UF.event_type, '.play-btn', function () {
@@ -136,38 +115,48 @@ $(function(){
 		} else {
 			$(this).siblings('audio').trigger('pause');	
 		}
-	})
+	});
     
     $('.nc-sub-item').on('click', function() {
         $('.nc-sub-item').removeClass('nc-sub-item-selected');
         $(this).addClass('nc-sub-item-selected');
-    })
+    });
 
 
    	$('.afs-filter').click(function () {
    		$('.nav-calendar').slideToggle('slow');
   		$('.nav-calendar').toggleClass('nav-calendar-active');
-	})
+  		$(this).toggleClass('afs-filter-open')
+	});
 
 	$('.fs-input').focusout(function () {
 		$('.form-search').removeClass('active');
 		$('.fs-btn').removeClass('search_active');
 		$('.mCSB_container').css('margin-right', '30px');
-	})
+	});
+	
+	$('.afs-input').focus(function() {
+		$('.archive-form-search').addClass('archive-form-search-active');
+	});
+
+	$('.afs-input').focusout(function() {
+		console.log("sdsd");
+		$('.archive-form-search').removeClass('archive-form-search-active');
+	});
 
 	$('.blog').hover(
-		function () {
+		function() {
 			showScroll('#mCSB_1_scrollbar_vertical');
 		},
-		function () {
+		function() {
 			hideScroll('#mCSB_1_scrollbar_vertical');
 		}
 	)
 	$('.archive').hover(
-		function () {
+		function() {
 			showScroll('#mCSB_2_scrollbar_vertical');
 		},
-		function () {
+		function() {
 			hideScroll('#mCSB_2_scrollbar_vertical');
 		}
 	)
@@ -189,7 +178,7 @@ $(function(){
     	var view = {};
     	$.ajax({	
     		type: 'GET',
-     		url: UF.api_ultima + '/played_songs.json',
+     		url: UF.api_ultima + '/played_songs.json?page[10]',
      		dataType: "json",
      		success: function (data) {
      			view = data || {};
@@ -210,9 +199,12 @@ $(function(){
 		})	
 	}
 
+	loadPostBlog();
+	loadAudioArchive();
+
     function loadPostBlog() {
-    	var blog = $('.blog .mCSB_container');
-    	var view = {};
+    	var blog = $('.blog .mCSB_container'),
+    	    view = {};
     	$.ajax({	
     		type: 'GET',
      		url: UF.api_ultima + '/posts.json',
@@ -259,43 +251,42 @@ $(function(){
 	}
 
 	function searchRecordsArchive(search_val) {
-		//TODO
+			$.ajax({	
+	    		type: 'GET',
+	     		url:  UF.api_ultima + '/played_songs.json?filter[audio_artist_or_audio_title_cont]=' + search_val,
+	     		dataType: "json",
+	     		success: function (data) {
+	     			// console.log(data);
+	     		}
+			});
 	}
 
-	function togglePlayPause(audio) {
-		//currentRecord.siblings('.progress').css('display', 'block');
-		// currentRecord.on('ended', function() {
-		// 	$(currentBtn).children('.play-pause-button').removeClass("pause");
-		// })
+	function recordRewind(offset) {
+		var x = offset.offsetX == undefined? offset.layerX : offset.offsetX,
+  			percent = (x / UF.player_progress.width() * 100).toFixed(),
+  			progressValRewind = $('.player-progress-val'),
+  			lengthAudio = $(UF.audio).prop('duration');
 
-	   	if (audio.prop("paused")) {
+  		progressValRewind.width(percent + '%');
+  		(UF.audio).prop("currentTime", lengthAudio * percent / 100);	
+	}
+
+	function togglePlayPause() {
+	   	if (UF.audio.prop("paused")) {
+	   		UF.audio.trigger('load');
+	   		UF.audio.trigger('play');
+	   		showDuration();
+			showBuffer();
 	   		$('.player-btn').addClass('player-btn-pause');
-	   		audio.trigger('load');
-	   		audio.trigger('play');
-	   		// $('.duration-record').not(currentRecord.siblings('.duration-record')).each(function() {
-	   		// 	var d = ($(this).siblings('audio').prop("duration"));		
-	   		// 	$(this).html(timeFormat(d.toFixed()*1000));	
-	   		// })
-	   		
-	   		//останавливаем все песни кроме текущей
-	  //  		$("audio").not(currentRecord).each(function() {
-	  //  			$(this).trigger('pause');
-	  //  			$(this).prop('currentTime', 0);
-	  //  		})
-
-	  //  		if (!cur_song) {
-			// 	cur_song = currentRecord;
-			// 	console.log('cur_song', cur_song);
-			// } else {
-			// 	prev_song = $(cur_song).closest('.record-archive');
-			// 	cur_song = currentRecord;
-			// 	prev_song.removeClass('current');
-			// }
 	   	}
 	   	else {	
+	   		UF.audio.trigger('pause');
 	   		$('.player-btn').removeClass("player-btn-pause");
-	   		audio.trigger('pause');
 	    }
+
+		UF.audio.on('ended', function() {
+			console.log('end');	
+		});
   	}
 
     function playStopPlayer() {
@@ -310,14 +301,23 @@ $(function(){
             UF.player.state = 'play';
             $(this).addClass('player-btn-pause');
             $('.player-progress').addClass('player-progress-active');
-
-    
         }	
+    }
+
+    function showBuffer() {
+    	UF.audio.on('progress', function() {
+			var duration =  UF.audio.prop('duration'),
+			    bufferedEnd = UF.audio.prop('buffered').end(0),
+			    percent = (bufferedEnd / duration) * 100;
+	
+			if ((UF.audio.prop('buffered') != undefined) && (UF.audio.prop('buffered').length > 0)) {
+			  $('.player-progress-buffer').css({ 'width' : percent + '%'});
+			}
+		});	
     }
    
     function showDuration() {
     	$(UF.audio).on('timeupdate', function() {
-    		//console.log('the time was updated to: ' + this.currentTime);
     		var sec = parseInt($(UF.audio).prop("currentTime") % 60),
 		        min = parseInt($(UF.audio).prop("currentTime") / 60) % 60,
         	    percentage = 0;
@@ -326,7 +326,7 @@ $(function(){
 			}
 			UF.audio_current_time.html(min + ':' + sec);
 			if ($(UF.audio).prop("currentTime") > 0) {	
-   				percentage = Math.floor((100 / $(UF.audio).prop("duration")) * $(UF.audio).prop("currentTime"));
+   				percentage = (100 / $(UF.audio).prop("duration")) * $(UF.audio).prop("currentTime");
 			}
    			$('.player-progress-val').width(percentage + "%");
 		});
@@ -375,7 +375,6 @@ $(function(){
 
 	function getStatisticUsers() {
 		$.getJSON(UF.api_ultima + '/stats', function(data) {
-			console.log(data);
 			$('.fs-online .fsi-val').html(data.current_listeners);
 			$('.fs-peak .fsi-val').html(data.peak_listeners);
 			$('.fs-today .fsi-val').html(data.unique_listeners);

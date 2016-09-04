@@ -5,7 +5,7 @@
 	<title>Ultima</title>
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css">
 	<meta name=viewport content="width=device-width, initial-scale=1">
 	<meta name="title" content="Онлайн Радио Ультима | Online Radio Ultima" />
 	<meta name="description" content="Музыкальная радиостанция Ultima" />
@@ -19,7 +19,7 @@
 	<header class="player-live">
 		<div class="player">
 			<div class="player-btn ultima-icon">
-				<audio id="audio" preload="metadata">
+				<audio id="audio" preload="auto">
 					<source src="http://sc.ultima.fm:8001/stream/1/stream.mp3" type="audio/mpeg">
                     <source src="http://sc.ultima.fm:8001/stream/1/stream.mp3" type="audio/ogg">
                     <source src="http://sc.ultima.fm:8001/stream/1/stream.mp3" type="audio/acc">   
@@ -44,7 +44,7 @@
 		<a href="/" class="ultima-icon ultima-icon-logo logo"></a>
 		<div id="slider" class="volume-player"></div>
 	<div class="button-live">
-		<div class="button-live-img"></div> 
+		<div class="ultima-icon button-live-img"></div> 
 	</div>
 	</header>
 
@@ -54,7 +54,7 @@
                 <div class="post">
                     <div class="post-header">	
                         <a class="post-icon" href="https://vk.com/club109707144?w=wall-109707144_87/all" target="_blank">
-                            <div class="ultima-icon ultima-icon-vk"></div>
+                            <div class="ultima-icon ultima-icon-vkontakte"></div>
                         </a>
                         <div class="post-published-date">12.08.16</div>
                     </div>
@@ -82,42 +82,6 @@
                                     <span classs="audio-info-artist">wait what</span>
                                     <span class="divider">-</span>
                                     <span class="audio-info-title">notorious xx (2009)</span>
-                                </div>
-                            </div>	
-                        </div>	
-                    </div>
-                </div>
-                <div class="post">
-                    <div class="post-header">	
-                        <a class="post-icon" href="https://vk.com/club109707144?w=wall-109707144_87/all" target="_blank">
-                            <div class="ultima-icon ultima-icon-facebook"></div>
-                        </a>
-                        <div class="post-published-date">12.08.16</div>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid necessitatibus, odio accusamus! Minus ea, consequuntur sequi sed, est aut voluptate omnis odit vel necessitatibus adipisci illo a aliquam asperiores pariatur?</div>
-                        <div class="post-image">
-                            <img src="images/ultima.png">
-                        </div>
-                        <div class="post-wall-audio">
-                            <div class="post-audio audio clear">
-                                <div class="post-audio-play">
-                                    <button class="audio-play"></button>
-                                </div>
-                                <div class="audio-info" data-audio-url="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
-                                    <span classs="ai-artist">wait what</span>
-                                    <span class="divider">-</span>
-                                    <span class="ai-title">notorious xx (2009)</span>
-                                </div>
-                            </div>
-                            <div class="post-audio audio clear">
-                                <div class="post-audio-play">
-                                    <button class="audio-play"></button>
-                                </div>
-                                <div class="audio-info" data-audio-url="http://kolber.github.io/audiojs/demos/mp3/01-dead-wrong-intro.mp3">
-                                    <span classs="ai-artist">wait what</span>
-                                    <span class="divider">-</span>
-                                    <span class="ai-title">notorious xx (2009)</span>
                                 </div>
                             </div>	
                         </div>	
@@ -222,6 +186,7 @@
 							<div class="ncts-item nc-sub-item">23:00</div>
 						</div>
 					</div>
+					<div class="nc-reset-btn">Сбросить</div>
 				</div> 
 			</div> 
 			<div class="archive-wrapper">
@@ -259,7 +224,7 @@
         <div class="footer-icons">
             <div class="footer-icons-list">
                 <a class="footer-icons-list-item" href="https://vk.com/club109707144" target="_blank">
-                    <div class="ultima-icon ultima-icon-vk"></div>
+                    <div class="ultima-icon ultima-icon-vkontakte"></div>
                 </a>
                 <a class="footer-icons-list-item" href="https://www.facebook.com/groups/ultimafm/" target="_blank">
                     <div class="ultima-icon ultima-icon-facebook"></div>
@@ -295,8 +260,8 @@
     </footer>
 <script src="js/jquery.js"></script>
 <script src="js/main.js"></script>
-<script src="js/jquery.mCustomScrollbar.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 </body>
 </html>
