@@ -141,16 +141,18 @@ header .player .player-track {
   color: #212121;
 }
 header .player .player-track .broadcast {
-  font: 0.85714em "Roboto Medium";
+  font-size: 0.85714em;
   text-transform: uppercase;
   color: #2095F2;
 }
-header .player .player-track .player-track-artist {
-  font: 1.14286em "Roboto Regular";
-}
+header .player .player-track .player-track-artist,
 header .player .player-track .player-track-title {
-  font: 1.14286em "Roboto Light";
-  font-weight: 400;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 1.14286em;
+}
+header .player .player-track .player-track-artist {
+  font-weight: 500;
 }
 header keyframes progress_loading_animate from {
   background-position: 0 0;
@@ -199,14 +201,18 @@ header .player-progress .player-progress-loading-bar {
   -o-animation-play-state: paused;
   animation-play-state: paused;
 }
-header .player-progress .player-progress-val {
+header .player-progress .player-progress-wrap-val {
   width: 100%;
   height: 4px;
   position: absolute;
-  tops: 0;
+  top: 0;
   opacity: 0;
+  overflow: hidden;
   background-image: linear-gradient(to right, #2196f3 0%, #ff0000 100%, rgba(0, 0, 0, 0) 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, white 6px, white 12px);
-  z-index: 2;
+}
+header .player-progress .player-progress-wrap-val .player-progress-val {
+  height: 100%;
+  background-color: #eeeeee;
 }
 header .player-progress .player-progress-buffer {
   width: 0px;
@@ -216,9 +222,12 @@ header .player-progress .player-progress-buffer {
   background-color: #e0e0e0;
   z-index: 1;
 }
-header.player-live .player-progress-active .player-progress-val {
+header.player-live .player-progress-active .player-progress-wrap-val {
   opacity: 1;
   transition: opacity .9s linear;
+}
+header.player-live .player-progress-active .player-progress-wrap-val .player-progress-val {
+  height: 0;
 }
 header.player-live .player-progress-active .player-progress-loading-bar {
   position: relative;
@@ -233,9 +242,6 @@ header.player-archive .player-progress {
   -webkit-transition: all 1s ease;
   transition: all 1s ease;
   background-color: #eeeeee;
-}
-header.player-archive .player-progress .player-progress-val {
-  width: 0;
 }
 header.player-archive .player-progress-text {
   position: relative;
@@ -260,9 +266,10 @@ header.player-archive:hover .player-progress-text .pp-text-left,
 header.player-archive:hover .player-progress-text .pp-text-right {
   display: block;
 }
-header.player-archive .player-progress-active .player-progress-val {
+header.player-archive .player-progress-active .player-progress-wrap-val {
   height: 100%;
   opacity: 1;
+  z-index: 2;
 }
 header.player-archive .player-progress-active .player-progress-buffer {
   height: 100%;
@@ -525,7 +532,7 @@ header .button-live .button-live-img {
   -o-transition: box-shadow 0.4s ease;
   -webkit-transition: box-shadow 0.4s ease;
   transition: box-shadow 0.4s ease;
-  font: 16px 'Roboto Light', sans-serif;
+  font-size: 1.14286em;
   box-sizing: border-box;
 }
 .archive .archive-form-search .afs-input:focus {
@@ -560,6 +567,11 @@ header .button-live .button-live-img {
 .archive .archive-form-search .afs-filter-open {
   background-position: -1px -33px;
 }
+.archive .archive-form-search-wrap-active {
+  -moz-box-shadow: 0px 10px 26px 0px #e0e0e0;
+  -webkit-box-shadow: 0px 10px 26px 0px #e0e0e0;
+  box-shadow: 0px 10px 26px 0px #e0e0e0;
+}
 .archive .archive-form-search-active .afs-btn {
   -moz-transition: opacity 0.4s ease;
   -o-transition: opacity 0.4s ease;
@@ -568,17 +580,15 @@ header .button-live .button-live-img {
   opacity: 1;
 }
 .archive .nav-calendar {
-  position: absolute;
+  position: relative;
   width: 100%;
   box-sizing: border-box;
   background-color: #fff;
   z-index: 1;
   color: #616161;
   padding: 0 40px;
-  font: 1.14286em "Roboto Light";
-  opacity: 0;
+  font-size: 1.14286em;
   display: none;
-  border: 1px solid red;
 }
 .archive .nav-calendar .nc-row {
   text-align: justify;
@@ -592,8 +602,13 @@ header .button-live .button-live-img {
   display: inline-block;
 }
 .archive .nav-calendar .nc-item {
+  opacity: 0;
   padding: 14px 0;
   border-bottom: 1px solid #eee;
+  -moz-transition: opacity 3s ease;
+  -o-transition: opacity 3s ease;
+  -webkit-transition: opacity 3s ease;
+  transition: opacity 3s ease;
 }
 .archive .nav-calendar .nc-item .nc-sub-item {
   display: inline-block;
@@ -618,14 +633,16 @@ header .button-live .button-live-img {
 .archive .nav-calendar .nc-reset-btn:hover {
   color: #f44336;
 }
-.archive .nav-calendar-active {
-  -moz-transition: opacity 1s ease;
-  -o-transition: opacity 1s ease;
-  -webkit-transition: opacity 1s ease;
-  transition: opacity 1s ease;
+.archive .nav-calendar-active .nc-item {
+  -moz-transition: opacity 3s ease;
+  -o-transition: opacity 3s ease;
+  -webkit-transition: opacity 3s ease;
+  transition: opacity 3s ease;
   opacity: 1;
 }
 .archive .archive-wrapper {
+  position: absolute;
+  top: 78px;
   height: 770px;
   padding-left: 20px;
 }
