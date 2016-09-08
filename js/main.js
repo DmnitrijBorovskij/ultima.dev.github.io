@@ -3,7 +3,9 @@ $(function(){
 
 	if (!UF) var UF = {};
 	UF.api_ultima = 'http://api.ultima.fm';
+	UF.stream = 'http://sc.ultima.fm:8001/stream/1/stream.mp3';
     UF.audio = $('#audio');
+    UF.audio_source = UF.audio.find('source');
     UF.audio_duration = UF.audio.attr('data-duration', 0);
     UF.audio_current_time = $('.player-progress .pp-text-left');
     UF.event_type = 'click';
@@ -12,8 +14,9 @@ $(function(){
 	UF.player = {
 		el: $('.player')[0],
 		el_play:  $('#audio')[0],
-		el_author:  $('.player-track-artist')[0],
-		el_song:  $('.player-track-title')[0],
+		el_author:  $('.player-track-artist'),
+		el_song:  $('.player-track-title'),
+		duration: $('.pp-text-right'),
 		state: 'pause',
         setVolume: function() {
             $(UF.player.el_play).prop("volume", "0.5");   
@@ -31,13 +34,15 @@ $(function(){
 	}
     
     UF.player_button.on(UF.event_type, playStopPlayer);
-	UF.player.updateMeta();
+	//UF.player.updateMeta();
     UF.player.setVolume();
+    loadPostBlog();
+	loadAudioArchive();
     protectEmail();
 	getStatisticUsers();
     
 	setInterval(function(){
-		UF.player.updateMeta();
+		//UF.player.updateMeta();
 	}, 5000);
 
 	setInterval(function() {
@@ -45,7 +50,12 @@ $(function(){
 	}, 60000);
 
 	$('.live').on(UF.event_type, function() {
-		$('.player').toggleClass('broadcasting');
+		UF.audio_source.attr('src', UF.stream);
+		$('header').removeClass('player-archive').addClass('player-live');
+		changePlayer('block');
+
+		//TODO stop event progress
+		$('.player-progress-buffer').hide();
 	});
 
 	$(".blog-wrapper").mCustomScrollbar({
@@ -76,36 +86,34 @@ $(function(){
 		}
 	});
 
-	loadPostBlog();
-	loadAudioArchive();
-
 	$('body').on(UF.event_type, '.audio', function() {
-		console.log(!$('.player-archive').length);
+		var audio_duration = $(this).find('.audio-duration').text(),
+		    audio_author   = $(this).find('.ai-singer').text(),
+		    audio_song     = $(this).find('.ai-title').text();
+
 		if (!$('.player-archive').length) {
 			$('header').removeClass('player-live').addClass('player-archive ');
+        	changePlayer('none');
 		}
 		$('.live').addClass('live-show');
+		UF.player.el_author.text(audio_author);
+		UF.player.el_song.text(audio_song);
+		UF.player.duration.text(audio_duration);
 	});
 
 	$('body').on(UF.event_type, '.archive-audio', function() {
-		console.log(event.which);
 		$('.archive-audio').removeClass('archive-audio-playing');
 		$(this).addClass('archive-audio-playing');
 	})
 
 	$('.archive-form-search').keyup(function(){
 		var search_val = $(".archive-form-search").find(".afs-input").val();
-		console.log(search_val);
+		//console.log(search_val);
   		searchRecordsArchive(search_val);
 	});
 
-	$(".blog").on(UF.event_type, ".play-btn", function() {
-  		$(this).toggleClass('stop');
-	});
-
 	$('.archive').on(UF.event_type, '.archive-audio', function() {
-		var audio_source = UF.audio.find('source');
-		audio_source.attr('src', $(this).find('.audio-info').attr('data-audio-url'));
+		UF.audio_source.attr('src', $(this).find('.audio-info').attr('data-audio-url'));
 		$('.player-progress').addClass('player-progress-active');
 		togglePlayPause();
 	});
@@ -123,13 +131,13 @@ $(function(){
 		}
 	});
     
-    $('.nc-sub-item').on('click', function() {
+    $('.nc-sub-item').on(UF.event_type, function() {
         $('.nc-sub-item').removeClass('nc-sub-item-selected');
         $(this).addClass('nc-sub-item-selected');
     });
 
 
-   	$('.afs-filter').click(function () {
+   	$('.afs-filter').on(UF.event_type, function () {
    		$('.nav-calendar').slideToggle('slow');
   		$('.nav-calendar').toggleClass('nav-calendar-active');
   		$(this).toggleClass('afs-filter-open');
@@ -174,6 +182,12 @@ $(function(){
         	     }
 	});
 
+	function changePlayer(visible) {
+		$(".player-track").fadeOut(300, function () {
+            $('.broadcast').css({'display': visible});
+        }).fadeIn(300);
+	}
+
 	function loadAudioArchive() {
     	var archive = $('.archive .archive-wrapper');
     	var view = {};
@@ -194,7 +208,6 @@ $(function(){
    					}
    				}
    	
-
   				getTemplate('../views/archive_audio.html', archive, view);
      		}
 		})	
@@ -214,6 +227,12 @@ $(function(){
    						return convertUnixtime(timestamp, render);	
    					}
    				}
+   				view.timeFormat = function () {
+					return function (ms, render) {
+   						return timeFormat(ms, render);	
+   					}
+   				}
+   				console.log(data);
    				getTemplate('../views/blog_post.html', blog, view);
      		}
 		})
@@ -282,6 +301,14 @@ $(function(){
 
 		UF.audio.on('ended', function() {
 			console.log('end');	
+			var next_track = $('.archive-audio-playing').next();
+			console.log(!next_track.length);
+			console.log($('.archive-audio').first());
+            if (!next_track.length) next_track = $('.archive-audio').first();
+            next_track.addClass('archive-audio-playing').siblings().removeClass('archive-audio-playing');
+            UF.audio_source.attr('src', next_track.find('.audio-info').attr('data-audio-url'));
+            UF.audio.trigger('load');
+	   		UF.audio.trigger('play');
 		});
   	}
 

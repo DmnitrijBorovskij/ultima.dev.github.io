@@ -26,8 +26,8 @@
 						<div class="post-audio-play">
                             <button class="audio-play"></button>
                         </div>
-                        <div class="audio-info" data-audio-url="{{ audio_url }}" data-audio-duration="{{ duration }}">
-                            <span classs="ai-artist">{{ audio_artist }}</span>
+                        <div class="audio-info" data-audio-url="{{ audio_url }}" data-audio-duration="{{# timeFormat}} {{ duration }} {{/ timeFormat}}">
+                            <span class="ai-singer">{{ audio_artist }}</span>
                             <span class="divider">-</span>
                             <span class="ai-title">{{ audio_title }}</span>
                         </div>
