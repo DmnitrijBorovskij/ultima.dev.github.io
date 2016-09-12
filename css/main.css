@@ -258,7 +258,7 @@ header.player-archive .player-progress-text .pp-text-right {
   margin-right: 15px;
 }
 header.player-archive .player-progress-text .pp-text-left,
-header.player-archive .player-progress-text .pp-text-left {
+header.player-archive .player-progress-text .pp-text-right {
   opacity: 0;
 }
 header.player-archive:hover .player-progress-text {
@@ -301,7 +301,7 @@ header .live {
   -o-transition: all 0.6s ease;
   -webkit-transition: all 0.6s ease;
   transition: all 0.6s ease;
-  width: 147px;
+  width: 168px;
   height: 12px;
   padding: 5px;
   right: 200px;
@@ -574,7 +574,18 @@ header .button-live .button-live-img {
 .archive .archive-form-search .afs-filter-open {
   background-position: -1px -33px;
 }
+.archive .archive-form-search-wrap {
+  -moz-transition: box-shadow 0.3s ease 0.4s;
+  -o-transition: box-shadow 0.3s ease 0.4s;
+  -webkit-transition: box-shadow 0.3s ease;
+  -webkit-transition-delay: 0.4s;
+  transition: box-shadow 0.3s ease 0.4s;
+}
 .archive .archive-form-search-wrap-active {
+  -moz-transition: box-shadow 0.6s ease;
+  -o-transition: box-shadow 0.6s ease;
+  -webkit-transition: box-shadow 0.6s ease;
+  transition: box-shadow 0.6s ease;
   -moz-box-shadow: 0px 10px 26px 0px #e0e0e0;
   -webkit-box-shadow: 0px 10px 26px 0px #e0e0e0;
   box-shadow: 0px 10px 26px 0px #e0e0e0;
@@ -612,10 +623,10 @@ header .button-live .button-live-img {
   opacity: 0;
   padding: 14px 0;
   border-bottom: 1px solid #eee;
-  -moz-transition: opacity 0.4s ease;
-  -o-transition: opacity 0.4s ease;
-  -webkit-transition: opacity 0.4s ease;
-  transition: opacity 0.4s ease;
+  -moz-transition: opacity 0.1s ease;
+  -o-transition: opacity 0.1s ease;
+  -webkit-transition: opacity 0.1s ease;
+  transition: opacity 0.1s ease;
 }
 .archive .nav-calendar .nc-item .nc-sub-item {
   display: inline-block;
@@ -635,12 +646,14 @@ header .button-live .button-live-img {
   position: absolute;
   top: 13px;
   right: 40px;
+  opacity: 0;
   cursor: pointer;
 }
 .archive .nav-calendar .nc-reset-btn:hover {
   color: #f44336;
 }
-.archive .nav-calendar-active .nc-item {
+.archive .nav-calendar-active .nc-item,
+.archive .nav-calendar-active .nc-reset-btn {
   -moz-transition: opacity 0.4s ease 0.4s;
   -o-transition: opacity 0.4s ease 0.4s;
   -webkit-transition: opacity 0.4s ease;

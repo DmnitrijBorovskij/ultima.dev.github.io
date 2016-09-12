@@ -314,17 +314,15 @@ header {
 			.pp-text-left {
 				float: left;
 				margin-left: 15px;
-				//display: none;
 			}
 
 			.pp-text-right {
 				float: right;
 				margin-right: 15px;
-			//	display: none;
 			}
 
 			.pp-text-left,
-            .pp-text-left {
+            .pp-text-right {
 				opacity: 0;
             }
 		}
@@ -368,7 +366,7 @@ header {
         @include transform(translate(0, -50%));
         @include border-radius(3px);
         @include transition(all .6s ease);
-        width: 147px;
+        width: 168px;
         height: 12px;
         padding: 5px;
         right: 200px;
@@ -652,7 +650,13 @@ header {
 			background-position: -1px -33px;
 		}
 	}
+
+	.archive-form-search-wrap {
+		@include transition(box-shadow .3s ease .4s);
+	}
+
 	.archive-form-search-wrap-active {
+		@include transition(box-shadow .6s ease);
 		@include box-shadow (0px 10px 26px 0px #e0e0e0);
 	}
 
@@ -691,7 +695,7 @@ header {
         	opacity: 0;
         	padding: 14px 0;
             border-bottom: 1px solid #eee;
-            @include transition (opacity 0.4s ease);
+            @include transition (opacity 0.1s ease);
 
             .nc-sub-item {
                 display: inline-block;
@@ -708,13 +712,13 @@ header {
             } 
         }
         .nav-calendar-year-section {
-        	// padding: 12px 0 0 10px; 
+       
         }
         
         .nav-calendar-month-section {
 
             .ncms-item { 
-            	// margin-bottom: 12px;
+            	
             }
         }
 
@@ -722,6 +726,7 @@ header {
         	position: absolute;
     		top: 13px;
     		right: 40px;
+    		opacity: 0;
     		cursor: pointer;
 
     		&:hover {
@@ -731,7 +736,8 @@ header {
     }
 
     .nav-calendar-active {
-    	.nc-item {
+    	.nc-item,
+    	.nc-reset-btn {
     		@include transition (opacity 0.4s ease 0.4s);
     		opacity: 1;
     	}
