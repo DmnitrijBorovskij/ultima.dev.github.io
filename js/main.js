@@ -238,42 +238,19 @@ $(function(){
 		})
     }
 
-    function checkUpdateBlog () {
-		// setInterval(function () {
-		// 	$.ajax({	
-	 //    		type: 'POST',
-	 //     		url: 'wp-content/themes/ultima/search_new_post.php',
-	 //     		dataType: "json",
-	 //     		data: {"date_last_post" : date_last_post},
-	 //     		success: function (resp) {
-
-		//      		view = resp;
-		//        		if (view.length != 0) {
-		//        			console.log(view);
-		//        			//$('.post:first').before("<div class='post'><li class='item'>Тест3</li></div>");
-		//        			date_last_post = view[0].created_at;
-		//        			view.convertUnixtime = function () {
-		// 					return function (timestamp, render) {
-		//    						return convertUnixtime(timestamp, render);	
-		//    					}
-		//    				}
-		//        			//console.log(date_last_post);
-		// 				getTemplate('wp-content/themes/ultima/templates/template.html');	
-		// 			}
-	 //     		}
-		// 	})
-		// }, 10000);
+    function updateBlog () {
+		//TODO
 	}
 
 	function searchRecordsArchive(search_val) {
-			$.ajax({	
-	    		type: 'GET',
-	     		url:  UF.api_ultima + '/played_songs.json?filter[audio_artist_or_audio_title_cont]=' + search_val,
-	     		dataType: "json",
-	     		success: function (data) {
-	     			// console.log(data);
-	     		}
-			});
+		$.ajax({	
+    		type: 'GET',
+     		url:  UF.api_ultima + '/played_songs.json?filter[audio_artist_or_audio_title_cont]=' + search_val,
+     		dataType: "json",
+     		success: function (data) {
+     			// console.log(data);
+     		}
+		});
 	}
 
 	function recordRewind(offset) {
@@ -414,6 +391,13 @@ $(function(){
 		var url = 'mailto:'+email;
 		$('.mail').html('<a href="' + url + '">' + email + '</a>');	
     }
+
+    function getTruncatedText(text, size) {
+		var text_trunc = (text.replace(/(<([^>]+)>)/ig,"")).substr(0,size);
+		text_trunc = text_trunc.length < text.length ? text_trunc.substr(0, text_trunc.lastIndexOf(' ')) : text_trunc;
+	
+		return text_trunc.length < text.length ? text_trunc + '...' : text_trunc;
+	}
 })
 
 
