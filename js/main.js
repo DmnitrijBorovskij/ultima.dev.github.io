@@ -11,6 +11,7 @@ $(function(){
     UF.event_type = 'click';
     UF.player_button = $('.player-btn');
     UF.player_progress = $('header .player-progress');
+    UF.player_timer;
 	UF.player = {
 		el: $('.player')[0],
 		el_play:  $('#audio')[0],
@@ -34,7 +35,7 @@ $(function(){
 	}
     
     UF.player_button.on(UF.event_type, playStopPlayer);
-	//UF.player.updateMeta();
+	UF.player.updateMeta();
     UF.player.setVolume();
     loadPostBlog();
 	loadAudioArchive();
@@ -42,7 +43,7 @@ $(function(){
 	getStatisticUsers();
     
 	setInterval(function(){
-		//UF.player.updateMeta();
+		UF.player.updateMeta();
 	}, 5000);
 
 	setInterval(function() {
@@ -64,7 +65,7 @@ $(function(){
     	callbacks: {
     		onInit:function(){
     			console.log("init");
-				loadPostBlog();
+				// loadPostBlog();
 			},
 			onTotalScroll:function(){
 				console.log('end');
@@ -95,7 +96,6 @@ $(function(){
 			$('header').removeClass('player-live').addClass('player-archive ');
         	changePlayer('none');
 		}
-		$('.live').addClass('live-show');
 		UF.player.el_author.text(audio_author);
 		UF.player.el_song.text(audio_song);
 		UF.player.duration.text(audio_duration);
@@ -172,14 +172,14 @@ $(function(){
 
 	$("#slider" ).slider({
     	animate: true, 
-        	     range: "min",
-        	     value: 0.5,
-        	     min: 0, 
-        	     max: 1,
-		         step: 0.01,
-		         slide: function( event, ui ) {
-            	   $('#audio').prop("volume", ui.value);
-        	     }
+        range: "min",
+       	value: 0.5,
+	    min: 0, 
+       	max: 1,
+		step: 0.01,
+		slide: function( event, ui ) {
+            $('#audio').prop("volume", ui.value);
+        }
 	});
 
 	function changePlayer(visible) {
@@ -232,7 +232,6 @@ $(function(){
    						return timeFormat(ms, render);	
    					}
    				}
-   				console.log(data);
    				getTemplate('../views/blog_post.html', blog, view);
      		}
 		})
@@ -267,7 +266,9 @@ $(function(){
 	   	if (UF.audio.prop("paused")) {
 	   		UF.audio.trigger('load');
 	   		UF.audio.trigger('play');
-	   		showDuration();
+	   		UF.player_timer = setInterval(function (){
+	   			showDuration();
+			}, 100);
 			showBuffer();
 	   		$('.player-btn').addClass('player-btn-pause');
 	   	}
@@ -317,19 +318,22 @@ $(function(){
     }
    
     function showDuration() {
-    	$(UF.audio).on('timeupdate', function() {
-    		var sec = parseInt($(UF.audio).prop("currentTime") % 60),
-		        min = parseInt($(UF.audio).prop("currentTime") / 60) % 60,
-        	    percentage = 0;
-			if (sec < 10) {
-				sec = '0' + sec;
-			}
-			UF.audio_current_time.html(min + ':' + sec);
-			if ($(UF.audio).prop("currentTime") > 0) {	
-   				percentage = (100 / $(UF.audio).prop("duration")) * $(UF.audio).prop("currentTime");
-			}
-   			$('.player-progress-val').css({'margin-left' : percentage + "%"});
-		});
+		var sec = parseInt($(UF.audio).prop("currentTime") % 60),
+	        min = parseInt($(UF.audio).prop("currentTime") / 60) % 60,
+    	    percentage = 0;
+		if (sec < 10) {
+			sec = '0' + sec;
+		}
+		UF.audio_current_time.html(min + ':' + sec);
+
+		if ($(UF.audio).prop("currentTime") > 0) {	
+			percentage = (100 / $(UF.audio).prop("duration")) * $(UF.audio).prop("currentTime");
+		}
+		if (percentage == 100) {
+			clearInterval(UF.player_timer);
+		}
+
+		$('.player-progress-val').css({'margin-left' : percentage + "%"});
 	}
 
 	function timeFormat (sec, render) {

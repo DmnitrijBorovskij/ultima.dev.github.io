@@ -197,7 +197,7 @@ header {
 			.broadcast {
 				color: #2095F2;
 				letter-spacing: 1px;
-				font: em(12,14) 'Roboto', sans-serif;
+				font-size: em(12,14);
 				font-weight: 500;
 				line-height: 24px;
 				text-transform: uppercase;
@@ -259,6 +259,7 @@ header {
   			background-image: linear-gradient(to right, #2196F3 0%, #ff0000 100%, transparent 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,1) 6px, rgba(255,255,255,1) 12px);
 
 			.player-progress-val {
+				@include transition (all .1s ease);
 				height: 100%;
 				background-color: #eeeeee;
 			}
@@ -300,7 +301,6 @@ header {
 	&.player-archive {
 		.player-progress {
 			cursor: pointer;
-			//@include transition(all 1s ease);
 			background-color: #eeeeee;
 		}
 
@@ -357,10 +357,21 @@ header {
 				@include animation-play-stop(paused);
 			}
 		}
+
+		.live {
+        	visibility: visible;
+        	opacity: 1;
+        	cursor: pointer;
+        	
+        	&:hover {
+            	background-color: #2095F2;
+            	color: #fff;
+        	}
+        }
 	}
 
 	.live {
-		display: none;
+		visibility: hidden;
         position: absolute;
         top: 50%;
         @include transform(translate(0, -50%));
@@ -376,17 +387,6 @@ header {
         text-transform: uppercase;
         opacity: 0;
         letter-spacing: 1px;
-
-        &.live-show {
-        	display: block;
-        	opacity: 1;
-        	cursor: pointer;
-        }
-
-        &:hover {
-            background-color: #2095F2;
-            color: #fff;
-        }
 	}
 
 	.logo {
@@ -769,12 +769,13 @@ header {
             	white-space: nowrap;
             	text-overflow: ellipsis;
 
-            	.audio-info-title {
-					font: em(16,14) 'Roboto Regular';
+            	.ai-title {
+					font-size: em(16,14);
             	}
 
-            	.audio-info-artist {
-					font: em(16,14) 'Roboto Light';
+            	.ai-singer {
+					font-size: em(16,14);
+					font-weight: 500;
             	}
             }
 

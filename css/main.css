@@ -143,7 +143,7 @@ header .player .player-track {
 header .player .player-track .broadcast {
   color: #2095F2;
   letter-spacing: 1px;
-  font: 0.85714em "Roboto", sans-serif;
+  font-size: 0.85714em;
   font-weight: 500;
   line-height: 24px;
   text-transform: uppercase;
@@ -214,6 +214,10 @@ header .player-progress .player-progress-wrap-val {
   background-image: linear-gradient(to right, #2196f3 0%, #ff0000 100%, rgba(0, 0, 0, 0) 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, white 6px, white 12px);
 }
 header .player-progress .player-progress-wrap-val .player-progress-val {
+  -moz-transition: all 0.1s ease;
+  -o-transition: all 0.1s ease;
+  -webkit-transition: all 0.1s ease;
+  transition: all 0.1s ease;
   height: 100%;
   background-color: #eeeeee;
 }
@@ -286,8 +290,17 @@ header.player-archive .player-progress-active .player-progress-loading-bar {
   -o-animation-play-state: paused;
   animation-play-state: paused;
 }
+header.player-archive .live {
+  visibility: visible;
+  opacity: 1;
+  cursor: pointer;
+}
+header.player-archive .live:hover {
+  background-color: #2095F2;
+  color: #fff;
+}
 header .live {
-  display: none;
+  visibility: hidden;
   position: absolute;
   top: 50%;
   -moz-transform: translate(0, -50%);
@@ -311,15 +324,6 @@ header .live {
   text-transform: uppercase;
   opacity: 0;
   letter-spacing: 1px;
-}
-header .live.live-show {
-  display: block;
-  opacity: 1;
-  cursor: pointer;
-}
-header .live:hover {
-  background-color: #2095F2;
-  color: #fff;
 }
 header .logo {
   position: absolute;
@@ -686,11 +690,12 @@ header .button-live .button-live-img {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.archive .archive-wrapper .archive-audio .audio-info .audio-info-title {
-  font: 1.14286em "Roboto Regular";
+.archive .archive-wrapper .archive-audio .audio-info .ai-title {
+  font-size: 1.14286em;
 }
-.archive .archive-wrapper .archive-audio .audio-info .audio-info-artist {
-  font: 1.14286em "Roboto Light";
+.archive .archive-wrapper .archive-audio .audio-info .ai-singer {
+  font-size: 1.14286em;
+  font-weight: 500;
 }
 .archive .archive-wrapper .archive-audio .audio-duration {
   float: right;
