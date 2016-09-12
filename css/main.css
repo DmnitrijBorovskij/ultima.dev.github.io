@@ -101,10 +101,10 @@ header {
   box-shadow: 0px 19px 52px 0 #b9b9b9;
 }
 header.player-archive:hover .player-progress-active {
-  -moz-transition: height 0.3s ease-out;
-  -o-transition: height 0.3s ease-out;
-  -webkit-transition: height 0.3s ease-out;
-  transition: height 0.3s ease-out;
+  -moz-transition: height 90ms ease-out;
+  -o-transition: height 90ms ease-out;
+  -webkit-transition: height 90ms ease-out;
+  transition: height 90ms ease-out;
   height: 16px;
 }
 header .player {
@@ -143,7 +143,8 @@ header .player .player-track {
 header .player .player-track .broadcast {
   color: #2095F2;
   letter-spacing: 1px;
-  font: 0.85714em "Roboto Medium", sans-serif;
+  font: 0.85714em "Roboto", sans-serif;
+  font-weight: 500;
   line-height: 24px;
   text-transform: uppercase;
 }
@@ -239,10 +240,6 @@ header.player-live .player-progress-text {
 }
 header.player-archive .player-progress {
   cursor: pointer;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  -webkit-transition: all 1s ease;
-  transition: all 1s ease;
   background-color: #eeeeee;
 }
 header.player-archive .player-progress-text {
@@ -255,12 +252,14 @@ header.player-archive .player-progress-text {
 header.player-archive .player-progress-text .pp-text-left {
   float: left;
   margin-left: 15px;
-  display: none;
 }
 header.player-archive .player-progress-text .pp-text-right {
   float: right;
   margin-right: 15px;
-  display: none;
+}
+header.player-archive .player-progress-text .pp-text-left,
+header.player-archive .player-progress-text .pp-text-left {
+  opacity: 0;
 }
 header.player-archive:hover .player-progress-text {
   height: 16px;
@@ -268,6 +267,8 @@ header.player-archive:hover .player-progress-text {
 }
 header.player-archive:hover .player-progress-text .pp-text-left,
 header.player-archive:hover .player-progress-text .pp-text-right {
+  transition: all 90ms ease-out 90ms;
+  opacity: 1;
   display: block;
 }
 header.player-archive .player-progress-active .player-progress-wrap-val {
@@ -309,6 +310,7 @@ header .live {
   font-weight: 500;
   text-transform: uppercase;
   opacity: 0;
+  letter-spacing: 1px;
 }
 header .live.live-show {
   display: block;
@@ -430,6 +432,7 @@ header .button-live .button-live-img {
 .blog {
   width: 580px;
   height: 850px;
+  background-color: #fff;
   -moz-box-shadow: 0px 1px 3px 2px #f1f1f1;
   -webkit-box-shadow: 0px 1px 3px 2px #f1f1f1;
   box-shadow: 0px 1px 3px 2px #f1f1f1;
