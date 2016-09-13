@@ -214,10 +214,6 @@ header .player-progress .player-progress-wrap-val {
   background-image: linear-gradient(to right, #2196f3 0%, #ff0000 100%, rgba(0, 0, 0, 0) 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, white 6px, white 12px);
 }
 header .player-progress .player-progress-wrap-val .player-progress-val {
-  -moz-transition: all 0.1s ease;
-  -o-transition: all 0.1s ease;
-  -webkit-transition: all 0.1s ease;
-  transition: all 0.1s ease;
   height: 100%;
   background-color: #eeeeee;
 }
@@ -613,6 +609,7 @@ header .button-live .button-live-img {
   display: none;
 }
 .archive .nav-calendar .nc-row {
+  height: 20px;
   text-align: justify;
 }
 .archive .nav-calendar .nc-row:after {
@@ -626,11 +623,11 @@ header .button-live .button-live-img {
 .archive .nav-calendar .nc-item {
   opacity: 0;
   padding: 14px 0;
-  border-bottom: 1px solid #eee;
   -moz-transition: opacity 0.1s ease;
   -o-transition: opacity 0.1s ease;
   -webkit-transition: opacity 0.1s ease;
   transition: opacity 0.1s ease;
+  border-bottom: 1px solid #eee;
 }
 .archive .nav-calendar .nc-item .nc-sub-item {
   display: inline-block;
@@ -646,9 +643,33 @@ header .button-live .button-live-img {
 .archive .nav-calendar .nc-item .nc-sub-item.nc-sub-item-selected {
   color: #2196F3;
 }
+.archive .nav-calendar .nav-calendar-year-section {
+  padding: 26px 0 10px 0;
+}
+.archive .nav-calendar .nav-calendar-year-section .ncys-item {
+  margin-right: 18px;
+}
+.archive .nav-calendar .nav-calendar-month-section {
+  padding: 10px 0 9px 0;
+}
+.archive .nav-calendar .nav-calendar-month-section .nc-row:first-child {
+  padding-bottom: 14px;
+}
+.archive .nav-calendar .nav-calendar-day-section {
+  padding: 12px 0 9px 0;
+}
+.archive .nav-calendar .nav-calendar-day-section .nc-row:first-child {
+  padding-bottom: 13px;
+}
+.archive .nav-calendar .nav-calendar-time-section {
+  padding-top: 12px;
+}
+.archive .nav-calendar .nav-calendar-time-section .nc-row {
+  padding-bottom: 12px;
+}
 .archive .nav-calendar .nc-reset-btn {
   position: absolute;
-  top: 13px;
+  top: 26px;
   right: 40px;
   opacity: 0;
   cursor: pointer;

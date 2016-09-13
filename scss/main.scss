@@ -259,7 +259,7 @@ header {
   			background-image: linear-gradient(to right, #2196F3 0%, #ff0000 100%, transparent 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,1) 6px, rgba(255,255,255,1) 12px);
 
 			.player-progress-val {
-				@include transition (all .1s ease);
+				// @include transition (all .1s ease-in);
 				height: 100%;
 				background-color: #eeeeee;
 			}
@@ -467,7 +467,6 @@ header {
 		z-index: 200;
 		@include border-radius(4.5px);
 		@include transition (transform 0.3s);
-
 	}
 
 	&:hover {
@@ -680,6 +679,7 @@ header {
         display: none;
 
         .nc-row {
+        	height: 20px;
         	text-align: justify;
         	&:after {
     			width: 100%;
@@ -694,8 +694,8 @@ header {
         .nc-item {
         	opacity: 0;
         	padding: 14px 0;
-            border-bottom: 1px solid #eee;
             @include transition (opacity 0.1s ease);
+            border-bottom: 1px solid #eee;
 
             .nc-sub-item {
                 display: inline-block;
@@ -711,20 +711,42 @@ header {
                 }
             } 
         }
+        
         .nav-calendar-year-section {
-       
+       		padding: 26px 0 10px 0;
+
+       		.ncys-item {
+       			margin-right: 18px
+       		}
         }
         
         .nav-calendar-month-section {
+        	padding: 10px 0 9px 0;
 
-            .ncms-item { 
-            	
-            }
+        	.nc-row:first-child {
+        		padding-bottom: 14px
+        	}
+        }
+
+        .nav-calendar-day-section {
+        	padding: 12px 0 9px 0;
+
+        	.nc-row:first-child {
+        		padding-bottom: 13px
+        	}
+        }
+
+        .nav-calendar-time-section {
+			padding-top: 12px;
+
+			.nc-row {
+				padding-bottom: 12px;
+			}
         }
 
         .nc-reset-btn {
         	position: absolute;
-    		top: 13px;
+    		top: 26px;
     		right: 40px;
     		opacity: 0;
     		cursor: pointer;

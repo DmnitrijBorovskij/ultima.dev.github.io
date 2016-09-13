@@ -11,6 +11,7 @@ $(function(){
     UF.event_type = 'click';
     UF.player_button = $('.player-btn');
     UF.player_progress = $('header .player-progress');
+    UF.player_progress_val = $('.player-progress-val');
     UF.player_timer;
 	UF.player = {
 		el: $('.player')[0],
@@ -149,7 +150,6 @@ $(function(){
 	});
 
 	$('.afs-input').focusout(function() {
-		console.log("sdsd");
 		$('.archive-form-search').removeClass('archive-form-search-active');
 	});
 
@@ -181,6 +181,22 @@ $(function(){
             $('#audio').prop("volume", ui.value);
         }
 	});
+
+	function calendarWidget() {
+		var today = new Date();
+		var this_month = today.getMonth();
+		var this_year = today.getFullYear();
+		var month_names = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']; 
+	}
+
+	function getDaysInMonth(month,year)  {
+		var days_month = [31,28,31,30,31,30,31,31,30,31,30,31];
+		if ((month == 1) && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))){
+		  return 29;
+		}else{
+		  return days_month[month];
+		}
+	}
 
 	function changePlayer(visible) {
 		$(".player-track").fadeOut(300, function () {
@@ -255,10 +271,14 @@ $(function(){
 	function recordRewind(offset) {
 		var x = offset.offsetX == undefined? offset.layerX : offset.offsetX,
   			percent = (x / UF.player_progress.width() * 100).toFixed(),
-  			progressValRewind = $('.player-progress-val'),
+  			progressValRewind = UF.player_progress_val,
   			lengthAudio = $(UF.audio).prop('duration');
 
-  		progressValRewind.css({'margin-left' : percent + '%'});
+  		progressValRewind.css({
+  			'transform'         : 'translateX(' + percent + "%" + ')',
+            '-moz-transform'    : 'translateX(' + percent + "%" + ')',
+			'-webkit-transform' : 'translateX(' + percent + "%" + ')'
+  		});
   		(UF.audio).prop("currentTime", lengthAudio * percent / 100);	
 	}
 
@@ -268,13 +288,13 @@ $(function(){
 	   		UF.audio.trigger('play');
 	   		UF.player_timer = setInterval(function (){
 	   			showDuration();
-			}, 100);
+			}, 50);
 			showBuffer();
-	   		$('.player-btn').addClass('player-btn-pause');
+	   		UF.player_button.addClass('player-btn-pause');
 	   	}
 	   	else {	
 	   		UF.audio.trigger('pause');
-	   		$('.player-btn').removeClass("player-btn-pause");
+	   		UF.player_button.removeClass("player-btn-pause");
 	    }
 
 		UF.audio.on('ended', function() {
@@ -333,7 +353,11 @@ $(function(){
 			clearInterval(UF.player_timer);
 		}
 
-		$('.player-progress-val').css({'margin-left' : percentage + "%"});
+		UF.player_progress_val.css({
+			'transform'         : 'translateX(' + percentage + "%" + ')',
+            '-moz-transform'    : 'translateX(' + percentage + "%" + ')',
+			'-webkit-transform' : 'translateX(' + percentage + "%" + ')'
+		});
 	}
 
 	function timeFormat (sec, render) {
