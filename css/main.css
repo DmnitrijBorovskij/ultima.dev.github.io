@@ -154,8 +154,8 @@ header .player .player-track .player-track-title {
   white-space: nowrap;
   font-size: 1.14286em;
 }
-header .player .player-track .player-track-artist {
-  font-weight: 500;
+header .player .player-track .player-track-title {
+  font-weight: 300;
 }
 header keyframes progress_loading_animate from {
   background-position: 0 0;
@@ -299,6 +299,16 @@ header .live {
   visibility: hidden;
   position: absolute;
   top: 50%;
+  width: 168px;
+  height: 12px;
+  padding: 5px;
+  right: 200px;
+  color: #2095F2;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  opacity: 0;
+  letter-spacing: 1px;
   -moz-transform: translate(0, -50%);
   -ms-transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
@@ -310,16 +320,6 @@ header .live {
   -o-transition: all 0.6s ease;
   -webkit-transition: all 0.6s ease;
   transition: all 0.6s ease;
-  width: 168px;
-  height: 12px;
-  padding: 5px;
-  right: 200px;
-  color: #2095F2;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  opacity: 0;
-  letter-spacing: 1px;
 }
 header .logo {
   position: absolute;
@@ -433,9 +433,9 @@ header .button-live .button-live-img {
   width: 580px;
   height: 850px;
   background-color: #fff;
-  -moz-box-shadow: 0px 1px 3px 2px #f1f1f1;
-  -webkit-box-shadow: 0px 1px 3px 2px #f1f1f1;
-  box-shadow: 0px 1px 3px 2px #f1f1f1;
+  -moz-box-shadow: 0px 1px 4px 0 #e2e2e2;
+  -webkit-box-shadow: 0px 1px 4px 0 #e2e2e2;
+  box-shadow: 0px 1px 4px 0 #e2e2e2;
 }
 
 .blog {
@@ -449,6 +449,7 @@ header .button-live .button-live-img {
 }
 .blog .post {
   font-size: 1.14286em;
+  font-weight: 300;
 }
 .blog .post:not(:last-child) {
   margin-bottom: 40px;
@@ -466,7 +467,6 @@ header .button-live .button-live-img {
 }
 .blog .post .post-published-date {
   color: #9E9E9E;
-  font-weight: 300;
   display: inline-block;
   margin-left: 21px;
 }
@@ -581,6 +581,7 @@ header .button-live .button-live-img {
   -webkit-transition: box-shadow 0.3s ease;
   -webkit-transition-delay: 0.4s;
   transition: box-shadow 0.3s ease 0.4s;
+  font-weight: 300;
 }
 .archive .archive-form-search-wrap-active {
   -moz-transition: box-shadow 0.6s ease;
@@ -715,10 +716,10 @@ header .button-live .button-live-img {
 }
 .archive .archive-wrapper .archive-audio .audio-info .ai-title {
   font-size: 1.14286em;
+  font-weight: 300;
 }
 .archive .archive-wrapper .archive-audio .audio-info .ai-singer {
   font-size: 1.14286em;
-  font-weight: 500;
 }
 .archive .archive-wrapper .archive-audio .audio-duration {
   float: right;
@@ -745,6 +746,9 @@ footer {
 }
 footer .footer-address {
   float: left;
+}
+footer .footer-address .fa-mail {
+  color: #2095F2;
 }
 footer .footer-icons {
   float: right;
