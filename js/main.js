@@ -38,10 +38,10 @@ $(function(){
     UF.player_button.on(UF.event_type, playStopPlayer);
 	UF.player.updateMeta();
     UF.player.setVolume();
-    loadPostBlog();
-	loadAudioArchive();
     protectEmail();
 	getStatisticUsers();
+	loadPostBlog();
+	loadAudioArchive();
     
 	setInterval(function(){
 		UF.player.updateMeta();
@@ -51,6 +51,7 @@ $(function(){
 		getStatisticUsers();
 	}, 60000);
 
+
 	$('.live').on(UF.event_type, function() {
 		UF.audio_source.attr('src', UF.stream);
 		$('header').removeClass('player-archive').addClass('player-live');
@@ -59,39 +60,6 @@ $(function(){
 		//TODO stop event progress
 		$('.player-progress-buffer').hide();
 	});
-
-
-	$(window).load(function(){
-
-		$(".blog-wrapper").mCustomScrollbar({
-	    	axis:"y",
-	    	theme:"my-theme",
-	    	callbacks: {
-	    		onInit:function(){
-	    			console.log("init");
-					loadPostBlog();
-				},
-				onTotalScroll:function(){
-					console.log('end');
-				}	
-	    	}
-		});
-
-		$(".archive-wrapper").mCustomScrollbar({
-			axis:"y",
-			theme:"my-theme",
-			callbacks: {
-				onInit:function(){
-					loadAudioArchive();
-					console.log("init22");
-				},
-	        	onTotalScroll:function(){
-	        		console.log('end');
-	        	}
-			}
-		});
-	});
-
 
 	$('body').on(UF.event_type, '.audio', function() {
 		var audio_duration = $(this).find('.audio-duration').text(),
@@ -146,7 +114,7 @@ $(function(){
    	$('.afs-filter').on(UF.event_type, function () {
    		$('.nav-calendar').slideToggle('slow');
   		$('.nav-calendar').toggleClass('nav-calendar-active');
-  		$(this).toggleClass('afs-filter-open');
+  		$(this).toggleClass('ultima-icon-filter ultima-icon-filter-active');
   		$('.archive-form-search-wrap').toggleClass('archive-form-search-wrap-active')
 	});
 	
@@ -160,18 +128,18 @@ $(function(){
 
 	$('.blog').hover(
 		function() {
-			showScroll('#mCSB_1_scrollbar_vertical');
-		},
-		function() {
-			hideScroll('#mCSB_1_scrollbar_vertical');
-		}
-	)
-	$('.archive').hover(
-		function() {
 			showScroll('#mCSB_2_scrollbar_vertical');
 		},
 		function() {
 			hideScroll('#mCSB_2_scrollbar_vertical');
+		}
+	)
+	$('.archive').hover(
+		function() {
+			showScroll('#mCSB_1_scrollbar_vertical');
+		},
+		function() {
+			hideScroll('#mCSB_1_scrollbar_vertical');
 		}
 	)
 
@@ -319,15 +287,15 @@ $(function(){
         if (UF.player.state == 'play') {
             $("#audio").trigger('pause');
             UF.player.state = 'pause';
-            $(this).removeClass('player-btn-pause');
             $('.player-progress').removeClass('player-progress-active');
         } else {
             $("#audio").trigger('load');
             $("#audio").trigger('play');
             UF.player.state = 'play';
-            $(this).addClass('player-btn-pause');
             $('.player-progress').addClass('player-progress-active');
         }	
+
+        UF.player_button.toggleClass('ultima-icon-play ultima-icon-pause');
     }
 
     function showBuffer() {
@@ -397,6 +365,7 @@ $(function(){
   		$.get(from, function(template){
   			var result = Mustache.render(template, data);
   			where.html(result);
+  			initScrollBarBlock(where);
   		});
 	}
 
@@ -407,6 +376,38 @@ $(function(){
 			$('.fs-today .fsi-val').html(data.unique_listeners);
 			$('.fs-yesterday .fsi-val').html(data.prev_day_unique_listeners);
 		})
+	}
+
+	function initScrollBarBlock(block) {
+		if (block.attr('class') == 'blog-wrapper') {
+			$(".blog-wrapper").mCustomScrollbar({
+		    	axis:"y",
+		    	theme:"my-theme",
+		    	callbacks: {
+		    		onInit:function() {
+		    			console.log("init blog");
+					},
+					onTotalScroll:function() {
+		    			//TODO load more blog
+						console.log('end blog');
+					}	
+		    	}
+			});
+		} else {
+			$(".archive-wrapper").mCustomScrollbar({
+				axis:"y",
+				theme:"my-theme",
+				callbacks: {
+					onInit:function() {
+						console.log("init archive");
+					},
+	        		onTotalScroll:function() {
+						//TODO load more archive
+	        			console.log('end archive');
+	        		}
+				}
+			});	
+		}
 	}
 
 	function hideScroll (name_scroll) {

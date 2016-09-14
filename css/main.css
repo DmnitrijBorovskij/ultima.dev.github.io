@@ -18,6 +18,144 @@ img {
   height: auto;
 }
 
+@font-face {
+  font-family: 'Ultimaicons';
+  src: url("../fonts/Ultimaicons.eot?poi6w7");
+  src: url("../fonts/Ultimaicons.eot?poi6w7#iefix") format("embedded-opentype"), url("../fonts/Ultimaicons.ttf?poi6w7") format("truetype"), url("../fonts/Ultimaicons.woff?poi6w7") format("woff"), url("../fonts/Ultimaicons.svg?poi6w7#Ultimaicons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="ultima-icon-"], [class*=" ultima-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Ultimaicons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ultima-icon-ultima .path1:before {
+  content: "\e900";
+  color: #2196f3;
+}
+
+.ultima-icon-ultima .path2:before {
+  content: "\e901";
+  margin-left: -5.65625em;
+  color: #338fe3;
+}
+
+.ultima-icon-ultima .path3:before {
+  content: "\e902";
+  margin-left: -5.65625em;
+  color: #418ad7;
+}
+
+.ultima-icon-ultima .path4:before {
+  content: "\e903";
+  margin-left: -5.65625em;
+  color: #5582c5;
+}
+
+.ultima-icon-ultima .path5:before {
+  content: "\e904";
+  margin-left: -5.65625em;
+  color: #677ab4;
+}
+
+.ultima-icon-ultima .path6:before {
+  content: "\e905";
+  margin-left: -5.65625em;
+  color: #7d72a1;
+}
+
+.ultima-icon-ultima .path7:before {
+  content: "\e906";
+  margin-left: -5.65625em;
+  color: #8e6b92;
+}
+
+.ultima-icon-ultima .path8:before {
+  content: "\e907";
+  margin-left: -5.65625em;
+  color: #8e6b92;
+}
+
+.ultima-icon-ultima .path9:before {
+  content: "\e908";
+  margin-left: -5.65625em;
+  color: #a5627c;
+}
+
+.ultima-icon-ultima .path10:before {
+  content: "\e909";
+  margin-left: -5.65625em;
+  color: #c25764;
+}
+
+.ultima-icon-ultima .path11:before {
+  content: "\e90a";
+  margin-left: -5.65625em;
+  color: #d54f52;
+}
+
+.ultima-icon-ultima .path12:before {
+  content: "\e90b";
+  margin-left: -5.65625em;
+  color: #f44336;
+}
+
+.ultima-icon-ultima .path13:before {
+  content: "\e90c";
+  margin-left: -5.65625em;
+  color: #e44944;
+}
+
+.ultima-icon-play:before {
+  content: "\e90d";
+}
+
+.ultima-icon-pause:before {
+  content: "\e90e";
+}
+
+.ultima-icon-filter:before {
+  content: "\e90f";
+}
+
+.ultima-icon-filter-active:before {
+  content: "\e910";
+}
+
+.ultima-icon-search:before {
+  content: "\e911";
+}
+
+.ultima-icon-triangle:before {
+  content: "\e912";
+}
+
+.ultima-icon-vkontakte:before {
+  content: "\e913";
+}
+
+.ultima-icon-facebook:before {
+  content: "\e914";
+}
+
+.ultima-icon-twitter:before {
+  content: "\e915";
+}
+
+.ultima-icon-instagram:before {
+  content: "\e916";
+}
+
 body {
   background: #fafafa;
   font: 14px 'Roboto', sans-serif;
@@ -25,35 +163,19 @@ body {
 }
 
 .ultima-icon {
-  background: url("../images/ultima-icon.png");
+  font-size: 22px;
 }
 
 .ultima-icon-logo {
-  background-position: -1px -0px;
-  background-position: 0px 0px;
+  background-image: url("../images/logo-ultima.png");
   width: 182px;
   height: 32px;
-}
-
-.ultima-icon-filter {
-  background-position: -32px -33px;
-  width: 30px;
-  height: 24px;
 }
 
 .ultima-icon-search {
   background-position: -63px -33px;
   width: 21px;
   height: 21px;
-}
-
-.ultima-icon-instagram {
-  background-position: -106px -33px;
-  width: 20px;
-  height: 20px;
-}
-.ultima-icon-instagram:hover {
-  background-position: -85px -33px;
 }
 
 .ultima-icon-twitter {
@@ -66,12 +188,11 @@ body {
 }
 
 .ultima-icon-vkontakte {
-  background-position: -148px -52px;
   width: 20px;
-  height: 12px;
+  height: 20px;
 }
 .ultima-icon-vkontakte:hover {
-  background-position: -127px -52px;
+  color: #4C75A3;
 }
 
 .ultima-icon-facebook {
@@ -117,20 +238,14 @@ header .player {
   transform: translate(0, -50%);
 }
 header .player .player-btn {
-  width: 16px;
-  height: 20px;
-  background-position: -85px -54px;
   display: inline-block;
   vertical-align: middle;
-  cursor: pointer;
   margin-right: 37px;
+  cursor: pointer;
   opacity: .7;
 }
 header .player .player-btn:hover {
   opacity: 1;
-}
-header .player .player-btn.player-btn-pause {
-  background-position: -102px -54px;
 }
 header .player .player-track {
   width: 320px;
@@ -324,7 +439,7 @@ header .live {
 header .logo {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 48%;
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
@@ -440,7 +555,7 @@ header .button-live .button-live-img {
 
 .blog {
   float: left;
-  padding-top: 42px;
+  padding-top: 40px;
   box-sizing: border-box;
 }
 .blog .blog-wrapper {
@@ -571,9 +686,6 @@ header .button-live .button-live-img {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   cursor: pointer;
-}
-.archive .archive-form-search .afs-filter-open {
-  background-position: -1px -33px;
 }
 .archive .archive-form-search-wrap {
   -moz-transition: box-shadow 0.3s ease 0.4s;
@@ -723,6 +835,8 @@ header .button-live .button-live-img {
 }
 .archive .archive-wrapper .archive-audio .audio-duration {
   float: right;
+  font-size: 1.14286em;
+  font-weight: 300;
 }
 .archive .archive-wrapper .archive-audio-playing:before {
   content: '';
@@ -749,6 +863,7 @@ footer .footer-address {
 }
 footer .footer-address .fa-mail {
   color: #2095F2;
+  font-weight: 300;
 }
 footer .footer-icons {
   float: right;

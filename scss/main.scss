@@ -70,6 +70,129 @@ img {
 	height: auto;
 }
 
+@font-face {
+  font-family: 'Ultimaicons';
+  src:  url('../fonts/Ultimaicons.eot?poi6w7');
+  src:  url('../fonts/Ultimaicons.eot?poi6w7#iefix') format('embedded-opentype'),
+    url('../fonts/Ultimaicons.ttf?poi6w7') format('truetype'),
+    url('../fonts/Ultimaicons.woff?poi6w7') format('woff'),
+    url('../fonts/Ultimaicons.svg?poi6w7#Ultimaicons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="ultima-icon-"], [class*=" ultima-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Ultimaicons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ultima-icon-ultima .path1:before {
+  content: "\e900";
+  color: rgb(33, 150, 243);
+}
+.ultima-icon-ultima .path2:before {
+  content: "\e901";
+  margin-left: -5.65625em;
+  color: rgb(51, 143, 227);
+}
+.ultima-icon-ultima .path3:before {
+  content: "\e902";
+  margin-left: -5.65625em;
+  color: rgb(65, 138, 215);
+}
+.ultima-icon-ultima .path4:before {
+  content: "\e903";
+  margin-left: -5.65625em;
+  color: rgb(85, 130, 197);
+}
+.ultima-icon-ultima .path5:before {
+  content: "\e904";
+  margin-left: -5.65625em;
+  color: rgb(103, 122, 180);
+}
+.ultima-icon-ultima .path6:before {
+  content: "\e905";
+  margin-left: -5.65625em;
+  color: rgb(125, 114, 161);
+}
+.ultima-icon-ultima .path7:before {
+  content: "\e906";
+  margin-left: -5.65625em;
+  color: rgb(142, 107, 146);
+}
+.ultima-icon-ultima .path8:before {
+  content: "\e907";
+  margin-left: -5.65625em;
+  color: rgb(142, 107, 146);
+}
+.ultima-icon-ultima .path9:before {
+  content: "\e908";
+  margin-left: -5.65625em;
+  color: rgb(165, 98, 124);
+}
+.ultima-icon-ultima .path10:before {
+  content: "\e909";
+  margin-left: -5.65625em;
+  color: rgb(194, 87, 100);
+}
+.ultima-icon-ultima .path11:before {
+  content: "\e90a";
+  margin-left: -5.65625em;
+  color: rgb(213, 79, 82);
+}
+.ultima-icon-ultima .path12:before {
+  content: "\e90b";
+  margin-left: -5.65625em;
+  color: rgb(244, 67, 54);
+}
+.ultima-icon-ultima .path13:before {
+  content: "\e90c";
+  margin-left: -5.65625em;
+  color: rgb(228, 73, 68);
+}
+.ultima-icon-play:before {
+  content: "\e90d";
+}
+.ultima-icon-pause:before {
+  content: "\e90e";
+}
+.ultima-icon-filter:before {
+  content: "\e90f";
+}
+.ultima-icon-filter-active:before {
+  content: "\e910";
+}
+.ultima-icon-search:before {
+  content: "\e911";
+}
+.ultima-icon-triangle:before {
+  content: "\e912";
+}
+.ultima-icon-vkontakte:before {
+  content: "\e913";
+}
+.ultima-icon-facebook:before {
+  content: "\e914";
+}
+.ultima-icon-twitter:before {
+  content: "\e915";
+}
+.ultima-icon-instagram:before {
+  content: "\e916";
+}
+
+
+
 body {
 	background: #fafafa;
 	font: 14px 'Roboto', sans-serif;
@@ -77,20 +200,19 @@ body {
 }
 
 .ultima-icon {
-	background: url('../images/ultima-icon.png');
+	font-size: 22px;
 }
 
 .ultima-icon-logo { 
-	background-position: -1px -0px; 
-    background-position: 0px 0px; 
+	background-image: url('../images/logo-ultima.png');
     width: 182px; 
     height: 32px; 
 }
 
 .ultima-icon-filter {
-	background-position: -32px -33px;
-    width: 30px;
-    height: 24px; 
+	// background-position: -32px -33px;
+ //    width: 30px;
+ //    height: 24px; 
 }
 
 .ultima-icon-search {
@@ -99,15 +221,15 @@ body {
     height: 21px; 
 }
 
-.ultima-icon-instagram { 
-    background-position: -106px -33px;
-    width: 20px; 
-    height: 20px;
+// .ultima-icon-instagram { 
+//     background-position: -106px -33px;
+//     width: 20px; 
+//     height: 20px;
 
-    &:hover {
-    	background-position: -85px -33px;
-    } 
-}
+//     &:hover {
+//     	background-position: -85px -33px;
+//     } 
+// }
 
 .ultima-icon-twitter { 
     background-position: -148px -33px;
@@ -120,12 +242,11 @@ body {
 }
 
 .ultima-icon-vkontakte { 
-    background-position: -148px -52px;
     width: 20px; 
-    height: 12px; 
+    height: 20px; 
 
     &:hover {
-    	background-position: -127px -52px;
+    	color: #4C75A3;
     }
 }
 
@@ -168,22 +289,15 @@ header {
         @include transform (translate(0, -50%));
     
         .player-btn {
-            width: 16px; 
-            height: 20px;
-            background-position: -85px -54px;
 			display: inline-block;
 			vertical-align: middle;
-			cursor: pointer;
 			margin-right: 37px;
+			cursor: pointer;
             opacity: .7;
             
             &:hover {
                 opacity: 1;
-            } 
-
-			&.player-btn-pause {
-  		        background-position: -102px -54px;
-			}
+            }
 		}
 
 		.player-track {
@@ -392,7 +506,7 @@ header {
 	.logo {
 		position: absolute;	
 		left: 50%;
-    	top: 50%;
+    	top: 48%;
     	@include transform(translate(-50%, -50%));
 		cursor: pointer;
 	}
@@ -500,7 +614,7 @@ header {
 
 .blog {
 	float: left;
-    padding-top: 42px;
+    padding-top: 40px;
     box-sizing: border-box;
     
     .blog-wrapper {
@@ -647,7 +761,7 @@ header {
 		}
 
 		.afs-filter-open {
-			background-position: -1px -33px;
+			// background-position: -1px -33px;
 		}
 	}
 
@@ -806,6 +920,8 @@ header {
 
             .audio-duration {
             	float: right;
+            	font-size: em(16,14);
+				font-weight: 300;
             }
         }
 
@@ -834,6 +950,7 @@ footer {
         float: left;
         .fa-mail {	
         	color: #2095F2;
+        	font-weight: 300;
         }
     }
     
