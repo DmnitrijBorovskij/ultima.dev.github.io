@@ -60,33 +60,38 @@ $(function(){
 		$('.player-progress-buffer').hide();
 	});
 
-	$(".blog-wrapper").mCustomScrollbar({
-    	axis:"y",
-    	theme:"my-theme",
-    	callbacks: {
-    		onInit:function(){
-    			console.log("init");
-				// loadPostBlog();
-			},
-			onTotalScroll:function(){
-				console.log('end');
-			}	
-    	}
+
+	$(window).load(function(){
+
+		$(".blog-wrapper").mCustomScrollbar({
+	    	axis:"y",
+	    	theme:"my-theme",
+	    	callbacks: {
+	    		onInit:function(){
+	    			console.log("init");
+					loadPostBlog();
+				},
+				onTotalScroll:function(){
+					console.log('end');
+				}	
+	    	}
+		});
+
+		$(".archive-wrapper").mCustomScrollbar({
+			axis:"y",
+			theme:"my-theme",
+			callbacks: {
+				onInit:function(){
+					loadAudioArchive();
+					console.log("init22");
+				},
+	        	onTotalScroll:function(){
+	        		console.log('end');
+	        	}
+			}
+		});
 	});
 
-	$(".archive-wrapper").mCustomScrollbar({
-		axis:"y",
-		theme:"my-theme",
-		callbacks: {
-			onInit:function(){
-				loadAudioArchive();
-				console.log("init22");
-			},
-        	onTotalScroll:function(){
-        		console.log('end');
-        	}
-		}
-	});
 
 	$('body').on(UF.event_type, '.audio', function() {
 		var audio_duration = $(this).find('.audio-duration').text(),
@@ -230,7 +235,7 @@ $(function(){
 	}
 
     function loadPostBlog() {
-    	var blog = $('.blog .mCSB_container'),
+    	var blog = $('.blog .blog-wrapper'),
     	    view = {};
     	$.ajax({	
     		type: 'GET',

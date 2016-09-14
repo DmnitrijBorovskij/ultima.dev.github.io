@@ -505,6 +505,7 @@ header {
     
     .blog-wrapper {
         height: 770px;
+        overflow: hidden;
     }
 
 	.post {
@@ -711,7 +712,7 @@ header {
                 }
             } 
         }
-        
+
         .nav-calendar-year-section {
        		padding: 26px 0 10px 0;
 
@@ -770,6 +771,7 @@ header {
     	top: 78px;
     	height: 770px;
         padding-left: 20px;
+        overflow: hidden;
         
         .archive-audio {
         	position: relative;

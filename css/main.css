@@ -445,6 +445,7 @@ header .button-live .button-live-img {
 }
 .blog .blog-wrapper {
   height: 770px;
+  overflow: hidden;
 }
 .blog .post {
   font-size: 1.14286em;
@@ -691,6 +692,7 @@ header .button-live .button-live-img {
   top: 78px;
   height: 770px;
   padding-left: 20px;
+  overflow: hidden;
 }
 .archive .archive-wrapper .archive-audio {
   position: relative;
