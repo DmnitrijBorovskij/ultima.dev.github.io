@@ -379,6 +379,7 @@ $(function(){
 	}
 
 	function initScrollBarBlock(block) {
+		console.log(block.attr('class'));
 		if (block.attr('class') == 'blog-wrapper') {
 			$(".blog-wrapper").mCustomScrollbar({
 		    	axis:"y",

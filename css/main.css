@@ -716,7 +716,7 @@ header .button-live .button-live-img {
   width: 100%;
   box-sizing: border-box;
   background-color: #fff;
-  z-index: 1;
+  z-index: 2;
   color: #616161;
   padding: 0 40px;
   font-size: 1.14286em;
@@ -803,7 +803,7 @@ header .button-live .button-live-img {
 .archive .archive-wrapper {
   position: absolute;
   top: 78px;
-  height: 770px;
+  height: 730px;
   padding-left: 20px;
   overflow: hidden;
 }
