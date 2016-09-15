@@ -30,7 +30,7 @@ $(function(){
 				var meta =  data.split('-');
 				$(UF.player.el_author).html(meta[0]);
 				$(UF.player.el_song).html(meta[1]);
-				console.log(data);
+				//console.log(data);
 			});
 		}
 	}
@@ -75,11 +75,6 @@ $(function(){
 		UF.player.duration.text(audio_duration);
 	});
 
-	$('body').on(UF.event_type, '.archive-audio', function() {
-		$('.archive-audio').removeClass('archive-audio-playing');
-		$(this).addClass('archive-audio-playing');
-	})
-
 	$('.archive-form-search').keyup(function(){
 		var search_val = $(".archive-form-search").find(".afs-input").val();
 		//console.log(search_val);
@@ -89,6 +84,8 @@ $(function(){
 	$('.archive').on(UF.event_type, '.archive-audio', function() {
 		UF.audio_source.attr('src', $(this).find('.audio-info').attr('data-audio-url'));
 		$('.player-progress').addClass('player-progress-active');
+		$('.archive-audio').removeClass('archive-audio-playing');
+		$(this).addClass('archive-audio-playing');
 		togglePlayPause();
 	});
 
@@ -114,7 +111,7 @@ $(function(){
    	$('.afs-filter').on(UF.event_type, function () {
    		$('.nav-calendar').slideToggle('slow');
   		$('.nav-calendar').toggleClass('nav-calendar-active');
-  		$(this).toggleClass('ultima-icon-filter ultima-icon-filter-active');
+  		$(this).toggleClass('afs-filter-open');
   		$('.archive-form-search-wrap').toggleClass('archive-form-search-wrap-active')
 	});
 	
@@ -150,26 +147,42 @@ $(function(){
 	    min: 0, 
        	max: 1,
 		step: 0.01,
-		slide: function( event, ui ) {
+		slide: function(event, ui) {
             $('#audio').prop("volume", ui.value);
         }
 	});
 
-	function calendarWidget() {
+	var calendarWidget = (function() {
 		var today = new Date();
 		var this_month = today.getMonth();
 		var this_year = today.getFullYear();
 		var month_names = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']; 
-	}
-
-	function getDaysInMonth(month,year)  {
 		var days_month = [31,28,31,30,31,30,31,31,30,31,30,31];
-		if ((month == 1) && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))){
-		  return 29;
-		}else{
-		  return days_month[month];
+
+		return {
+			init: function() {
+
+			},
+			getDaysInMonth: function(month, year) {
+				if ((month == 1) && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))){
+		  			return 29;
+				} else {
+		  			return days_month[month];
+				}
+			}	
 		}
-	}
+	}());
+
+	console.log(calendarWidget.getDaysInMonth(1,2017));
+
+	// function getDaysInMonth(month,year)  {
+	// 	var days_month = [31,28,31,30,31,30,31,31,30,31,30,31];
+	// 	if ((month == 1) && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))){
+	// 	  return 29;
+	// 	}else{
+	// 	  return days_month[month];
+	// 	}
+	// }
 
 	function changePlayer(visible) {
 		$(".player-track").fadeOut(300, function () {
@@ -285,17 +298,17 @@ $(function(){
 
     function playStopPlayer() {
         if (UF.player.state == 'play') {
-            $("#audio").trigger('pause');
+            UF.audio.trigger('pause');
             UF.player.state = 'pause';
             $('.player-progress').removeClass('player-progress-active');
         } else {
-            $("#audio").trigger('load');
-            $("#audio").trigger('play');
+            UF.audio.trigger('load');
+            UF.audio.trigger('play');
             UF.player.state = 'play';
             $('.player-progress').addClass('player-progress-active');
-        }	
+        }
 
-        UF.player_button.toggleClass('ultima-icon-play ultima-icon-pause');
+        UF.player_button.toggleClass('player-btn-pause');	
     }
 
     function showBuffer() {

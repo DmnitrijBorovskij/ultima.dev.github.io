@@ -70,129 +70,6 @@ img {
 	height: auto;
 }
 
-@font-face {
-  font-family: 'Ultimaicons';
-  src:  url('../fonts/Ultimaicons.eot?poi6w7');
-  src:  url('../fonts/Ultimaicons.eot?poi6w7#iefix') format('embedded-opentype'),
-    url('../fonts/Ultimaicons.ttf?poi6w7') format('truetype'),
-    url('../fonts/Ultimaicons.woff?poi6w7') format('woff'),
-    url('../fonts/Ultimaicons.svg?poi6w7#Ultimaicons') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-[class^="ultima-icon-"], [class*=" ultima-icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'Ultimaicons' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.ultima-icon-ultima .path1:before {
-  content: "\e900";
-  color: rgb(33, 150, 243);
-}
-.ultima-icon-ultima .path2:before {
-  content: "\e901";
-  margin-left: -5.65625em;
-  color: rgb(51, 143, 227);
-}
-.ultima-icon-ultima .path3:before {
-  content: "\e902";
-  margin-left: -5.65625em;
-  color: rgb(65, 138, 215);
-}
-.ultima-icon-ultima .path4:before {
-  content: "\e903";
-  margin-left: -5.65625em;
-  color: rgb(85, 130, 197);
-}
-.ultima-icon-ultima .path5:before {
-  content: "\e904";
-  margin-left: -5.65625em;
-  color: rgb(103, 122, 180);
-}
-.ultima-icon-ultima .path6:before {
-  content: "\e905";
-  margin-left: -5.65625em;
-  color: rgb(125, 114, 161);
-}
-.ultima-icon-ultima .path7:before {
-  content: "\e906";
-  margin-left: -5.65625em;
-  color: rgb(142, 107, 146);
-}
-.ultima-icon-ultima .path8:before {
-  content: "\e907";
-  margin-left: -5.65625em;
-  color: rgb(142, 107, 146);
-}
-.ultima-icon-ultima .path9:before {
-  content: "\e908";
-  margin-left: -5.65625em;
-  color: rgb(165, 98, 124);
-}
-.ultima-icon-ultima .path10:before {
-  content: "\e909";
-  margin-left: -5.65625em;
-  color: rgb(194, 87, 100);
-}
-.ultima-icon-ultima .path11:before {
-  content: "\e90a";
-  margin-left: -5.65625em;
-  color: rgb(213, 79, 82);
-}
-.ultima-icon-ultima .path12:before {
-  content: "\e90b";
-  margin-left: -5.65625em;
-  color: rgb(244, 67, 54);
-}
-.ultima-icon-ultima .path13:before {
-  content: "\e90c";
-  margin-left: -5.65625em;
-  color: rgb(228, 73, 68);
-}
-.ultima-icon-play:before {
-  content: "\e90d";
-}
-.ultima-icon-pause:before {
-  content: "\e90e";
-}
-.ultima-icon-filter:before {
-  content: "\e90f";
-}
-.ultima-icon-filter-active:before {
-  content: "\e910";
-}
-.ultima-icon-search:before {
-  content: "\e911";
-}
-.ultima-icon-triangle:before {
-  content: "\e912";
-}
-.ultima-icon-vkontakte:before {
-  content: "\e913";
-}
-.ultima-icon-facebook:before {
-  content: "\e914";
-}
-.ultima-icon-twitter:before {
-  content: "\e915";
-}
-.ultima-icon-instagram:before {
-  content: "\e916";
-}
-
-
-
 body {
 	background: #fafafa;
 	font: 14px 'Roboto', sans-serif;
@@ -200,7 +77,7 @@ body {
 }
 
 .ultima-icon {
-	font-size: 22px;
+	background: url('../images/ultima-icon.png');
 }
 
 .ultima-icon-logo { 
@@ -211,25 +88,27 @@ body {
 
 .ultima-icon-filter {
 	// background-position: -32px -33px;
- //    width: 30px;
- //    height: 24px; 
+	background-image: url('../images/icons/svg/filter.svg');
+    width: 30px;
+    height: 24px; 
 }
 
 .ultima-icon-search {
-	background-position: -63px -33px;
+	//background-position: -63px -33px;
+	background-image: url('../images/icons/svg/search.svg');
     width: 21px; 
     height: 21px; 
 }
 
-// .ultima-icon-instagram { 
-//     background-position: -106px -33px;
-//     width: 20px; 
-//     height: 20px;
+.ultima-icon-instagram { 
+    background-position: -106px -33px;
+    width: 20px; 
+    height: 20px;
 
-//     &:hover {
-//     	background-position: -85px -33px;
-//     } 
-// }
+    &:hover {
+    	background-position: -85px -33px;
+    } 
+}
 
 .ultima-icon-twitter { 
     background-position: -148px -33px;
@@ -242,11 +121,12 @@ body {
 }
 
 .ultima-icon-vkontakte { 
+    background-position: -148px -52px;
     width: 20px; 
-    height: 20px; 
+    height: 12px; 
 
     &:hover {
-    	color: #4C75A3;
+    	background-position: -127px -52px;
     }
 }
 
@@ -287,8 +167,13 @@ header {
 		top: 50%;
         margin-left: 40px;
         @include transform (translate(0, -50%));
+        @include user-select(none);
     
         .player-btn {
+        	width: 16px; 
+            height: 20px;
+            //background-position: -85px -54px;
+            background-image: url('../images/icons/svg/play.svg');
 			display: inline-block;
 			vertical-align: middle;
 			margin-right: 37px;
@@ -298,6 +183,11 @@ header {
             &:hover {
                 opacity: 1;
             }
+
+            &.player-btn-pause {
+            	background-image: url('../images/icons/svg/pause.svg');
+  		        //background-position: -102px -54px;
+			}
 		}
 
 		.player-track {
@@ -373,7 +263,6 @@ header {
   			background-image: linear-gradient(to right, #2196F3 0%, #ff0000 100%, transparent 30px), repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,1) 6px, rgba(255,255,255,1) 12px);
 
 			.player-progress-val {
-				// @include transition (all .1s ease-in);
 				height: 100%;
 				background-color: #eeeeee;
 			}
@@ -500,7 +389,7 @@ header {
         letter-spacing: 1px;
         @include transform(translate(0, -50%));
         @include border-radius(3px);
-        @include transition(all .6s ease);
+        @include transition(all .4s ease);
 	}
 
 	.logo {
@@ -719,7 +608,6 @@ header {
 	}
 }
 
-
 .archive {
 	float: right;
 
@@ -761,7 +649,7 @@ header {
 		}
 
 		.afs-filter-open {
-			// background-position: -1px -33px;
+			//background-position: -1px -33px;
 		}
 	}
 
@@ -773,6 +661,10 @@ header {
 	.archive-form-search-wrap-active {
 		@include transition(box-shadow .6s ease);
 		@include box-shadow (0px 10px 26px 0px #e0e0e0);
+
+		.ultima-icon-filter {
+			background-image: url('../images/icons/svg/filter-active.svg');	
+		}
 	}
 
 	.archive-form-search-active {
