@@ -332,7 +332,8 @@ yx-axis
 
 	/* my-theme */
 	.mCS-my-theme.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{ background-color: #bdbdbd; }
-	.mCS-my-theme.mCSB_scrollTools .mCSB_draggerContainer .mCSB_draggerRail{ background-color: #e0e0e0; width: 2px; } 
+	.mCS-my-theme.mCSB_scrollTools .mCSB_draggerContainer .mCSB_draggerRail{ background-color: #e0e0e0; width: 2px; }
+	.mCS-my-theme.mCSB_scrollTools{ bottom: 0; }
 	
 	/* default theme ("light") */
 

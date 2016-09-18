@@ -154,6 +154,7 @@ header {
 	background-color: #fff;
 	margin: 0 auto;
 	@include box-shadow (0px 19px 52px 0 #b9b9b9);
+	@include user-select(none);
 
 	&.player-archive:hover {
 		.player-progress-active {
@@ -167,26 +168,74 @@ header {
 		top: 50%;
         margin-left: 40px;
         @include transform (translate(0, -50%));
-        @include user-select(none);
     
         .player-btn {
+        	position: relative;
         	width: 16px; 
             height: 20px;
-            //background-position: -85px -54px;
-            background-image: url('../images/icons/svg/play.svg');
+            //background-image: url('../images/icons/svg/play.svg');
 			display: inline-block;
 			vertical-align: middle;
 			margin-right: 37px;
 			cursor: pointer;
             opacity: .7;
+            overflow: hidden;
             
             &:hover {
                 opacity: 1;
             }
 
+            .pb-left,
+            .pb-right {
+            	height: 100%;	
+  				width: 50%;
+  				background-color: #616161;
+  				@include transition(all .2s ease);
+  				overflow: hidden;
+            }
+
+			.pb-left {
+  				float: left;
+			}
+
+			.pb-right {
+				float: right;
+			}
+
+			.pb-triangle-1 {
+				@include transform(translate(0, -50%));
+			}
+
+			.pb-triangle-2 {
+				@include transform(translate(0, 50%));	
+			}
+
+			.pb-triangle-1, 
+			.pb-triangle-2 {
+				position: absolute;
+				top: 0;
+				right: 0;
+				background-color: transparent;
+				width: 0;
+				height: 0;
+				border-right: 16px solid #fff;
+				border-top: 10px solid transparent;
+				border-bottom: 10px solid transparent;
+				@include transition(transform .2s ease); 
+			}
+
             &.player-btn-pause {
-            	background-image: url('../images/icons/svg/pause.svg');
-  		        //background-position: -102px -54px;
+  		        .pb-left,
+  		        .pb-right {
+    				width: 25%;
+  		        }
+
+  				.pb-triangle-1 {
+  					@include transform(translate(0, -100%));
+  				}
+  				.pb-triangle-2 {
+  					@include transform(translate(0, 100%));
+  				}
 			}
 		}
 
@@ -374,17 +423,18 @@ header {
 	}
 
 	.live {
-		visibility: hidden;
         position: absolute;
         top: 50%;
-        width: 168px;
-        height: 12px;
-        padding: 5px;
         right: 200px;
+        width: 180px;
+        height: 20px;
         color: #2095F2;
-        font-size: 12px;
+        font-size: em(12,14);
         font-weight: 500;
         text-transform: uppercase;
+        line-height: 20px;
+        text-align: center;
+		visibility: hidden;
         opacity: 0;
         letter-spacing: 1px;
         @include transform(translate(0, -50%));

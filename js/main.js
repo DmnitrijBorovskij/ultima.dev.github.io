@@ -10,9 +10,10 @@ $(function(){
     UF.audio_current_time = $('.player-progress .pp-text-left');
     UF.event_type = 'click';
     UF.player_button = $('.player-btn');
-    UF.player_progress = $('header .player-progress');
+    UF.player_progress = $('.player-progress');
     UF.player_progress_val = $('.player-progress-val');
     UF.player_timer;
+    UF.live_timer;
 	UF.player = {
 		el: $('.player')[0],
 		el_play:  $('#audio')[0],
@@ -43,7 +44,7 @@ $(function(){
 	loadPostBlog();
 	loadAudioArchive();
     
-	setInterval(function(){
+	UF.live_timer = setInterval(function(){
 		UF.player.updateMeta();
 	}, 5000);
 
@@ -54,8 +55,13 @@ $(function(){
 
 	$('.live').on(UF.event_type, function() {
 		UF.audio_source.attr('src', UF.stream);
+		playStopPlayer();
 		$('header').removeClass('player-archive').addClass('player-live');
 		changePlayer('block');
+		UF.player.updateMeta();
+		UF.live_timer = setInterval(function(){
+			UF.player.updateMeta();
+		}, 5000);
 
 		//TODO stop event progress
 		$('.player-progress-buffer').hide();
@@ -70,9 +76,11 @@ $(function(){
 			$('header').removeClass('player-live').addClass('player-archive ');
         	changePlayer('none');
 		}
+		clearInterval(UF.live_timer);
 		UF.player.el_author.text(audio_author);
 		UF.player.el_song.text(audio_song);
 		UF.player.duration.text(audio_duration);
+		$(document).attr('title', audio_author + ' - ' + audio_song);
 	});
 
 	$('.archive-form-search').keyup(function(){
@@ -82,10 +90,14 @@ $(function(){
 	});
 
 	$('.archive').on(UF.event_type, '.archive-audio', function() {
-		UF.audio_source.attr('src', $(this).find('.audio-info').attr('data-audio-url'));
-		$('.player-progress').addClass('player-progress-active');
-		$('.archive-audio').removeClass('archive-audio-playing');
-		$(this).addClass('archive-audio-playing');
+		var current_audio = $(this);
+		if (!current_audio.hasClass('archive-audio-playing')) {
+			console.log('init');
+			UF.audio_source.attr('src', current_audio.find('.audio-info').attr('data-audio-url'));
+			UF.player_progress.addClass('player-progress-active');
+			$('.archive-audio').removeClass('archive-audio-playing');
+			current_audio.addClass('archive-audio-playing');
+		}
 		togglePlayPause();
 	});
 
@@ -284,15 +296,19 @@ $(function(){
 	    }
 
 		UF.audio.on('ended', function() {
-			console.log('end');	
-			var next_track = $('.archive-audio-playing').next();
-			console.log(!next_track.length);
-			console.log($('.archive-audio').first());
+			var next_track     = $('.archive-audio-playing').next();
             if (!next_track.length) next_track = $('.archive-audio').first();
             next_track.addClass('archive-audio-playing').siblings().removeClass('archive-audio-playing');
+            var audio_author = $('.archive-audio-playing .ai-singer').text();
+		    var	audio_song = $('.archive-audio-playing .ai-title').text();
+		    var audio_duration = $('.archive-audio-playing .audio-duration').text();
+		    UF.player.el_author.text(audio_author);
+			UF.player.el_song.text(audio_song);
+			UF.player.duration.text(audio_duration);
             UF.audio_source.attr('src', next_track.find('.audio-info').attr('data-audio-url'));
             UF.audio.trigger('load');
 	   		UF.audio.trigger('play');
+	   		$(document).attr('title', audio_author + ' - ' + audio_song);
 		});
   	}
 
@@ -300,14 +316,13 @@ $(function(){
         if (UF.player.state == 'play') {
             UF.audio.trigger('pause');
             UF.player.state = 'pause';
-            $('.player-progress').removeClass('player-progress-active');
         } else {
             UF.audio.trigger('load');
             UF.audio.trigger('play');
             UF.player.state = 'play';
-            $('.player-progress').addClass('player-progress-active');
         }
 
+        UF.player_progress.toggleClass('player-progress-active');
         UF.player_button.toggleClass('player-btn-pause');	
     }
 
