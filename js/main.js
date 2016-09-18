@@ -86,7 +86,7 @@ $(function() {
 
 	$('.archive-form-search').keyup(function() {
 		var search_val = $(".archive-form-search").find(".afs-input").val();
-		//console.log(search_val);
+		console.log(search_val);
 		searchRecordsArchive(search_val);
 	});
 
@@ -135,23 +135,6 @@ $(function() {
 	$('.afs-input').focusout(function() {
 		$('.archive-form-search').removeClass('archive-form-search-active');
 	});
-
-	$('.blog').hover(
-		function() {
-			showScroll('#mCSB_2_scrollbar_vertical');
-		},
-		function() {
-			hideScroll('#mCSB_2_scrollbar_vertical');
-		}
-	)
-	$('.archive').hover(
-		function() {
-			showScroll('#mCSB_1_scrollbar_vertical');
-		},
-		function() {
-			hideScroll('#mCSB_1_scrollbar_vertical');
-		}
-	)
 
 	$("#slider").slider({
 		animate: true,
@@ -207,9 +190,9 @@ $(function() {
 
 	function loadAudioArchive() {
 		var archive = $('.archive .archive-wrapper'),
-		    count_records = $('.archive-wrapper').attr('data-count-archive-record'),
-		    page_archive = $('.archive-wrapper').attr('data-page-archive'),
-		    view = {};
+			count_records = $('.archive-wrapper').attr('data-count-archive-record'),
+			page_archive = $('.archive-wrapper').attr('data-page-archive'),
+			view = {};
 		$.ajax({
 			type: 'GET',
 			url: UF.api_ultima + '/played_songs',
@@ -231,7 +214,7 @@ $(function() {
 					}
 				}
 
-				getTemplate('../views/archive_audio.html', archive, view);
+				renderTemplate('../views/archive_audio.html', archive, view);
 				$('.archive-wrapper').attr('data-page-archive', parseInt(page_archive) + 1);
 			}
 		})
@@ -242,6 +225,7 @@ $(function() {
 			count_posts = $('.blog-wrapper').attr('data-count-posts'),
 			page_posts = $('.blog-wrapper').attr('data-page-posts'),
 			view = {};
+
 		$.ajax({
 			type: 'GET',
 			url: UF.api_ultima + '/posts',
@@ -262,7 +246,7 @@ $(function() {
 						return timeFormat(ms, render);
 					}
 				}
-				getTemplate('../views/blog_post.html', blog, view);
+				renderTemplate('../views/blog_post.html', blog, view);
 				$('.blog-wrapper').attr('data-page-posts', parseInt(page_posts) + 1);
 			}
 		})
@@ -275,10 +259,25 @@ $(function() {
 	function searchRecordsArchive(search_val) {
 		$.ajax({
 			type: 'GET',
-			url: UF.api_ultima + '/played_songs.json?filter[audio_artist_or_audio_title_cont]=' + search_val,
+			url: UF.api_ultima + '/played_songs?filter[audio_artist_or_audio_title_cont]=' + search_val,
 			dataType: "json",
 			success: function(data) {
-				// console.log(data);
+				var archive = $('.archive .archive-wrapper'),
+					view = {};
+
+				view = data || {};
+				view.convertUnixtime = function() {
+					return function(timestamp, render) {
+						return convertUnixtime(timestamp, render);
+					}
+				}
+				view.timeFormat = function() {
+					return function(ms, render) {
+						return timeFormat(ms, render);
+					}
+				}
+				$('.archive-audio').remove();
+				renderTemplate('../views/archive_audio.html', archive, view);
 			}
 		});
 	}
@@ -407,7 +406,7 @@ $(function() {
 		return render(time);
 	}
 
-	function getTemplate(from, where, data) {
+	function renderTemplate(from, where, data) {
 		$.get(from, function(template) {
 			var result = Mustache.render(template, data);
 			if (!where.hasClass('mCustomScrollbar')) {
@@ -434,9 +433,11 @@ $(function() {
 			$(".blog-wrapper").mCustomScrollbar({
 				axis: "y",
 				theme: "my-theme",
+				scrollInertia: 2000,
+				autoHideScrollbar: true,
 				callbacks: {
 					onInit: function() {
-						
+
 					},
 					onTotalScroll: function() {
 						//TODO load more blog
@@ -448,6 +449,8 @@ $(function() {
 			$(".archive-wrapper").mCustomScrollbar({
 				axis: "y",
 				theme: "my-theme",
+				scrollInertia: 2000,
+				autoHideScrollbar: true,
 				callbacks: {
 					onInit: function() {
 
@@ -459,14 +462,6 @@ $(function() {
 				}
 			});
 		}
-	}
-
-	function hideScroll(name_scroll) {
-		$(name_scroll).css('opacity', '0');
-	}
-
-	function showScroll(name_scroll) {
-		$(name_scroll).css('opacity', '1');
 	}
 
 	function protectEmail() {
