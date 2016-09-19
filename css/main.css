@@ -544,9 +544,6 @@ header .button-live .button-live-img {
 .blog .post .post-image {
   width: 500px;
 }
-.blog .post .post-audio-playing .audio-play {
-  background-position: 8px -15px;
-}
 .blog .post .post-wall-audio {
   margin-top: 15px;
 }
@@ -582,6 +579,9 @@ header .button-live .button-live-img {
 }
 .blog .post .post-wall-audio .post-audio .audio-info .divider {
   padding: 0 5px;
+}
+.blog .post .post-wall-audio .post-audio-playing .post-audio-play .audio-play {
+  background-position: 8px -15px;
 }
 
 .archive {

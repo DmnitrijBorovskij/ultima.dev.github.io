@@ -602,12 +602,6 @@ header {
 			width: 500px;
 		}
 
-		.post-audio-playing {
-			.audio-play {
-				background-position: 8px -15px;
-			}	
-		}
-
 		.post-wall-audio {
 			margin-top: 15px;
 
@@ -653,6 +647,14 @@ header {
 						padding: 0 5px;
 					}
 				}
+			}
+
+			.post-audio-playing {
+				.post-audio-play {
+					.audio-play {
+						background-position: 8px -15px;
+					}
+				}	
 			}
 		}
 	}

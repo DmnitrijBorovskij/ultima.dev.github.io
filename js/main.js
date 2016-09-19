@@ -86,14 +86,27 @@ $(function() {
 
 	$('.archive-form-search').keyup(function() {
 		var search_val = $(".archive-form-search").find(".afs-input").val();
-		console.log(search_val);
 		searchRecordsArchive(search_val);
+	});
+
+	$('.blog').on(UF.event_type, '.post-audio', function() {
+		var current_audio = $(this);
+		if (!current_audio.hasClass('post-audio-playing')) {
+			UF.player.state = 'play';
+			UF.audio_source.attr('src', current_audio.find('.audio-info').attr('data-audio-url'));
+			UF.player_progress.addClass('player-progress-active');
+			$('.post-audio').removeClass('post-audio-playing');
+			current_audio.addClass('post-audio-playing');
+		} else {
+			UF.player.state = 'pause';
+			current_audio.removeClass('post-audio-playing');
+		}
+		togglePlayPause();
 	});
 
 	$('.archive').on(UF.event_type, '.archive-audio', function() {
 		var current_audio = $(this);
 		if (!current_audio.hasClass('archive-audio-playing')) {
-			console.log('init');
 			UF.audio_source.attr('src', current_audio.find('.audio-info').attr('data-audio-url'));
 			UF.player_progress.addClass('player-progress-active');
 			$('.archive-audio').removeClass('archive-audio-playing');
@@ -106,16 +119,7 @@ $(function() {
 		recordRewind(e);
 	})
 
-	$('.blog').on(UF.event_type, '.play-btn', function() {
-		if ($(this).hasClass('stop')) {
-			$(this).siblings('audio').trigger('play');
-			console.log($(this));
-		} else {
-			$(this).siblings('audio').trigger('pause');
-		}
-	});
-
-	$('.nc-sub-item').on(UF.event_type, function() {
+	$('.nav-calendar').on(UF.event_type, '.nc-sub-item', function() {
 		$('.nc-sub-item').removeClass('nc-sub-item-selected');
 		$(this).addClass('nc-sub-item-selected');
 	});
@@ -149,15 +153,24 @@ $(function() {
 	});
 
 	var calendarWidget = (function() {
-		var today = new Date();
-		var this_month = today.getMonth();
-		var this_year = today.getFullYear();
+		//TODO do main object time
 		var month_names = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 		var days_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+		var today = new Date();
+		var curr_year = today.getFullYear();
+		var curr_month = today.getMonth();
+		var curr_day = today.getDate();
+		var curr_hours = (function() {
+			return (today.getHours() < 10 ? '0' : '') + today.getHours() + ':00';
+		}());
 
 		return {
-			init: function() {
-
+			onInit: function() {
+				calendarWidget.showDaysMonth();
+				$('.nav-calendar-year-section .ncys-item:contains(' + curr_year + ')').addClass('nc-sub-item-selected');
+				$('.nav-calendar-month-section .ncms-item[data-id-month=' + curr_month + ']').addClass('nc-sub-item-selected');
+				$('.nav-calendar-day-section .ncds-item:contains(' + curr_day + ')').addClass('nc-sub-item-selected');
+				$('.nav-calendar-time-section .ncts-item:contains(' + curr_hours + ')').addClass('nc-sub-item-selected');
 			},
 			getDaysInMonth: function(month, year) {
 				if ((month == 1) && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))) {
@@ -165,20 +178,25 @@ $(function() {
 				} else {
 					return days_month[month];
 				}
+			},
+			showDaysMonth: function(month) {
+				var month = month || curr_month;
+				var count_day_month = calendarWidget.getDaysInMonth(month, curr_year);
+				var month_html = '';
+				var middle_month = 17;
+				for (var i = middle_month; i <= count_day_month; i++) {
+					month_html += ('<div class="ncds-item nc-sub-item">'+ i +'</div>');
+				}
+				$('.nav-calendar-day-section .nc-row').eq(1).html(month_html);
 			}
 		}
 	}());
+	calendarWidget.onInit();
 
-	console.log(calendarWidget.getDaysInMonth(1, 2017));
-
-	// function getDaysInMonth(month,year)  {
-	// 	var days_month = [31,28,31,30,31,30,31,31,30,31,30,31];
-	// 	if ((month == 1) && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))){
-	// 	  return 29;
-	// 	}else{
-	// 	  return days_month[month];
-	// 	}
-	// }
+	$('.nav-calendar-month-section').on(UF.event_type, '.ncms-item', function() {
+		var id_month = $(this).attr('data-id-month');
+		calendarWidget.showDaysMonth(id_month);
+	});
 
 	function changePlayer(visible) {
 		$(".player-track").fadeOut(300, function() {
@@ -328,16 +346,18 @@ $(function() {
 	}
 
 	function playStopPlayer() {
+		console.log(UF.player.state);
 		if (UF.player.state == 'play') {
 			UF.audio.trigger('pause');
 			UF.player.state = 'pause';
+			$('.player-live').length ? UF.player_progress.removeClass('player-progress-active') : '';
 		} else {
-			UF.audio.trigger('load');
+			// UF.audio.trigger('load');
 			UF.audio.trigger('play');
 			UF.player.state = 'play';
+			UF.player_progress.addClass('player-progress-active');
 		}
 
-		UF.player_progress.toggleClass('player-progress-active');
 		UF.player_button.toggleClass('player-btn-pause');
 	}
 
