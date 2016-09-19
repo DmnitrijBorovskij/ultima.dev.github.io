@@ -1,9 +1,9 @@
 {{#.}}
     <div class="archive-audio audio">
         <div class="audio-info" data-audio-url="{{audio_url}}"  data-audio-time-played="{{# convertUnixtime }} {{  played_at }} {{/ convertUnixtime }}">
-            <span class="ai-singer">{{ audio_artist }}</span>
+            <span class="ai-singer ai-text">{{ audio_artist }}</span>
             <span class="divider">-</span>
-            <span class="ai-title">{{ audio_title }}</span>
+            <span class="ai-title ai-text">{{ audio_title }}</span>
         </div>
         <div class="audio-duration" data-audio-duration="{{ duration }}">{{# timeFormat}} {{ duration }} {{/ timeFormat}}</div>
     </div>

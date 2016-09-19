@@ -54,7 +54,7 @@ $phone-width: 480px;
 * {
 	margin: 0;
  	padding: 0;
-}
+ }
 
 ul {
 	list-style: none;
@@ -144,6 +144,10 @@ body {
 	content: '';
 	clear: both;
 	display: table;
+}
+
+.highlight { 
+	color: #2095F2; 
 }
 
 header {
@@ -649,7 +653,7 @@ header {
 				}
 			}
 
-			.post-audio-playing {
+			.audio-playing {
 				.post-audio-play {
 					.audio-play {
 						background-position: 8px -15px;
@@ -688,7 +692,6 @@ header {
 			@include position(absolute, $top: 50%, $left: 40px);
 			@include transform(translateY(-50%));
 			opacity: .4;
-            cursor: pointer;
 			border: none;
 			outline:none;
 			-webkit-appearance: none;
@@ -720,6 +723,8 @@ header {
 	}
 
 	.archive-form-search-active {
+
+		z-index: 2;
 
 		.afs-btn {
 			@include transition (opacity .4s ease);
@@ -869,7 +874,7 @@ header {
             }
         }
 
-        .archive-audio-playing {
+        .audio-playing {
 			&:before {
 				content: '';
 				position: absolute;
@@ -886,15 +891,19 @@ header {
 }
 
 footer {
+	position: relative;
     width: 1200px;
     margin: 0 auto;
     padding-top: 40px;
+    margin-bottom: 30px;
+
     
     .footer-address {
         float: left;
+        font-weight: 300;
+        line-height: 27px;
         .fa-mail {	
         	color: #2095F2;
-        	font-weight: 300;
         }
     }
     
@@ -912,8 +921,8 @@ footer {
     }
 
     .footer-stats {
-		margin-top: 35px;
-	    float: left;
+		position: absolute;
+		top: 100px;
 	    width: 100%;
 		font: 10px 'Arial';
 		letter-spacing: 1.5px;

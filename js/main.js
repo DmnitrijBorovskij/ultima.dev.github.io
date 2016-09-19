@@ -4,6 +4,8 @@ $(function() {
 	if (!UF) var UF = {};
 	UF.api_ultima = 'http://api.ultima.fm';
 	UF.stream = 'http://sc.ultima.fm:8001/stream/1/stream.mp3';
+	UF.curr_audio;
+	UF.prev_audio;
 	UF.audio = $('#audio');
 	UF.audio_source = UF.audio.find('source');
 	UF.audio_duration = UF.audio.attr('data-duration', 0);
@@ -14,6 +16,7 @@ $(function() {
 	UF.player_progress_val = $('.player-progress-val');
 	UF.player_timer;
 	UF.live_timer;
+	UF.search =  $(".archive-form-search").find(".afs-input").val();
 	UF.player = {
 		el: $('.player')[0],
 		el_play: $('#audio')[0],
@@ -56,8 +59,10 @@ $(function() {
 
 	$('.live').on(UF.event_type, function() {
 		UF.audio_source.attr('src', UF.stream);
-		playStopPlayer();
+		UF.player.state = 'pause';
 		$('header').removeClass('player-archive').addClass('player-live');
+		$('.audio-playing').removeClass('audio-playing');
+		playStopPlayer();
 		changePlayer('block');
 		UF.player.updateMeta();
 		UF.live_timer = setInterval(function() {
@@ -69,15 +74,52 @@ $(function() {
 	});
 
 	$('body').on(UF.event_type, '.audio', function() {
-		var audio_duration = $(this).find('.audio-duration').text(),
+		var audio_curr = $(this),
+		    audio_duration = $(this).find('.audio-duration').text(),
 			audio_author = $(this).find('.ai-singer').text(),
 			audio_song = $(this).find('.ai-title').text();
+			// console.log($(this).attr('class'));
+			console.log($('.archive-audio').attr('class'));
 
 		if (!$('.player-archive').length) {
 			$('header').removeClass('player-live').addClass('player-archive ');
 			changePlayer('none');
 		}
+
+		if (!audio_curr.hasClass('audio-playing')) {
+			UF.player.state = 'pause';
+			UF.audio_source.attr('src', audio_curr.find('.audio-info').attr('data-audio-url'));
+			UF.player_progress.addClass('player-progress-active');
+			$('.audio').removeClass('audio-playing');
+			audio_curr.addClass('audio-playing');
+		} else {
+			UF.player.state = 'play';
+			audio_curr.removeClass('audio-playing');
+		}
+		togglePlayPause();
+
+		
+
+		// //console.log(audio_curr);
+		// //UF.curr_audio = audio_curr;
+		// // console.log(UF.curr_audio == audio_curr);
+		// if (UF.curr_audio == audio_curr) {
+		// 	UF.player.state = 'play';
+			
+		// } else {
+		// 	UF.player.state = 'play';
+		// }
+		// // if (!UF.curr_audio == audio_curr) {
+		// // 	UF.curr_audio = audio_curr;
+
+		// // } else {
+		// // 	UF.player.state = 'play';
+		// // 	UF.audio.trigger('pause');
+		// // }
+
+				
 		clearInterval(UF.live_timer);
+		UF.player.state = 'play';
 		UF.player.el_author.text(audio_author);
 		UF.player.el_song.text(audio_song);
 		UF.player.duration.text(audio_duration);
@@ -85,44 +127,39 @@ $(function() {
 	});
 
 	$('.archive-form-search').keyup(function() {
-		var search_val = $(".archive-form-search").find(".afs-input").val();
-		searchRecordsArchive(search_val);
+		UF.search = $(".archive-form-search").find(".afs-input").val();
+		searchRecordsArchive(UF.search);
 	});
 
 	$('.blog').on(UF.event_type, '.post-audio', function() {
-		var current_audio = $(this);
-		if (!current_audio.hasClass('post-audio-playing')) {
-			UF.player.state = 'play';
-			UF.audio_source.attr('src', current_audio.find('.audio-info').attr('data-audio-url'));
-			UF.player_progress.addClass('player-progress-active');
-			$('.post-audio').removeClass('post-audio-playing');
-			current_audio.addClass('post-audio-playing');
-		} else {
-			UF.player.state = 'pause';
-			current_audio.removeClass('post-audio-playing');
-		}
-		togglePlayPause();
+		// var current_audio = $(this);
+		// if (!current_audio.hasClass('audio-playing')) {
+		// 	UF.player.state = 'pause';
+		// 	UF.audio_source.attr('src', current_audio.find('.audio-info').attr('data-audio-url'));
+		// 	UF.player_progress.addClass('player-progress-active');
+		// 	$('.post-audio').removeClass('audio-playing');
+		// 	current_audio.addClass('audio-playing');
+		// } else {
+		// 	UF.player.state = 'play';
+		// 	current_audio.removeClass('audio-playing');
+		// }
+		// togglePlayPause();
 	});
 
 	$('.archive').on(UF.event_type, '.archive-audio', function() {
-		var current_audio = $(this);
-		if (!current_audio.hasClass('archive-audio-playing')) {
-			UF.audio_source.attr('src', current_audio.find('.audio-info').attr('data-audio-url'));
-			UF.player_progress.addClass('player-progress-active');
-			$('.archive-audio').removeClass('archive-audio-playing');
-			current_audio.addClass('archive-audio-playing');
-		}
-		togglePlayPause();
+		// var current_audio = $(this);
+		// if (!current_audio.hasClass('audio-playing')) {
+		// 	UF.audio_source.attr('src', current_audio.find('.audio-info').attr('data-audio-url'));
+		// 	UF.player_progress.addClass('player-progress-active');
+		// 	$('.archive-audio').removeClass('audio-playing');
+		// 	current_audio.addClass('audio-playing');
+		// }
+		// togglePlayPause();
 	});
 
 	UF.player_progress.on(UF.event_type, function(e) {
 		recordRewind(e);
 	})
-
-	$('.nav-calendar').on(UF.event_type, '.nc-sub-item', function() {
-		$('.nc-sub-item').removeClass('nc-sub-item-selected');
-		$(this).addClass('nc-sub-item-selected');
-	});
 
 
 	$('.afs-filter').on(UF.event_type, function() {
@@ -173,30 +210,44 @@ $(function() {
 				$('.nav-calendar-time-section .ncts-item:contains(' + curr_hours + ')').addClass('nc-sub-item-selected');
 			},
 			getDaysInMonth: function(month, year) {
+				//console.log(month, year);
 				if ((month == 1) && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))) {
 					return 29;
 				} else {
 					return days_month[month];
 				}
 			},
-			showDaysMonth: function(month) {
-				var month = month || curr_month;
-				var count_day_month = calendarWidget.getDaysInMonth(month, curr_year);
+			showDaysMonth: function() {
+				var year = $('.nav-calendar-year-section .nc-sub-item-selected').text() || curr_year;
+				var month = $('.nav-calendar-month-section .nc-sub-item-selected').attr('data-id-month') || curr_month;
+				console.log(year);
+				console.log(month);
+				var count_day_month = calendarWidget.getDaysInMonth(month, year);
 				var month_html = '';
 				var middle_month = 17;
 				for (var i = middle_month; i <= count_day_month; i++) {
 					month_html += ('<div class="ncds-item nc-sub-item">'+ i +'</div>');
 				}
 				$('.nav-calendar-day-section .nc-row').eq(1).html(month_html);
+			},
+			searchRecords: function() {
+				//TODO
 			}
 		}
 	}());
 	calendarWidget.onInit();
 
-	$('.nav-calendar-month-section').on(UF.event_type, '.ncms-item', function() {
-		var id_month = $(this).attr('data-id-month');
-		calendarWidget.showDaysMonth(id_month);
+	$('.nav-calendar-year-section, .nav-calendar-month-section').on(UF.event_type, '.nc-sub-item', function() {
+		$(this).closest('.nc-item').find('.nc-sub-item-selected').removeClass('nc-sub-item-selected');
+		$(this).addClass('nc-sub-item-selected');
+		calendarWidget.showDaysMonth();
 	});
+
+	$('.nav-calendar').on(UF.event_type, '.nc-sub-item', function() {
+		$(this).closest('.nc-item').find('.nc-sub-item-selected').removeClass('nc-sub-item-selected');
+		$(this).addClass('nc-sub-item-selected');
+	});
+
 
 	function changePlayer(visible) {
 		$(".player-track").fadeOut(300, function() {
@@ -300,6 +351,19 @@ $(function() {
 		});
 	}
 
+	function highlight (string) {
+        $('.archive .ai-text').each(function () {
+        	if ($(this).text().toLowerCase().indexOf("" + string.toLowerCase() + "") != -1) {
+            	var matchStart = $(this).text().toLowerCase().indexOf("" + string.toLowerCase() + "");
+            	var matchEnd = matchStart + string.length - 1;
+            	var beforeMatch = $(this).text().slice(0, matchStart);
+            	var matchText = $(this).text().slice(matchStart, matchEnd + 1);
+            	var afterMatch = $(this).text().slice(matchEnd + 1);
+            	$(this).html(beforeMatch + "<span class='highlight'>" + matchText + "</span>" + afterMatch);
+        	}
+        });
+    };
+
 	function recordRewind(offset) {
 		var x = offset.offsetX == undefined ? offset.layerX : offset.offsetX,
 			percent = (x / UF.player_progress.width() * 100).toFixed(),
@@ -315,7 +379,8 @@ $(function() {
 	}
 
 	function togglePlayPause() {
-		if (UF.audio.prop("paused")) {
+		//console.log(UF.player.state);
+		if (UF.player.state == 'pause') {
 			UF.audio.trigger('load');
 			UF.audio.trigger('play');
 			UF.player_timer = setInterval(function() {
@@ -329,12 +394,12 @@ $(function() {
 		}
 
 		UF.audio.on('ended', function() {
-			var next_track = $('.archive-audio-playing').next();
+			var next_track = $('.audio-playing').next();
 			if (!next_track.length) next_track = $('.archive-audio').first();
-			next_track.addClass('archive-audio-playing').siblings().removeClass('archive-audio-playing');
+			next_track.addClass('audio-playing').siblings().removeClass('audio-playing');
 			var audio_author = $('.archive-audio-playing .ai-singer').text();
-			var audio_song = $('.archive-audio-playing .ai-title').text();
-			var audio_duration = $('.archive-audio-playing .audio-duration').text();
+			var audio_song = $('.audio-playing .ai-title').text();
+			var audio_duration = $('.audio-playing .audio-duration').text();
 			UF.player.el_author.text(audio_author);
 			UF.player.el_song.text(audio_song);
 			UF.player.duration.text(audio_duration);
@@ -346,13 +411,14 @@ $(function() {
 	}
 
 	function playStopPlayer() {
-		console.log(UF.player.state);
+		//console.log(UF.player.state);
 		if (UF.player.state == 'play') {
 			UF.audio.trigger('pause');
 			UF.player.state = 'pause';
 			$('.player-live').length ? UF.player_progress.removeClass('player-progress-active') : '';
 		} else {
-			// UF.audio.trigger('load');
+			console.log($('.player-live').length);
+			$('.player-live').length ? UF.audio.trigger('load') : ''; 
 			UF.audio.trigger('play');
 			UF.player.state = 'play';
 			UF.player_progress.addClass('player-progress-active');
@@ -436,6 +502,7 @@ $(function() {
 			}
 
 			$(where).find('.mCSB_container').append(result);
+			highlight(UF.search);
 		});
 	}
 
@@ -453,7 +520,7 @@ $(function() {
 			$(".blog-wrapper").mCustomScrollbar({
 				axis: "y",
 				theme: "my-theme",
-				scrollInertia: 2000,
+				scrollInertia: 500,
 				autoHideScrollbar: true,
 				callbacks: {
 					onInit: function() {
@@ -469,7 +536,7 @@ $(function() {
 			$(".archive-wrapper").mCustomScrollbar({
 				axis: "y",
 				theme: "my-theme",
-				scrollInertia: 2000,
+				scrollInertia: 500,
 				autoHideScrollbar: true,
 				callbacks: {
 					onInit: function() {
