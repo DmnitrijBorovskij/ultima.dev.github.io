@@ -62,6 +62,7 @@ $(function() {
 		UF.player.state = 'pause';
 		$('header').removeClass('player-archive').addClass('player-live');
 		$('.audio-playing').removeClass('audio-playing');
+		console.log(UF.player.state);
 		playStopPlayer();
 		changePlayer('block');
 		UF.player.updateMeta();
@@ -462,20 +463,21 @@ $(function() {
 	}
 
 	function playStopPlayer() {
-		//console.log(UF.player.state);
+		console.log(UF.player.state);
 		if (UF.player.state == 'play') {
 			UF.audio.trigger('pause');
 			UF.player.state = 'pause';
 			$('.player-live').length ? UF.player_progress.removeClass('player-progress-active') : '';
+			UF.player_button.removeClass('player-btn-pause')
 		} else {
 			//console.log($('.player-live').length);
 			$('.player-live').length ? UF.audio.trigger('load') : ''; 
 			UF.audio.trigger('play');
 			UF.player.state = 'play';
 			UF.player_progress.addClass('player-progress-active');
+			UF.player_button.addClass('player-btn-pause');
 		}
 
-		UF.player_button.toggleClass('player-btn-pause');
 	}
 
 	function showBuffer() {
