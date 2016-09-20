@@ -629,6 +629,7 @@ header .button-live .button-live-img {
   -webkit-appearance: none;
 }
 .archive .archive-form-search .afs-filter {
+  display: none;
   position: absolute;
   top: 50%;
   right: 40px;
@@ -704,7 +705,7 @@ header .button-live .button-live-img {
   display: inline-block;
   cursor: pointer;
 }
-.archive .nav-calendar .nc-item .nc-sub-item:hover {
+.archive .nav-calendar .nc-item .nc-sub-item:not(.future):hover {
   color: #000;
   -moz-transition: color 0.2s ease;
   -o-transition: color 0.2s ease;
@@ -713,6 +714,10 @@ header .button-live .button-live-img {
 }
 .archive .nav-calendar .nc-item .nc-sub-item.nc-sub-item-selected {
   color: #2196F3;
+}
+.archive .nav-calendar .nc-item .future {
+  color: #9e9e9e;
+  cursor: default;
 }
 .archive .nav-calendar .nav-calendar-year-section {
   padding: 26px 0 10px 0;
@@ -747,6 +752,12 @@ header .button-live .button-live-img {
 }
 .archive .nav-calendar .nc-reset-btn:hover {
   color: #f44336;
+}
+.archive .nav-calendar-active {
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .archive .nav-calendar-active .nc-item,
 .archive .nav-calendar-active .nc-reset-btn {

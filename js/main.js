@@ -79,7 +79,7 @@ $(function() {
 			audio_author = $(this).find('.ai-singer').text(),
 			audio_song = $(this).find('.ai-title').text();
 			// console.log($(this).attr('class'));
-			console.log($('.archive-audio').attr('class'));
+			//console.log($('.archive-audio').attr('class'));
 
 		if (!$('.player-archive').length) {
 			$('header').removeClass('player-live').addClass('player-archive ');
@@ -205,9 +205,15 @@ $(function() {
 			onInit: function() {
 				calendarWidget.showDaysMonth();
 				$('.nav-calendar-year-section .ncys-item:contains(' + curr_year + ')').addClass('nc-sub-item-selected');
-				$('.nav-calendar-month-section .ncms-item[data-id-month=' + curr_month + ']').addClass('nc-sub-item-selected');
-				$('.nav-calendar-day-section .ncds-item:contains(' + curr_day + ')').addClass('nc-sub-item-selected');
-				$('.nav-calendar-time-section .ncts-item:contains(' + curr_hours + ')').addClass('nc-sub-item-selected');
+				$('.nav-calendar-month-section .ncms-item[data-id-month=' + curr_month + ']').addClass('nc-sub-item-selected').nextAll('.nc-sub-item').addClass('future');
+				$('.nav-calendar-day-section .ncds-item:contains(' + curr_day + ')').addClass('nc-sub-item-selected').nextAll('.nc-sub-item').addClass('future');
+				$('.nav-calendar-time-section .ncts-item:contains(' + curr_hours + ')').addClass('nc-sub-item-selected').nextAll('.nc-sub-item').addClass('future');
+				$('.nc-sub-item').each(function() {
+					//console.log($(this).text());
+					//console.log('===============');
+					//console.log($('.nc-sub-item-selected').text());
+					//$(this).text() > $('.nc-sub-item-selected').text() ? $(this).addClass('future') : '';
+				});
 			},
 			getDaysInMonth: function(month, year) {
 				//console.log(month, year);
@@ -220,8 +226,8 @@ $(function() {
 			showDaysMonth: function() {
 				var year = $('.nav-calendar-year-section .nc-sub-item-selected').text() || curr_year;
 				var month = $('.nav-calendar-month-section .nc-sub-item-selected').attr('data-id-month') || curr_month;
-				console.log(year);
-				console.log(month);
+				//console.log(year);
+				//console.log(month);
 				var count_day_month = calendarWidget.getDaysInMonth(month, year);
 				var month_html = '';
 				var middle_month = 17;
@@ -231,22 +237,67 @@ $(function() {
 				$('.nav-calendar-day-section .nc-row').eq(1).html(month_html);
 			},
 			searchRecords: function() {
-				//TODO
+				var select_year = $('.nc-sub-item-selected').eq(0).text();
+				var select_month = $('.nc-sub-item-selected').eq(1).text()
+				var select_day = $('.nc-sub-item-selected').eq(2).text();
+				var select_hour = $('.nc-sub-item-selected').eq(3).attr('data-hour');
+				//console.log('tttttttttttt');
+				//console.log(select_year);
+				//console.log(select_month);
+				//console.log(select_day);
+				//console.log(select_hour);
+				var period = get_constraints(select_year, select_month, select_day, select_hour);
+				//console.log('period');
+				//console.log(period);
 			}
 		}
 	}());
 	calendarWidget.onInit();
 
 	$('.nav-calendar-year-section, .nav-calendar-month-section').on(UF.event_type, '.nc-sub-item', function() {
-		$(this).closest('.nc-item').find('.nc-sub-item-selected').removeClass('nc-sub-item-selected');
-		$(this).addClass('nc-sub-item-selected');
-		calendarWidget.showDaysMonth();
+		if (!$(this).hasClass('future')) {
+			$(this).closest('.nc-item').find('.nc-sub-item-selected').removeClass('nc-sub-item-selected');
+			$(this).addClass('nc-sub-item-selected');
+			calendarWidget.showDaysMonth();
+		}
 	});
 
 	$('.nav-calendar').on(UF.event_type, '.nc-sub-item', function() {
-		$(this).closest('.nc-item').find('.nc-sub-item-selected').removeClass('nc-sub-item-selected');
-		$(this).addClass('nc-sub-item-selected');
+		//console.log($(this).hasClass('future'));
+		if (!$(this).hasClass('future')) {
+			$(this).closest('.nc-item').find('.nc-sub-item-selected').removeClass('nc-sub-item-selected');
+			$(this).addClass('nc-sub-item-selected');
+			calendarWidget.searchRecords();			
+		}
 	});
+
+ 
+	function get_constraints(year, month, day, hour) {
+		var map = [
+	   		[2015, 2017],
+	   		[0, 11],
+	   		[1, 31],
+	   		[0, 23]
+	 	]
+	 	var result = [year, month, day, hour].reduce(function (p, c, i, a) {
+	   		p[0].push(c || map[i][0])
+	   		if (i == 2 && !c && p[1][p.length - 1]) {
+	     		p[1][p.length - 1]++;
+	     		p[1].push(0);
+	   		} else {
+	     		p[1].push(c || map[i][1])
+	   		}
+
+	   		return p
+	 	}, [[], []])
+
+	 	result[0].push(0, 0)
+	 	result[1].push(59, 59)
+	 	return result.map(function (p) {
+	   		p.unshift(null);
+	   		return (new ( Function.prototype.bind.apply(Date, p))).getTime()/1000
+	 	})
+	}
 
 
 	function changePlayer(visible) {
@@ -417,7 +468,7 @@ $(function() {
 			UF.player.state = 'pause';
 			$('.player-live').length ? UF.player_progress.removeClass('player-progress-active') : '';
 		} else {
-			console.log($('.player-live').length);
+			//console.log($('.player-live').length);
 			$('.player-live').length ? UF.audio.trigger('load') : ''; 
 			UF.audio.trigger('play');
 			UF.player.state = 'play';

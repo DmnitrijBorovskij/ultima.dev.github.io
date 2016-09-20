@@ -698,6 +698,7 @@ header {
 		}
 
 		.afs-filter {
+			display: none;
 			@include position(absolute, $top: 50%, $right: 40px);
 			@include transform(translateY(-50%));
 			cursor: pointer;
@@ -765,16 +766,24 @@ header {
             .nc-sub-item {
                 display: inline-block;
                 cursor: pointer;
-
-                &:hover {
-                	color: #000;
-                	@include transition(color 0.2s ease);
+                &:not(.future) {
+	                &:hover {
+	                	color: #000;
+	                	@include transition(color 0.2s ease);
+	                }
+                	
                 }
                 
                 &.nc-sub-item-selected {
                     color: #2196F3;
                 }
-            } 
+            }
+
+
+       		.future {
+        		color: #9e9e9e;
+        		cursor: default;
+        	} 
         }
 
         .nav-calendar-year-section {
@@ -823,6 +832,7 @@ header {
     }
 
     .nav-calendar-active {
+    	@include user-select(none);
     	.nc-item,
     	.nc-reset-btn {
     		@include transition (opacity 0.4s ease 0.4s);
