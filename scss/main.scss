@@ -698,7 +698,6 @@ header {
 		}
 
 		.afs-filter {
-			display: none;
 			@include position(absolute, $top: 50%, $right: 40px);
 			@include transform(translateY(-50%));
 			cursor: pointer;
@@ -734,6 +733,7 @@ header {
 	}
     
     .nav-calendar {
+    	display: none;
     	position: relative;
     	width: 100%;
     	box-sizing: border-box;
@@ -742,7 +742,6 @@ header {
         color: #616161;
         padding: 0 40px;
         font-size: em(16,14);
-        display: none;
 
         .nc-row {
         	height: 20px;
@@ -774,7 +773,10 @@ header {
                 	
                 }
                 
-                &.nc-sub-item-selected {
+                &.curr-year,
+                &.curr-month,
+                &.curr-day,
+                &.curr-hour {
                     color: #2196F3;
                 }
             }

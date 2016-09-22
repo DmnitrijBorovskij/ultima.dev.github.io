@@ -629,7 +629,6 @@ header .button-live .button-live-img {
   -webkit-appearance: none;
 }
 .archive .archive-form-search .afs-filter {
-  display: none;
   position: absolute;
   top: 50%;
   right: 40px;
@@ -670,6 +669,7 @@ header .button-live .button-live-img {
   opacity: 1;
 }
 .archive .nav-calendar {
+  display: none;
   position: relative;
   width: 100%;
   box-sizing: border-box;
@@ -678,7 +678,6 @@ header .button-live .button-live-img {
   color: #616161;
   padding: 0 40px;
   font-size: 1.14286em;
-  display: none;
 }
 .archive .nav-calendar .nc-row {
   height: 20px;
@@ -712,7 +711,7 @@ header .button-live .button-live-img {
   -webkit-transition: color 0.2s ease;
   transition: color 0.2s ease;
 }
-.archive .nav-calendar .nc-item .nc-sub-item.nc-sub-item-selected {
+.archive .nav-calendar .nc-item .nc-sub-item.curr-year, .archive .nav-calendar .nc-item .nc-sub-item.curr-month, .archive .nav-calendar .nc-item .nc-sub-item.curr-day, .archive .nav-calendar .nc-item .nc-sub-item.curr-hour {
   color: #2196F3;
 }
 .archive .nav-calendar .nc-item .future {

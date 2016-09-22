@@ -79,8 +79,6 @@ $(function() {
 		    audio_duration = $(this).find('.audio-duration').text(),
 			audio_author = $(this).find('.ai-singer').text(),
 			audio_song = $(this).find('.ai-title').text();
-			// console.log($(this).attr('class'));
-			//console.log($('.archive-audio').attr('class'));
 
 		if (!$('.player-archive').length) {
 			$('header').removeClass('player-live').addClass('player-archive ');
@@ -97,28 +95,7 @@ $(function() {
 			UF.player.state = 'play';
 			audio_curr.removeClass('audio-playing');
 		}
-		togglePlayPause();
-
-		
-
-		// //console.log(audio_curr);
-		// //UF.curr_audio = audio_curr;
-		// // console.log(UF.curr_audio == audio_curr);
-		// if (UF.curr_audio == audio_curr) {
-		// 	UF.player.state = 'play';
-			
-		// } else {
-		// 	UF.player.state = 'play';
-		// }
-		// // if (!UF.curr_audio == audio_curr) {
-		// // 	UF.curr_audio = audio_curr;
-
-		// // } else {
-		// // 	UF.player.state = 'play';
-		// // 	UF.audio.trigger('pause');
-		// // }
-
-				
+		togglePlayPause();	
 		clearInterval(UF.live_timer);
 		UF.player.state = 'play';
 		UF.player.el_author.text(audio_author);
@@ -133,29 +110,11 @@ $(function() {
 	});
 
 	$('.blog').on(UF.event_type, '.post-audio', function() {
-		// var current_audio = $(this);
-		// if (!current_audio.hasClass('audio-playing')) {
-		// 	UF.player.state = 'pause';
-		// 	UF.audio_source.attr('src', current_audio.find('.audio-info').attr('data-audio-url'));
-		// 	UF.player_progress.addClass('player-progress-active');
-		// 	$('.post-audio').removeClass('audio-playing');
-		// 	current_audio.addClass('audio-playing');
-		// } else {
-		// 	UF.player.state = 'play';
-		// 	current_audio.removeClass('audio-playing');
-		// }
-		// togglePlayPause();
+		//TODO
 	});
 
 	$('.archive').on(UF.event_type, '.archive-audio', function() {
-		// var current_audio = $(this);
-		// if (!current_audio.hasClass('audio-playing')) {
-		// 	UF.audio_source.attr('src', current_audio.find('.audio-info').attr('data-audio-url'));
-		// 	UF.player_progress.addClass('player-progress-active');
-		// 	$('.archive-audio').removeClass('audio-playing');
-		// 	current_audio.addClass('audio-playing');
-		// }
-		// togglePlayPause();
+		//TODO
 	});
 
 	UF.player_progress.on(UF.event_type, function(e) {
@@ -203,21 +162,18 @@ $(function() {
 		}());
 
 		return {
-			onInit: function() {
+			updateTime: function() {
 				calendarWidget.showDaysMonth();
-				$('.nav-calendar-year-section .ncys-item:contains(' + curr_year + ')').addClass('nc-sub-item-selected');
-				$('.nav-calendar-month-section .ncms-item[data-id-month=' + curr_month + ']').addClass('nc-sub-item-selected').nextAll('.nc-sub-item').addClass('future');
-				$('.nav-calendar-day-section .ncds-item:contains(' + curr_day + ')').addClass('nc-sub-item-selected').nextAll('.nc-sub-item').addClass('future');
-				$('.nav-calendar-time-section .ncts-item:contains(' + curr_hours + ')').addClass('nc-sub-item-selected').nextAll('.nc-sub-item').addClass('future');
+				$('.nav-calendar-year-section .ncys-item[data-year=' + curr_year + ']').addClass('curr-year');
+				$('.nav-calendar-month-section .ncms-item[data-id-month=' + curr_month + ']').addClass('curr-month').nextAll('.nc-sub-item').addClass('future');
+				$('.nav-calendar-day-section .ncds-item[data-day=' + curr_day + ']').addClass('curr-day').nextAll('.nc-sub-item').addClass('future');
+				$('.nav-calendar .ncts-item[data-hour=' + today.getHours() + ']').addClass('curr-hour').nextAll('.nc-sub-item').addClass('future');
 				$('.nc-sub-item').each(function() {
-					//console.log($(this).text());
-					//console.log('===============');
-					//console.log($('.nc-sub-item-selected').text());
-					//$(this).text() > $('.nc-sub-item-selected').text() ? $(this).addClass('future') : '';
+					console.log($(this).data());
+					//$(this).data() > $('.nc-sub-item[class ^= curr]').data() ? $(this).addClass('future') : '';
 				});
 			},
 			getDaysInMonth: function(month, year) {
-				//console.log(month, year);
 				if ((month == 1) && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))) {
 					return 29;
 				} else {
@@ -233,7 +189,7 @@ $(function() {
 				var month_html = '';
 				var middle_month = 17;
 				for (var i = middle_month; i <= count_day_month; i++) {
-					month_html += ('<div class="ncds-item nc-sub-item">'+ i +'</div>');
+					month_html += ('<div class="ncds-item nc-sub-item" data-day="' + i + '">'+ i +'</div>');
 				}
 				$('.nav-calendar-day-section .nc-row').eq(1).html(month_html);
 			},
@@ -253,7 +209,7 @@ $(function() {
 			}
 		}
 	}());
-	calendarWidget.onInit();
+	calendarWidget.updateTime();
 
 	$('.nav-calendar-year-section, .nav-calendar-month-section').on(UF.event_type, '.nc-sub-item', function() {
 		if (!$(this).hasClass('future')) {
@@ -463,14 +419,12 @@ $(function() {
 	}
 
 	function playStopPlayer() {
-		console.log(UF.player.state);
 		if (UF.player.state == 'play') {
 			UF.audio.trigger('pause');
 			UF.player.state = 'pause';
 			$('.player-live').length ? UF.player_progress.removeClass('player-progress-active') : '';
 			UF.player_button.removeClass('player-btn-pause')
 		} else {
-			//console.log($('.player-live').length);
 			$('.player-live').length ? UF.audio.trigger('load') : ''; 
 			UF.audio.trigger('play');
 			UF.player.state = 'play';
