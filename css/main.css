@@ -289,7 +289,7 @@ header .player-progress .player-progress-buffer {
   position: absolute;
   bottom: 0;
   background-color: #e0e0e0;
-  z-index: 1;
+  z-index: -1;
 }
 header.player-live .player-progress-active .player-progress-wrap-val {
   opacity: 1;
@@ -711,7 +711,7 @@ header .button-live .button-live-img {
   -webkit-transition: color 0.2s ease;
   transition: color 0.2s ease;
 }
-.archive .nav-calendar .nc-item .nc-sub-item.curr-year, .archive .nav-calendar .nc-item .nc-sub-item.curr-month, .archive .nav-calendar .nc-item .nc-sub-item.curr-day, .archive .nav-calendar .nc-item .nc-sub-item.curr-hour {
+.archive .nav-calendar .nc-item .nc-sub-item.selected {
   color: #2196F3;
 }
 .archive .nav-calendar .nc-item .future {

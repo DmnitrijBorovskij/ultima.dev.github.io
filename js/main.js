@@ -163,13 +163,16 @@ $(function() {
 
 		return {
 			updateTime: function() {
+				if ($('.selected').length) {	
+					$('.nc-sub-item').removeClass('selected');
+				}
 				calendarWidget.showDaysMonth();
-				$('.nav-calendar-year-section .ncys-item[data-year=' + curr_year + ']').addClass('curr-year');
-				$('.nav-calendar-month-section .ncms-item[data-id-month=' + curr_month + ']').addClass('curr-month').nextAll('.nc-sub-item').addClass('future');
-				$('.nav-calendar-day-section .ncds-item[data-day=' + curr_day + ']').addClass('curr-day').nextAll('.nc-sub-item').addClass('future');
-				$('.nav-calendar .ncts-item[data-hour=' + today.getHours() + ']').addClass('curr-hour').nextAll('.nc-sub-item').addClass('future');
+				$('.ncys-item[data-year=' + curr_year + ']').addClass('curr-year selected');
+				$('.ncms-item[data-id-month=' + curr_month + ']').addClass('curr-month selected').nextAll('.nc-sub-item').addClass('future');
+				$('.ncds-item[data-day=' + curr_day + ']').addClass('curr-day selected').nextAll('.nc-sub-item').addClass('future');
+				$('.ncts-item[data-hour=' + today.getHours() + ']').addClass('curr-hour selected').nextAll('.nc-sub-item').addClass('future');
 				$('.nc-sub-item').each(function() {
-					console.log($(this).data());
+					//console.log($(this).data());
 					//$(this).data() > $('.nc-sub-item[class ^= curr]').data() ? $(this).addClass('future') : '';
 				});
 			},
@@ -194,18 +197,13 @@ $(function() {
 				$('.nav-calendar-day-section .nc-row').eq(1).html(month_html);
 			},
 			searchRecords: function() {
-				var select_year = $('.nc-sub-item-selected').eq(0).text();
-				var select_month = $('.nc-sub-item-selected').eq(1).text()
-				var select_day = $('.nc-sub-item-selected').eq(2).text();
-				var select_hour = $('.nc-sub-item-selected').eq(3).attr('data-hour');
-				//console.log('tttttttttttt');
-				//console.log(select_year);
-				//console.log(select_month);
-				//console.log(select_day);
-				//console.log(select_hour);
-				var period = get_constraints(select_year, select_month, select_day, select_hour);
-				//console.log('period');
-				//console.log(period);
+				var select_time = []
+
+				$('.selected').each(function(ind, el) {
+					select_time.push($(el).data());
+				});
+				var period = get_constraints(select_time[0].year, select_time[1].month, select_time[2].day, select_time[3].hour);
+				console.log(period);
 			}
 		}
 	}());
@@ -213,8 +211,8 @@ $(function() {
 
 	$('.nav-calendar-year-section, .nav-calendar-month-section').on(UF.event_type, '.nc-sub-item', function() {
 		if (!$(this).hasClass('future')) {
-			$(this).closest('.nc-item').find('.nc-sub-item-selected').removeClass('nc-sub-item-selected');
-			$(this).addClass('nc-sub-item-selected');
+			$(this).closest('.nc-item').find('.selected').removeClass('selected');
+			$(this).addClass('selected');
 			calendarWidget.showDaysMonth();
 		}
 	});
@@ -222,14 +220,22 @@ $(function() {
 	$('.nav-calendar').on(UF.event_type, '.nc-sub-item', function() {
 		//console.log($(this).hasClass('future'));
 		if (!$(this).hasClass('future')) {
-			$(this).closest('.nc-item').find('.nc-sub-item-selected').removeClass('nc-sub-item-selected');
-			$(this).addClass('nc-sub-item-selected');
+			$(this).closest('.nc-item').find('.selected').removeClass('selected');
+			$(this).addClass('selected');
 			calendarWidget.searchRecords();			
 		}
 	});
 
+	$('.nc-reset-btn').on(UF.event_type, function() {
+		calendarWidget.updateTime();
+	});
+
  
 	function get_constraints(year, month, day, hour) {
+		console.log(year);
+		console.log(month);
+		console.log(day);
+		console.log(hour);
 		var map = [
 	   		[2015, 2017],
 	   		[0, 11],
@@ -377,6 +383,8 @@ $(function() {
 			percent = (x / UF.player_progress.width() * 100).toFixed(),
 			progressValRewind = UF.player_progress_val,
 			lengthAudio = $(UF.audio).prop('duration');
+			console.log(x);
+			console.log(UF.player_progress.width());
 
 		progressValRewind.css({
 			'transform': 'translateX(' + percent + "%" + ')',
@@ -551,7 +559,7 @@ $(function() {
 					},
 					onTotalScroll: function() {
 						//TODO load more archive
-						loadAudioArchive();
+						$('.afs-input').val() == 0 ? loadAudioArchive() : '';
 					}
 				}
 			});
