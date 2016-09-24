@@ -43,7 +43,6 @@ $(function() {
 	UF.player_button.on(UF.event_type, playStopPlayer);
 	UF.player.updateMeta();
 	UF.player.setVolume();
-	protectEmail();
 	getStatisticUsers();
 	loadPostBlog();
 	loadAudioArchive();
@@ -160,6 +159,7 @@ $(function() {
 		var curr_hours = (function() {
 			return (today.getHours() < 10 ? '0' : '') + today.getHours() + ':00';
 		}());
+		var start_year = 2015;
 
 		return {
 			updateTime: function() {
@@ -186,8 +186,6 @@ $(function() {
 			showDaysMonth: function() {
 				var year = $('.nav-calendar-year-section .nc-sub-item-selected').text() || curr_year;
 				var month = $('.nav-calendar-month-section .nc-sub-item-selected').attr('data-id-month') || curr_month;
-				//console.log(year);
-				//console.log(month);
 				var count_day_month = calendarWidget.getDaysInMonth(month, year);
 				var month_html = '';
 				var middle_month = 17;
@@ -204,6 +202,20 @@ $(function() {
 				});
 				var period = get_constraints(select_time[0].year, select_time[1].month, select_time[2].day, select_time[3].hour);
 				console.log(period);
+			},
+
+			getListYears: function() {
+				var years = [];
+
+				for (var i = start_year; i <= curr_year; i++) {
+					years.push(i)
+				}
+
+				return years;
+			},
+
+			getListMonth: function() {
+				//TODo
 			}
 		}
 	}());
@@ -566,18 +578,10 @@ $(function() {
 		}
 	}
 
-	function protectEmail() {
-		var login = 'zombie';
-		var server = 'ultima.pro';
-		var email = login + '@' + server;
-		var url = 'mailto:' + email;
-		$('.mail').html('<a href="' + url + '">' + email + '</a>');
-	}
-
 	function getTruncatedText(text, size) {
 		var text_trunc = (text.replace(/(<([^>]+)>)/ig, "")).substr(0, size);
 		text_trunc = text_trunc.length < text.length ? text_trunc.substr(0, text_trunc.lastIndexOf(' ')) : text_trunc;
 
 		return text_trunc.length < text.length ? text_trunc + '...' : text_trunc;
 	}
-})
+});
