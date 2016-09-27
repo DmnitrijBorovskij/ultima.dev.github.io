@@ -124,7 +124,7 @@ $(function() {
 	$('.afs-filter').on(UF.event_type, function() {
 		$('.nav-calendar').slideToggle('slow');
 		$('.nav-calendar').toggleClass('nav-calendar-active');
-		$(this).toggleClass('afs-filter-open');
+		$(this).toggleClass('ultima-icon-filter ultima-icon-filter-active');
 		$('.archive-form-search-wrap').toggleClass('archive-form-search-wrap-active')
 	});
 
@@ -162,6 +162,11 @@ $(function() {
 		var start_year = 2015;
 
 		return {
+			init: function() {
+				var calendar = $('.nav-calendar');
+				console.log(calendarWidget.getListYears());
+				renderTemplate('../views/list_years.html', calendar, calendarWidget.getListYears());	
+			},
 			updateTime: function() {
 				if ($('.selected').length) {	
 					$('.nc-sub-item').removeClass('selected');
@@ -184,13 +189,14 @@ $(function() {
 				}
 			},
 			showDaysMonth: function() {
-				var year = $('.nav-calendar-year-section .nc-sub-item-selected').text() || curr_year;
-				var month = $('.nav-calendar-month-section .nc-sub-item-selected').attr('data-id-month') || curr_month;
+				var year = $('.nav-calendar-year-section .selected').attr('data-year') || curr_year;
+				var month = $('.nav-calendar-month-section .selected').attr('data-id-month') || curr_month;
 				var count_day_month = calendarWidget.getDaysInMonth(month, year);
 				var month_html = '';
 				var middle_month = 17;
 				for (var i = middle_month; i <= count_day_month; i++) {
-					month_html += ('<div class="ncds-item nc-sub-item" data-day="' + i + '">'+ i +'</div>');
+					month_html += ("<div class='ncds-item'> 2</div>");
+					// "<div class='test'> 2</div>"
 				}
 				$('.nav-calendar-day-section .nc-row').eq(1).html(month_html);
 			},
@@ -200,8 +206,8 @@ $(function() {
 				$('.selected').each(function(ind, el) {
 					select_time.push($(el).data());
 				});
-				var period = get_constraints(select_time[0].year, select_time[1].month, select_time[2].day, select_time[3].hour);
-				console.log(period);
+				//var period = get_constraints(select_time[0].year, select_time[1].month, select_time[2].day, select_time[3].hour);
+				//console.log(period);
 			},
 
 			getListYears: function() {
@@ -219,6 +225,7 @@ $(function() {
 			}
 		}
 	}());
+	calendarWidget.init();
 	calendarWidget.updateTime();
 
 	$('.nav-calendar-year-section, .nav-calendar-month-section').on(UF.event_type, '.nc-sub-item', function() {

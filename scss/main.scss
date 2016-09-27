@@ -51,6 +51,57 @@ $phone-width: 480px;
   	}
 }
 
+@font-face {
+  font-family: 'ULTIMAicons';
+  src:  url('../fonts/ULTIMAicons.eot?a0sagv');
+  src:  url('../fonts/ULTIMAicons.eot?a0sagv#iefix') format('embedded-opentype'),
+    url('../fonts/ULTIMAicons.ttf?a0sagv') format('truetype'),
+    url('../fonts/ULTIMAicons.woff?a0sagv') format('woff'),
+    url('../fonts/ULTIMAicons.svg?a0sagv#ULTIMAicons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="ultima-icon-"], [class*=" ultima-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'ULTIMAicons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ultima-icon-vkontakte:before {
+  content: "\e916";
+}
+.ultima-icon-facebook:before {
+  content: "\e900";
+}
+.ultima-icon-twitter:before {
+  content: "\e908";
+}
+.ultima-icon-instagram:before {
+  content: "\e903";
+}
+.ultima-icon-filter:before {
+  content: "\e901";
+}
+.ultima-icon-filter-active:before {
+  content: "\e902";
+}
+.ultima-icon-search:before {
+  content: "\e906";
+}
+.audio-playing:before {
+  content: "\e907";
+}
+
 * {
 	margin: 0;
  	padding: 0;
@@ -76,9 +127,9 @@ body {
     box-sizing: border-box;
 }
 
-.ultima-icon {
-	background: url('../images/ultima-icon.png');
-}
+// .ultima-icon {
+// 	background: url('../images/ultima-icon.png');
+// }
 
 .ultima-icon-logo { 
 	background-image: url('../images/logo-ultima.png');
@@ -86,57 +137,77 @@ body {
     height: 32px; 
 }
 
-.ultima-icon-filter {
-	// background-position: -32px -33px;
-	background-image: url('../images/icons/svg/filter.svg');
-    width: 30px;
-    height: 24px; 
+// .ultima-icon-filter {
+// 	// background-position: -32px -33px;
+// 	background-image: url('../images/icons/svg/filter.svg');
+//     width: 30px;
+//     height: 24px; 
+// }
+
+// .ultima-icon-search {
+// 	//background-position: -63px -33px;
+// 	background-image: url('../images/icons/svg/search.svg');
+//     width: 21px; 
+//     height: 21px; 
+// }
+
+.ultima-icon-instagram,
+.ultima-icon-twitter,
+.ultima-icon-vkontakte,
+.ultima-icon-facebook {
+	color: #9e9e9e;
+	font-size: em(20,14);
 }
 
-.ultima-icon-search {
-	//background-position: -63px -33px;
-	background-image: url('../images/icons/svg/search.svg');
-    width: 21px; 
-    height: 21px; 
+.ultima-icon-search,
+.ultima-icon-filter,
+.ultima-icon-filter-active {
+	color: #212121;
+	background-color: transparent;
+	font-size: em(24,14);
 }
 
 .ultima-icon-instagram { 
-    background-position: -106px -33px;
-    width: 20px; 
-    height: 20px;
+    //background-position: -106px -33px;
+    
+    // width: 20px; 
+    // height: 20px;
 
     &:hover {
-    	background-position: -85px -33px;
+    	color: #424242;
+    	// background-position: -85px -33px;
     } 
 }
 
 .ultima-icon-twitter { 
-    background-position: -148px -33px;
-    width: 20px; 
-    height: 18px;
+//     background-position: -148px -33px;
+//     width: 20px; 
+//     height: 18px;
 
     &:hover {
-     	background-position: -127px -33px;
+//      	background-position: -127px -33px;
+			color: #55ACEE;
     }
 }
 
 .ultima-icon-vkontakte { 
-    background-position: -148px -52px;
-    width: 20px; 
-    height: 12px; 
+    // background-position: -148px -52px;
+    // width: 20px; 
+    // height: 12px; 
 
     &:hover {
-    	background-position: -127px -52px;
+    	color: #4C75A3;
+    	//background-position: -127px -52px;
     }
 }
 
 .ultima-icon-facebook { 
-    background-position: -169px -54px;
-    width: 11px; 
-    height: 20px;
-
+//     background-position: -169px -54px;
+//     width: 11px; 
+//     height: 20px;
     &:hover {
-    	background-position: -169px -33px;
+    	// background-position: -169px -33px;
+		color: #3B5998;
     } 
 }
 
