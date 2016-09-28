@@ -238,11 +238,28 @@ header {
 		}
 	}
 
+	@include respondto(tablet-portrait) {
+		width: 480px;
+		height: 192px;
+	}
+
 	.player {
 		position: absolute;
 		top: 50%;
         margin-left: 40px;
         @include transform (translate(0, -50%));
+
+        @include respondto(tablet-portrait) {
+        	width: 100%;
+        	height: 75px;
+        	top: auto;
+        	bottom: 0;
+        	margin-left: 0;
+        	transform: none;
+        	padding: 0 40px;
+        	text-align: center;
+        	box-sizing: border-box;
+        }
     
         .player-btn {
         	position: relative;
@@ -255,6 +272,10 @@ header {
 			cursor: pointer;
             opacity: .7;
             overflow: hidden;
+
+            @include respondto(tablet-portrait) {
+            	@include position (absolute, 24px, null, null, 40px);
+            }
             
             &:hover {
                 opacity: 1;
@@ -322,6 +343,13 @@ header {
 			line-height: 24px;
 			letter-spacing: 0.2px;
 
+			@include respondto(tablet-portrait) {
+            	@include position (absolute, 23px, null, null, 96px);
+				overflow: hidden;
+				white-space: nowrap;
+				text-align: left;
+			}
+
 			.broadcast {
 				color: #2095F2;
 				letter-spacing: 1px;
@@ -329,6 +357,13 @@ header {
 				font-weight: 500;
 				line-height: 24px;
 				text-transform: uppercase;
+
+				@include respondto(tablet-portrait) {
+					display : inline-block;
+					font-weight: 300;
+					font-size: em(16,14);
+					vertical-align: middle;
+				}
 			}
             
             .player-track-artist,
@@ -336,6 +371,17 @@ header {
             	overflow: hidden;
     			white-space: nowrap;
 				font-size: em(16,14);
+
+				@include respondto(tablet-portrait) {
+					display: inline-block;
+					vertical-align: middle;
+				}
+            }
+
+            .player-track-artist {
+            	@include respondto(tablet-portrait) {
+            		// margin-left: 40px;
+            	}
             }
 
             .player-track-title {
@@ -360,6 +406,10 @@ header {
 		position: absolute;
 		top: 84px;
 		@include user-select(none);
+
+		@include respondto(tablet-portrait) {
+			top: 112px;
+		}
         
         &.player-progress-active {
             .player-progress-loading-bar {
@@ -515,6 +565,10 @@ header {
         @include transform(translate(0, -50%));
         @include border-radius(3px);
         @include transition(all .4s ease);
+
+        @include respondto(tablet-portrait) {
+			display: none;
+		}
 	}
 
 	.logo {
@@ -523,6 +577,11 @@ header {
     	top: 48%;
     	@include transform(translate(-50%, -50%));
 		cursor: pointer;
+
+		@include respondto(tablet-portrait) {
+			top: 40px;
+			@include transform(translate(-50%, 0));
+		}
 	}
 
 	.volume-player {
@@ -582,6 +641,47 @@ header {
 		right: -152px;
 		@include transform(rotate(90deg));
 	}
+
+	.content-nav {
+		display: none;
+		width: 440px;
+		text-align: center;
+
+		@include respondto(tablet-portrait) {
+			display: block;
+		}
+
+		.content-nav-list {
+			border-bottom: 1px solid #E0E0E0;
+
+			.cnl-item {
+				width: 220px;
+				height: 60px;
+				float: left;
+
+				.cnl-item-link {
+					line-height: 60px;
+					font-size: em(18,14);
+					color: #757575;
+					text-transform: uppercase;
+				}
+			}
+
+			.cnl-item-active {
+				.cnl-item-link {
+					color: #212121;
+				}
+			// 	position: absolute;
+	  //   		background-color: #2196F3;
+	  //   		bottom: 0px;
+	  //   		height: 2px;
+	  //   		left: 0px;
+	  //   		width: 100%;
+			}
+		}
+
+
+	}
 }
 
 #slider {
@@ -606,6 +706,10 @@ header {
 			transform: scale(1.5, 1.5);
 		}
 	}
+
+	@include respondto(tablet-portrait) {
+		display: none;
+	}	
 }
 
 

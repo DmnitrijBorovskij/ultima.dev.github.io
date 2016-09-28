@@ -147,6 +147,12 @@ header.player-archive:hover .player-progress-active {
   transition: height 90ms ease-out;
   height: 16px;
 }
+@media (min-width: 481px) and (max-width: 767px) {
+  header {
+    width: 480px;
+    height: 192px;
+  }
+}
 header .player {
   position: absolute;
   top: 50%;
@@ -155,6 +161,19 @@ header .player {
   -ms-transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
   transform: translate(0, -50%);
+}
+@media (min-width: 481px) and (max-width: 767px) {
+  header .player {
+    width: 100%;
+    height: 75px;
+    top: auto;
+    bottom: 0;
+    margin-left: 0;
+    transform: none;
+    padding: 0 40px;
+    text-align: center;
+    box-sizing: border-box;
+  }
 }
 header .player .player-btn {
   position: relative;
@@ -166,6 +185,13 @@ header .player .player-btn {
   cursor: pointer;
   opacity: .7;
   overflow: hidden;
+}
+@media (min-width: 481px) and (max-width: 767px) {
+  header .player .player-btn {
+    position: absolute;
+    top: 24px;
+    left: 40px;
+  }
 }
 header .player .player-btn:hover {
   opacity: 1;
@@ -239,6 +265,16 @@ header .player .player-track {
   line-height: 24px;
   letter-spacing: 0.2px;
 }
+@media (min-width: 481px) and (max-width: 767px) {
+  header .player .player-track {
+    position: absolute;
+    top: 23px;
+    left: 96px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+  }
+}
 header .player .player-track .broadcast {
   color: #2095F2;
   letter-spacing: 1px;
@@ -247,11 +283,26 @@ header .player .player-track .broadcast {
   line-height: 24px;
   text-transform: uppercase;
 }
+@media (min-width: 481px) and (max-width: 767px) {
+  header .player .player-track .broadcast {
+    display: inline-block;
+    font-weight: 300;
+    font-size: 1.14286em;
+    vertical-align: middle;
+  }
+}
 header .player .player-track .player-track-artist,
 header .player .player-track .player-track-title {
   overflow: hidden;
   white-space: nowrap;
   font-size: 1.14286em;
+}
+@media (min-width: 481px) and (max-width: 767px) {
+  header .player .player-track .player-track-artist,
+  header .player .player-track .player-track-title {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 header .player .player-track .player-track-title {
   font-weight: 300;
@@ -287,6 +338,11 @@ header .player-progress {
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+}
+@media (min-width: 481px) and (max-width: 767px) {
+  header .player-progress {
+    top: 112px;
+  }
 }
 header .player-progress.player-progress-active .player-progress-loading-bar {
   opacity: 1;
@@ -421,6 +477,11 @@ header .live {
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
 }
+@media (min-width: 481px) and (max-width: 767px) {
+  header .live {
+    display: none;
+  }
+}
 header .logo {
   position: absolute;
   left: 50%;
@@ -430,6 +491,15 @@ header .logo {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   cursor: pointer;
+}
+@media (min-width: 481px) and (max-width: 767px) {
+  header .logo {
+    top: 40px;
+    -moz-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+  }
 }
 header .volume-player {
   width: 120px;
@@ -495,6 +565,33 @@ header .button-live .button-live-img {
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
+.content .content-nav {
+  display: none;
+  width: 440px;
+  text-align: center;
+}
+@media (min-width: 481px) and (max-width: 767px) {
+  .content .content-nav {
+    display: block;
+  }
+}
+.content .content-nav .content-nav-list {
+  border-bottom: 1px solid #E0E0E0;
+}
+.content .content-nav .content-nav-list .cnl-item {
+  width: 220px;
+  height: 60px;
+  float: left;
+}
+.content .content-nav .content-nav-list .cnl-item .cnl-item-link {
+  line-height: 60px;
+  font-size: 1.28571em;
+  color: #757575;
+  text-transform: uppercase;
+}
+.content .content-nav .content-nav-list .cnl-item-active .cnl-item-link {
+  color: #212121;
+}
 
 #slider .ui-slider-handle {
   width: 10px;
@@ -518,6 +615,11 @@ header .button-live .button-live-img {
 }
 #slider:hover .ui-slider-handle {
   transform: scale(1.5, 1.5);
+}
+@media (min-width: 481px) and (max-width: 767px) {
+  #slider {
+    display: none;
+  }
 }
 
 .ui-widget-header {

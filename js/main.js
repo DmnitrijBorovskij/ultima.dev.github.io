@@ -10,13 +10,20 @@ $(function() {
 	UF.audio_source = UF.audio.find('source');
 	UF.audio_duration = UF.audio.attr('data-duration', 0);
 	UF.audio_current_time = $('.player-progress .pp-text-left');
-	UF.event_type = 'click';
 	UF.player_button = $('.player-btn');
 	UF.player_progress = $('.player-progress');
 	UF.player_progress_val = $('.player-progress-val');
 	UF.player_timer;
 	UF.live_timer;
 	UF.search =  $(".archive-form-search").find(".afs-input").val();
+	UF.isMobile = function() {
+		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+ 			return true;
+		} else {
+			return false;
+		}
+	};
+	UF.event_type = !UF.isMobile() ? 'click' : 'touch';
 	UF.player = {
 		el: $('.player')[0],
 		el_play: $('#audio')[0],
@@ -55,6 +62,7 @@ $(function() {
 		getStatisticUsers();
 	}, 60000);
 
+	UF.isMobile() ? $('body').addClass('mobile') : '';
 
 	$('.live').on(UF.event_type, function() {
 		UF.audio_source.attr('src', UF.stream);
@@ -248,6 +256,45 @@ $(function() {
 	$('.nc-reset-btn').on(UF.event_type, function() {
 		calendarWidget.updateTime();
 	});
+
+
+	var $nav = $('.content-nav'),
+      	$line = $('<div>').appendTo($nav),
+     	$activeLi,
+      	lineWidth,
+      	liPos;
+  
+	function refresh() {
+		$activeLi = $nav.find('.cnl-item-active');
+		lineWidth = $activeLi.outerWidth();
+	    liPos = $activeLi.position().left;    
+	}
+  
+  	refresh();
+  
+  	$nav.css('position','relative');
+  
+  //line setup
+  function lineSet() {
+   $line.css({
+     'position':'absolute',
+     'background-color':'#2196F3',
+     'bottom':'0',
+     'height':'3px'
+   }).animate({
+     'left':liPos,
+     'width':lineWidth
+   }, 200);
+  }
+  lineSet();  
+  
+  //on click
+  $nav.find('li').on('click', function() {
+    $activeLi.removeClass('cnl-item-active');
+    $(this).addClass('cnl-item-active');
+    refresh();
+    lineSet();
+  });
 
  
 	function get_constraints(year, month, day, hour) {
@@ -446,6 +493,7 @@ $(function() {
 	}
 
 	function playStopPlayer() {
+		console.log(UF.event_type);
 		if (UF.player.state == 'play') {
 			UF.audio.trigger('pause');
 			UF.player.state = 'pause';
