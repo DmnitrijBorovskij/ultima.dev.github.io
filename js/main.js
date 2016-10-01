@@ -158,7 +158,8 @@ $(function() {
 
 	var calendarWidget = (function() {
 		//TODO do main object time
-		var month_names = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+		var START_YEAR = 2015;
+		var month_names = ['Январь', 'Февраль', 'Март', 'Апрелm', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 		var days_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 		var today = new Date();
 		var curr_year = today.getFullYear();
@@ -167,13 +168,51 @@ $(function() {
 		var curr_hours = (function() {
 			return (today.getHours() < 10 ? '0' : '') + today.getHours() + ':00';
 		}());
-		var start_year = 2015;
+
+		var getDaysInMonth = function(month, year) {
+			return new Date(year, month, 0).getDate();
+		};
+
+		var getListYears = function() {
+			var years = [];
+			for (var i = START_YEAR; i <= curr_year; i++) {
+				years.push(i)
+			}
+
+			return years;
+		};
+
+		var getListMonth = function() {
+			var months = [];
+			month_names.forEach(function(item, indx, arr) {
+				indx > curr_month ? months.push(item + '-future') : months.push(item);
+			});
+
+			console.log(months);
+
+			return months;
+
+		};
+
+		var getListDays = function() {
+			var days = [];
+			console.log(curr_day);
+			for (var i = 1; i <= getDaysInMonth(curr_month,curr_year); i++) {
+				curr_day < i ? days.push(i + '-future') : days.push(i);
+			}
+
+			console.log(days);
+
+			return days;
+		}
 
 		return {
 			init: function() {
+				getListMonth();
+				getListDays();
 				var calendar = $('.nav-calendar');
-				console.log(calendarWidget.getListYears());
-				renderTemplate('../views/list_years.html', calendar, calendarWidget.getListYears());	
+				console.log(getListYears());
+				renderTemplate('../views/list_years.html', calendar, getListYears());	
 			},
 			updateTime: function() {
 				if ($('.selected').length) {	
@@ -189,17 +228,10 @@ $(function() {
 					//$(this).data() > $('.nc-sub-item[class ^= curr]').data() ? $(this).addClass('future') : '';
 				});
 			},
-			getDaysInMonth: function(month, year) {
-				if ((month == 1) && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))) {
-					return 29;
-				} else {
-					return days_month[month];
-				}
-			},
 			showDaysMonth: function() {
 				var year = $('.nav-calendar-year-section .selected').attr('data-year') || curr_year;
 				var month = $('.nav-calendar-month-section .selected').attr('data-id-month') || curr_month;
-				var count_day_month = calendarWidget.getDaysInMonth(month, year);
+				var count_day_month = getDaysInMonth(month, year);
 				var month_html = '';
 				var middle_month = 17;
 				for (var i = middle_month; i <= count_day_month; i++) {
@@ -216,20 +248,6 @@ $(function() {
 				});
 				//var period = get_constraints(select_time[0].year, select_time[1].month, select_time[2].day, select_time[3].hour);
 				//console.log(period);
-			},
-
-			getListYears: function() {
-				var years = [];
-
-				for (var i = start_year; i <= curr_year; i++) {
-					years.push(i)
-				}
-
-				return years;
-			},
-
-			getListMonth: function() {
-				//TODo
 			}
 		}
 	}());
@@ -298,10 +316,6 @@ $(function() {
 
  
 	function get_constraints(year, month, day, hour) {
-		console.log(year);
-		console.log(month);
-		console.log(day);
-		console.log(hour);
 		var map = [
 	   		[2015, 2017],
 	   		[0, 11],
